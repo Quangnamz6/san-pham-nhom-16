@@ -8,6 +8,7 @@ import { SchedulesPage } from "../pages/SchedulesPage";
 import { AIAssistantPage } from "../pages/AIAssistantPage";
 import { MemberPackages } from "../pages/MemberPackages";
 import { MyMemberships } from "../pages/MyMemberships";
+import { HourlyPass } from "../pages/HourlyPass";
 import { MainLayout } from "../components/layout/MainLayout";
 import { ProtectedRoute } from "../components/common/ProtectedRoute";
 
@@ -32,6 +33,10 @@ export const AppRoutes = () => {
           {/* Member Packages (Service plans) */}
           <Route path="/member/packages" element={<MemberPackages />} />
           <Route path="/packages" element={<MemberPackages />} />
+
+          {/* Hourly Pass (Vé tập theo giờ / Thuê PT theo giờ) */}
+          <Route path="/member/hourly-pass" element={<HourlyPass />} />
+          <Route path="/hourly-pass" element={<HourlyPass />} />
 
           {/* My Memberships (Hội viên: Gói đã đăng ký & Gia hạn) */}
           <Route path="/member/my-memberships" element={<MyMemberships />} />

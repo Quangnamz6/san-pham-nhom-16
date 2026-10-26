@@ -85,3 +85,35 @@ class ProgressSummaryResponse(BaseModel):
     areas_for_improvement: List[str]
     next_actionable_advice: List[str]
     motivational_quote: Optional[str] = None
+
+
+# =====================================================================
+# 4. Schemas cho Trợ lý AI Chatbot & Tư vấn gói tập
+# =====================================================================
+class ChatMessage(BaseModel):
+    role: str = Field(..., description="'user', 'assistant' hoặc 'system'")
+    content: str = Field(..., description="Nội dung tin nhắn")
+
+
+class AIChatRequest(BaseModel):
+    message: str = Field(..., min_length=1, examples=["Tôi là người mới bắt đầu, muốn tìm gói tập nhẹ nhàng"])
+    chat_history: Optional[List[ChatMessage]] = Field(default=[], description="Lịch sử hội thoại nhiều lượt")
+
+
+class RecommendedPackageItem(BaseModel):
+    id: int
+    name: str
+    price: float
+    duration_days: int
+    category: str
+    badge: Optional[str] = None
+    description: Optional[str] = None
+    commitments: Optional[str] = None
+    reason: Optional[str] = None
+
+
+class AIChatResponse(BaseModel):
+    reply: str
+    intent: Optional[str] = Field(default="general_chat", description="Ý định người dùng được AI nhận diện")
+    recommended_packages: Optional[List[RecommendedPackageItem]] = Field(default=[], description="Danh sách các gói tập phù hợp trong CSDL")
+

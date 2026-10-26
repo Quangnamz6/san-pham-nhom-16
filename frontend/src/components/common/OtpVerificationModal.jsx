@@ -86,7 +86,7 @@ export const OtpVerificationModal = ({ isOpen, email, onClose, onSuccess }) => {
         </button>
 
         {/* Shield Icon */}
-        <div className="inline-flex w-16 h-16 rounded-2xl bg-gradient-to-tr from-gym-accent to-amber-500 items-center justify-center shadow-lg shadow-orange-500/25 mb-4">
+        <div className="inline-flex w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 via-sky-600 to-cyan-500 items-center justify-center shadow-lg shadow-blue-500/25 mb-4">
           <ShieldCheck className="w-8 h-8 text-white" />
         </div>
 
@@ -99,7 +99,7 @@ export const OtpVerificationModal = ({ isOpen, email, onClose, onSuccess }) => {
           <span className="block font-bold text-slate-800 text-sm mt-0.5 break-all">
             {email}
           </span>
-          <span className="block text-[11px] text-orange-600 font-semibold mt-1">
+          <span className="block text-[11px] text-blue-600 font-semibold mt-1">
             ⏱️ Hiệu lực trong 10 phút. Vui lòng kiểm tra cả hộp thư Spam.
           </span>
         </p>
@@ -119,14 +119,14 @@ export const OtpVerificationModal = ({ isOpen, email, onClose, onSuccess }) => {
               value={otpCode}
               onChange={handleOtpChange}
               placeholder="••••••"
-              className="w-full py-3.5 px-4 bg-slate-50 border-2 border-slate-300 focus:border-gym-accent rounded-2xl text-center font-mono text-2xl font-extrabold tracking-[10px] text-slate-900 placeholder-slate-300 focus:outline-none focus:bg-white transition-all shadow-inner"
+              className="w-full py-3.5 px-4 bg-slate-50 border-2 border-slate-300 focus:border-blue-600 rounded-2xl text-center font-mono text-2xl font-extrabold tracking-[10px] text-slate-900 placeholder-slate-300 focus:outline-none focus:bg-white transition-all shadow-inner"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading || otpCode.length !== 6}
-            className="w-full py-3 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -151,7 +151,7 @@ export const OtpVerificationModal = ({ isOpen, email, onClose, onSuccess }) => {
               type="button"
               onClick={handleResend}
               disabled={resending}
-              className="font-bold text-gym-accent hover:text-orange-600 transition-colors flex items-center gap-1"
+              className="font-bold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${resending ? "animate-spin" : ""}`} />
               Gửi lại mã OTP

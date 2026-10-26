@@ -195,7 +195,7 @@ export const MembersPage = () => {
 
         <button
           onClick={() => openMemberModal(null)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white text-xs font-bold shadow-md shadow-orange-500/20 transition-all self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all self-start sm:self-auto"
         >
           <UserPlus className="w-4 h-4" />
           Đăng ký Hội viên mới
@@ -338,7 +338,7 @@ export const MembersPage = () => {
                       <td className="py-3.5 px-4 text-right space-x-2">
                         <button
                           onClick={() => openRenewModal(m)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-600 font-bold border border-orange-200 transition-all text-xs"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold border border-blue-200 transition-all text-xs"
                           title="Gia hạn hoặc đăng ký gói mới"
                         >
                           <CreditCard className="w-3.5 h-3.5" />
@@ -444,7 +444,7 @@ export const MembersPage = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white font-bold shadow-md shadow-orange-500/20 transition-all"
+                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md shadow-blue-500/25 transition-all"
                 >
                   {submitting ? "Đang lưu..." : editingMember ? "Cập nhật" : "Lưu Hội Viên"}
                 </button>
@@ -531,7 +531,7 @@ export const MembersPage = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white font-bold shadow-md shadow-orange-500/20 transition-all"
+                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md shadow-blue-500/25 transition-all"
                 >
                   {submitting ? "Đang xử lý..." : "Xác Nhận Thanh Toán & Kích Hoạt"}
                 </button>

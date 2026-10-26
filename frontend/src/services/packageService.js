@@ -13,9 +13,22 @@ export const packageService = {
     return response.data;
   },
 
-  // Tạo gói tập mới (Admin/Lễ tân)
+  // Tạo gói tập mới (Admin)
   createPackage: async (pkgData) => {
     const response = await api.post("/packages", pkgData);
     return response.data;
   },
+
+  // Cập nhật thông tin gói tập (Admin)
+  updatePackage: async (id, pkgData) => {
+    const response = await api.put(`/packages/${id}`, pkgData);
+    return response.data;
+  },
+
+  // Xóa gói tập (Admin)
+  deletePackage: async (id) => {
+    const response = await api.delete(`/packages/${id}`);
+    return response.data;
+  },
 };
+

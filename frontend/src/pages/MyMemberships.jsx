@@ -208,17 +208,17 @@ export const MyMemberships = () => {
       {/* ========================================================================= */}
       {/* 1. HERO HEADER                                                            */}
       {/* ========================================================================= */}
-      <div className="relative bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 p-7 sm:p-9 rounded-3xl text-white shadow-xl overflow-hidden">
+      <div className="relative bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-600 p-7 sm:p-9 rounded-3xl text-white shadow-xl overflow-hidden">
         <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80')] bg-cover bg-center opacity-15 pointer-events-none mix-blend-overlay"></div>
         <div className="relative z-10 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider mb-3">
-            <CreditCard className="w-3.5 h-3.5 text-amber-200" />
+            <CreditCard className="w-3.5 h-3.5 text-cyan-200" />
             Hội viên Gym AI
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
             Gói Tập Đã Đăng Ký
           </h1>
-          <p className="text-orange-100 text-xs sm:text-sm mt-2 leading-relaxed font-medium">
+          <p className="text-blue-100 text-xs sm:text-sm mt-2 leading-relaxed font-medium">
             Quản lý thẻ tập cá nhân, theo dõi thời hạn hiệu lực, mục tiêu thể hình và chủ động gia hạn gói tập nhanh chóng qua chuyển khoản VietQR tự động.
           </p>
         </div>
@@ -226,7 +226,7 @@ export const MyMemberships = () => {
         {/* Quick Summary Pill Stats */}
         <div className="relative z-10 mt-6 pt-5 border-t border-white/20 grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/15">
-            <span className="text-[11px] font-medium text-orange-100 block">Tổng gói đăng ký</span>
+            <span className="text-[11px] font-medium text-blue-100 block">Tổng gói đăng ký</span>
             <span className="text-xl sm:text-2xl font-black text-white">{memberships.length}</span>
           </div>
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/15">
@@ -256,7 +256,7 @@ export const MyMemberships = () => {
       ) : memberships.length === 0 ? (
         /* Empty State */
         <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center shadow-sm max-w-xl mx-auto space-y-4">
-          <div className="w-16 h-16 rounded-3xl bg-orange-50 border border-orange-200/80 flex items-center justify-center mx-auto text-gym-accent">
+          <div className="w-16 h-16 rounded-3xl bg-blue-50 border border-blue-200/80 flex items-center justify-center mx-auto text-blue-600">
             <CreditCard className="w-8 h-8" />
           </div>
           <h3 className="text-lg font-extrabold text-slate-800">
@@ -268,7 +268,7 @@ export const MyMemberships = () => {
           <div className="pt-2">
             <Link
               to="/member/packages"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/25 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-500/25 transition-all"
             >
               <Dumbbell className="w-4 h-4" />
               <span>Khám Phá & Đăng Ký Gói Tập</span>
@@ -301,7 +301,7 @@ export const MyMemberships = () => {
                 <div>
                   {/* Top Bar: Badge & Status */}
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-50 text-orange-700 border border-orange-200">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
                       {pkg.badge || "Thẻ Tập Gym AI"}
                     </span>
 
@@ -411,7 +411,7 @@ export const MyMemberships = () => {
 
                   <button
                     onClick={() => openRenewModal(mem)}
-                    className="py-2.5 px-5 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all flex items-center gap-2 group"
+                    className="py-2.5 px-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-500/25 hover:shadow-blue-500/40 transition-all flex items-center gap-2 group"
                   >
                     <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
                     <span>Gia hạn gói tập</span>
@@ -430,9 +430,9 @@ export const MyMemberships = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/75 backdrop-blur-sm animate-in fade-in overflow-y-auto">
           <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-6 flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="p-5 sm:p-6 border-b border-slate-100 bg-gradient-to-r from-orange-50 via-white to-amber-50 flex items-center justify-between">
+            <div className="p-5 sm:p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 via-white to-cyan-50 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gym-accent/10 border border-gym-accent/20 flex items-center justify-center text-gym-accent">
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
                   <RefreshCw className="w-5 h-5" />
                 </div>
                 <div>
@@ -471,12 +471,12 @@ export const MyMemberships = () => {
                         onClick={() => setDurationOption(opt.id)}
                         className={`p-3 rounded-xl border text-left transition-all ${
                           isSelected
-                            ? "bg-orange-50/90 border-gym-accent shadow-sm ring-1 ring-gym-accent text-gym-accent"
+                            ? "bg-blue-50/90 border-blue-600 shadow-sm ring-1 ring-blue-600 text-blue-600"
                             : "bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-700"
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className={`text-xs font-extrabold ${isSelected ? "text-gym-accent" : "text-slate-900"}`}>
+                          <span className={`text-xs font-extrabold ${isSelected ? "text-blue-600" : "text-slate-900"}`}>
                             {opt.label}
                           </span>
                           {opt.badge && (
@@ -493,9 +493,9 @@ export const MyMemberships = () => {
               </div>
 
               {/* Step 2: Target Weight Goal (Optional) */}
-              <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900">
-                  <Target className="w-4 h-4 text-gym-accent" />
+              <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-200/80 space-y-3">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-950">
+                  <Target className="w-4 h-4 text-blue-600" />
                   2. Mục tiêu thể hình trong chu kỳ mới (Tùy chọn)
                 </div>
 
@@ -507,7 +507,7 @@ export const MyMemberships = () => {
                     <select
                       value={goalType}
                       onChange={(e) => setGoalType(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-gym-accent"
+                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:border-blue-600"
                     >
                       <option value="lose">Giảm cân / Giảm mỡ</option>
                       <option value="gain">Tăng cân / Tăng cơ nạc</option>
@@ -527,7 +527,7 @@ export const MyMemberships = () => {
                       value={targetWeightKg}
                       onChange={(e) => setTargetWeightKg(e.target.value)}
                       placeholder="VD: 4.5"
-                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-gym-accent"
+                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600"
                     />
                   </div>
                 </div>
@@ -541,7 +541,7 @@ export const MyMemberships = () => {
                     value={goalNotes}
                     onChange={(e) => setGoalNotes(e.target.value)}
                     placeholder="VD: Siết eo dưới, tập trung bài Compound & Cardio 3 buổi/tuần"
-                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-gym-accent"
+                    className="w-full px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
@@ -550,13 +550,13 @@ export const MyMemberships = () => {
               {qrTransferData && (
                 <div className="border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50 space-y-4">
                   <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700">
-                    <QrCode className="w-4 h-4 text-gym-accent" />
+                    <QrCode className="w-4 h-4 text-blue-600" />
                     3. Thông tin thanh toán chuyển khoản qua VietQR
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-center gap-5">
                     {/* QR Code Container */}
-                    <div className="relative p-2.5 bg-white border-2 border-orange-200 rounded-2xl shadow-sm flex-shrink-0">
+                    <div className="relative p-2.5 bg-white border-2 border-blue-200 rounded-2xl shadow-sm flex-shrink-0">
                       <img
                         src={qrTransferData.vietQrUrl}
                         alt="VietQR Payment Code"
@@ -582,7 +582,7 @@ export const MyMemberships = () => {
                       <div className="flex items-center justify-between pb-1.5 border-b border-slate-200">
                         <span className="text-slate-500">Số tài khoản:</span>
                         <div className="flex items-center gap-1.5">
-                          <span className="font-extrabold text-gym-accent text-sm tracking-wider">
+                          <span className="font-extrabold text-blue-600 text-sm tracking-wider">
                             {qrTransferData.accountNumber}
                           </span>
                           <button
@@ -634,7 +634,7 @@ export const MyMemberships = () => {
                       <div className="flex items-center justify-between pt-0.5">
                         <span className="text-slate-500">Nội dung CK:</span>
                         <div className="flex items-center gap-1.5">
-                          <span className="font-extrabold text-amber-900 bg-amber-100/90 px-2 py-0.5 rounded border border-amber-200 text-xs">
+                          <span className="font-extrabold text-blue-900 bg-blue-100/90 px-2 py-0.5 rounded border border-blue-200 text-xs">
                             {qrTransferData.content}
                           </span>
                           <button
@@ -655,8 +655,8 @@ export const MyMemberships = () => {
                   </div>
 
                   {/* Notice */}
-                  <div className="p-3 bg-amber-50/70 border border-amber-200/60 rounded-xl flex items-start gap-2 text-[11px] text-amber-800 leading-relaxed">
-                    <ShieldCheck className="w-4 h-4 text-gym-accent flex-shrink-0 mt-0.5" />
+                  <div className="p-3 bg-blue-50/70 border border-blue-200/60 rounded-xl flex items-start gap-2 text-[11px] text-blue-800 leading-relaxed">
+                    <ShieldCheck className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                     <span>
                       Sau khi chuyển khoản qua ứng dụng ngân hàng, vui lòng nhấn nút{" "}
                       <strong>"Tôi đã chuyển khoản thành công"</strong> bên dưới để hoàn tất gia hạn và tự động kích hoạt trạng thái gói tập.

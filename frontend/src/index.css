@@ -24,10 +24,11 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #ff5e14 0%, #ea580c 100%);
+  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 50%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 
 /* Custom subtle scrollbar */
 ::-webkit-scrollbar {

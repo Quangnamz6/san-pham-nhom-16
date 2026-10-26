@@ -79,7 +79,7 @@ export const DashboardPage = () => {
           </button>
           <Link
             to="/members"
-            className="px-4 py-2.5 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white text-xs font-bold shadow-md shadow-orange-500/20 transition-all flex items-center gap-2"
+            className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all flex items-center gap-2"
           >
             <Users className="w-4 h-4" />
             Quản lý Hội viên
@@ -103,7 +103,7 @@ export const DashboardPage = () => {
           {/* 1. Tổng hội viên - Chuyển sang /members */}
           <div
             onClick={() => navigate("/members")}
-            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-orange-400 cursor-pointer transition-all duration-200 group relative overflow-hidden"
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-blue-400 cursor-pointer transition-all duration-200 group relative overflow-hidden"
             title="Nhấp để xem danh sách hội viên"
           >
             <div className="flex items-center justify-between">
@@ -114,7 +114,7 @@ export const DashboardPage = () => {
                 <Users className="w-5 h-5" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3 group-hover:text-gym-accent transition-colors">
+            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3 group-hover:text-blue-600 transition-colors">
               {stats?.total_members || 0}
             </div>
             <div className="flex items-center justify-between mt-2.5">
@@ -122,7 +122,7 @@ export const DashboardPage = () => {
                 <TrendingUp className="w-3.5 h-3.5" />
                 <span>+{stats?.new_members_this_month || 0} mới tháng này</span>
               </div>
-              <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-gym-accent group-hover:translate-x-1 transition-all" />
+              <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
             </div>
           </div>
 
@@ -179,25 +179,25 @@ export const DashboardPage = () => {
           {/* 4. Check-in hôm nay - Chuyển sang /schedules */}
           <div
             onClick={() => navigate("/schedules")}
-            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-orange-400 cursor-pointer transition-all duration-200 group relative overflow-hidden"
+            className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-cyan-400 cursor-pointer transition-all duration-200 group relative overflow-hidden"
             title="Nhấp để xem Lịch tập & Quầy Điểm danh"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 group-hover:text-slate-800 transition-colors">
                 Điểm Danh Hôm Nay
               </span>
-              <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:bg-gym-accent group-hover:text-white transition-all shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:bg-cyan-600 group-hover:text-white transition-all shadow-sm">
                 <CalendarCheck2 className="w-5 h-5" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3 group-hover:text-gym-accent transition-colors">
+            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3 group-hover:text-cyan-600 transition-colors">
               {stats?.today_checkins || 0} lượt
             </div>
             <div className="flex items-center justify-between mt-2.5">
               <div className="text-xs text-slate-500 font-medium">
                 {stats?.today_schedules || 0} buổi tập PT hôm nay
               </div>
-              <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-gym-accent group-hover:translate-x-1 transition-all" />
+              <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-cyan-600 group-hover:translate-x-1 transition-all" />
             </div>
           </div>
         </div>
@@ -214,7 +214,7 @@ export const DashboardPage = () => {
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">Biểu đồ ước tính lượng khách theo ngày</p>
             </div>
-            <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-lg border border-orange-100">
+            <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100">
               Cao điểm: T2, T4, T6
             </span>
           </div>
@@ -238,7 +238,7 @@ export const DashboardPage = () => {
                   style={{ height: col.h }}
                   className={`w-full rounded-t-lg transition-all ${
                     col.active
-                      ? "bg-gradient-to-t from-gym-accent to-amber-500 shadow-md shadow-orange-500/20"
+                      ? "bg-gradient-to-t from-blue-600 via-sky-500 to-cyan-400 shadow-md shadow-blue-500/25"
                       : "bg-slate-200 group-hover:bg-slate-300"
                   }`}
                 ></div>
@@ -249,7 +249,7 @@ export const DashboardPage = () => {
 
           <div className="mt-4 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-gym-accent"></span> Ngày đông khách nhất
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Ngày đông khách nhất
             </span>
             <span>Khung giờ vàng: 17:30 - 20:30</span>
           </div>
@@ -260,14 +260,14 @@ export const DashboardPage = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <Clock className="w-4 h-4 text-amber-500" />
+                <Clock className="w-4 h-4 text-cyan-600" />
                 Hội viên sắp hết hạn gói tập (Trong 7 ngày)
               </h2>
               <p className="text-xs text-slate-500 mt-0.5 font-medium">Danh sách cần liên hệ tư vấn gia hạn kịp thời</p>
             </div>
             <Link
               to="/members"
-              className="text-xs font-bold text-gym-accent hover:text-orange-600 transition-colors flex items-center gap-1"
+              className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1"
             >
               Xem tất cả <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -306,7 +306,7 @@ export const DashboardPage = () => {
                         {mem.package_name}
                       </td>
                       <td className="py-3">
-                        <span className="text-amber-600 font-bold">
+                        <span className="text-cyan-700 font-bold">
                           {mem.end_date}
                         </span>
                         <span className="block text-[10px] text-slate-400">
@@ -316,7 +316,7 @@ export const DashboardPage = () => {
                       <td className="py-3 text-right">
                         <Link
                           to={`/members?search=${encodeURIComponent(mem.full_name)}`}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-600 font-bold text-[11px] border border-orange-200 transition-all"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-[11px] border border-blue-200 transition-all"
                         >
                           Gia hạn ngay
                         </Link>

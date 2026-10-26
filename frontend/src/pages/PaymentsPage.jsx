@@ -131,11 +131,11 @@ export const PaymentsPage = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Giá Trị Đơn Trung Bình
             </span>
-            <div className="w-9 h-9 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
               <CreditCard className="w-5 h-5" />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-extrabold text-orange-600 mt-2 truncate">
+          <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 mt-2 truncate">
             {formatVND(payments.length ? totalRevenue / payments.length : 0)}
           </div>
           <p className="text-xs text-slate-500 mt-1 font-medium">Trung bình trên mỗi hợp đồng hội viên</p>

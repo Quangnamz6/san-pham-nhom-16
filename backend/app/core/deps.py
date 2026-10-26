@@ -1,4 +1,4 @@
-from typing import List, Callable
+from typing import List, Callable, Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -40,6 +40,32 @@ def get_current_user(
     if user is None:
         raise credentials_exception
     return user
+
+
+oauth2_scheme_optional = OAuth2PasswordBearer(
+    tokenUrl=f"{settings.API_V1_STR}/auth/login",
+    auto_error=False,
+)
+
+
+def get_current_user_optional(
+    db: Session = Depends(get_db),
+    token: Optional[str] = Depends(oauth2_scheme_optional),
+) -> Optional[User]:
+    """Retrieve the current user if token is present and valid; otherwise returns None."""
+    if not token:
+        return None
+    try:
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
+        user_id_str: str = payload.get("sub")
+        token_type: str = payload.get("type")
+        if user_id_str is None or token_type != "access":
+            return None
+        return db.query(User).filter(User.id == int(user_id_str)).first()
+    except Exception:
+        return None
 
 
 def require_roles(allowed_roles: List[UserRole]) -> Callable:

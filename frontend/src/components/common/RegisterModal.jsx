@@ -174,7 +174,7 @@ export const RegisterModal = ({ isOpen, onClose, onRegisterSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all flex items-center justify-center gap-2 mt-4"
+                className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 mt-4"
               >
                 {loading ? "Đang gửi mã OTP qua Gmail..." : "Hoàn tất Đăng ký (Nhận mã OTP)"}
               </button>
@@ -182,7 +182,7 @@ export const RegisterModal = ({ isOpen, onClose, onRegisterSuccess }) => {
           </div>
         ) : (
           <div className="text-center">
-            <div className="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-gym-accent to-amber-500 items-center justify-center shadow-lg shadow-orange-500/25 mb-3">
+            <div className="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 via-sky-600 to-cyan-500 items-center justify-center shadow-lg shadow-blue-500/25 mb-3">
               <ShieldCheck className="w-7 h-7 text-white" />
             </div>
             <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">Xác Thực Mã OTP</h3>
@@ -199,13 +199,13 @@ export const RegisterModal = ({ isOpen, onClose, onRegisterSuccess }) => {
                 value={otpCode}
                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="123456"
-                className="w-full py-3 px-4 bg-slate-50 border-2 border-slate-300 focus:border-gym-accent rounded-xl text-center font-mono text-2xl font-extrabold tracking-[8px] text-slate-900 focus:outline-none"
+                className="w-full py-3 px-4 bg-slate-50 border-2 border-slate-300 focus:border-blue-600 rounded-xl text-center font-mono text-2xl font-extrabold tracking-[8px] text-slate-900 focus:outline-none"
               />
 
               <button
                 type="submit"
                 disabled={loading || otpCode.length !== 6}
-                className="w-full py-3 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all"
+                className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 transition-all"
               >
                 {loading ? "Đang xác nhận mã OTP..." : "Xác Nhận OTP & Kích Hoạt"}
               </button>

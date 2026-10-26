@@ -43,6 +43,10 @@ from app.schemas.ai_log import (
     AILogCreate,
     AILogResponse,
 )
+from app.schemas.hourly_booking import (
+    HourlyBookingCreate,
+    HourlyBookingResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -82,4 +86,6 @@ __all__ = [
     "AIDietRequest",
     "AILogCreate",
     "AILogResponse",
+    "HourlyBookingCreate",
+    "HourlyBookingResponse",
 ]

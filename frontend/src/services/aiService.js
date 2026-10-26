@@ -19,9 +19,19 @@ export const aiService = {
     return response.data;
   },
 
+  // 4. Trợ lý AI Chatbot & Tư vấn gói tập trực tiếp từ CSDL
+  chat: async (message, chatHistory = []) => {
+    const response = await api.post("/ai/chat", {
+      message,
+      chat_history: chatHistory,
+    });
+    return response.data;
+  },
+
   // Lấy nhật ký kiểm toán AI (Admin only)
   getAILogs: async (skip = 0, limit = 50) => {
     const response = await api.get(`/ai/logs?skip=${skip}&limit=${limit}`);
     return response.data;
   },
 };
+

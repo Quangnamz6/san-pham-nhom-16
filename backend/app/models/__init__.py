@@ -8,6 +8,7 @@ from app.models.trainer_schedule import TrainerSchedule, TrainerScheduleStatus
 from app.models.attendance import Attendance, AttendanceStatus
 from app.models.payment import Payment, PaymentMethod, PaymentStatus
 from app.models.ai_log import AILog, PromptType
+from app.models.hourly_booking import HourlyBooking, HourlyBookingType, HourlyBookingStatus
 
 __all__ = [
     "Base",
@@ -28,4 +29,8 @@ __all__ = [
     "PaymentStatus",
     "AILog",
     "PromptType",
+    "HourlyBooking",
+    "HourlyBookingType",
+    "HourlyBookingStatus",
 ]
+

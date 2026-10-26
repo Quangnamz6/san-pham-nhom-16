@@ -15,6 +15,11 @@ export const Header = () => {
     navigate("/login");
   };
 
+  const handleOpenAi = (e) => {
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("open-ai-chat", { detail: { open: true } }));
+  };
+
   const getRoleBadge = (role) => {
     switch (role) {
       case "admin":
@@ -22,7 +27,7 @@ export const Header = () => {
       case "receptionist":
         return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-50 text-amber-600 border border-amber-200">Lễ tân</span>;
       case "pt":
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-50 text-blue-600 border border-blue-200">Huấn luyện viên</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-cyan-50 text-cyan-700 border border-cyan-200">Huấn luyện viên</span>;
       default:
         return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-50 text-emerald-600 border border-emerald-200">Hội viên</span>;
     }
@@ -33,15 +38,15 @@ export const Header = () => {
       {/* Brand */}
       <div className="flex items-center gap-3">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-gym-accent to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-sky-600 to-cyan-500 flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
             <Dumbbell className="w-5 h-5 text-white" />
           </div>
           <div>
             <span className="font-extrabold text-lg tracking-tight text-slate-900">
-              GYM<span className="text-gym-accent">AI</span>
+              GYM<span className="text-blue-600">AI</span>
             </span>
             <span className="hidden sm:inline-block ml-2 text-[10px] tracking-wider text-slate-500 uppercase font-semibold">
-              Management Portal
+              Ocean Edition
             </span>
           </div>
         </Link>
@@ -49,18 +54,19 @@ export const Header = () => {
 
       {/* Right side: User Info & Actions */}
       <div className="flex items-center gap-3.5">
-        <Link
-          to="/ai-assistant"
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-600 text-xs font-semibold border border-orange-200 transition-all"
+        <button
+          type="button"
+          onClick={handleOpenAi}
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold border border-blue-200/80 transition-all shadow-sm"
         >
-          <Sparkles className="w-3.5 h-3.5" />
-          AI Engine
-        </Link>
+          <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+          <span>Chat AI Trợ Lý</span>
+        </button>
 
         {user ? (
           <div className="flex items-center gap-3 pl-2 sm:border-l sm:border-slate-200">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 font-bold text-sm shadow-inner">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center font-extrabold text-sm shadow-inner">
                 {user.full_name?.charAt(0)?.toUpperCase() || "U"}
               </div>
               <div className="hidden md:flex flex-col text-left">
@@ -82,7 +88,7 @@ export const Header = () => {
         ) : (
           <Link
             to="/login"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white text-xs font-bold shadow-md shadow-orange-500/20 transition-all"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all"
           >
             <User className="w-3.5 h-3.5" />
             Đăng nhập

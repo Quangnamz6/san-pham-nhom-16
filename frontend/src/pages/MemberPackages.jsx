@@ -25,6 +25,13 @@ import {
   QrCode,
   Copy,
   AlertCircle,
+  Plus,
+  Pencil,
+  Trash2,
+  Save,
+  Loader2,
+  Tag,
+  AlertTriangle,
 } from "lucide-react";
 
 export const MemberPackages = () => {
@@ -34,7 +41,7 @@ export const MemberPackages = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  // Modal configuration states
+  // Modal configuration states for Registration
   const [durationOption, setDurationOption] = useState("1_month"); // "1_week", "15_days", "1_month", "3_months", "6_months", "12_months"
   const [targetWeightKg, setTargetWeightKg] = useState("5");
   const [paymentMethod, setPaymentMethod] = useState("transfer");
@@ -46,7 +53,29 @@ export const MemberPackages = () => {
   const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
   const [copiedField, setCopiedField] = useState(null);
 
-  const { user } = useAuth();
+  // Admin Management States
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [editingPackage, setEditingPackage] = useState(null);
+  const [savingPackage, setSavingPackage] = useState(false);
+  const [packageFormData, setPackageFormData] = useState({
+    name: "",
+    category: "all",
+    badge: "Tiêu Chuẩn",
+    price: 500000,
+    duration_days: 30,
+    description: "",
+    benefits: "",
+    commitments: "",
+    featured: false,
+  });
+
+  // Admin Delete Confirmation States
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deletingPackage, setDeletingPackage] = useState(null);
+  const [deletingLoading, setDeletingLoading] = useState(false);
+
+  const { user, role } = useAuth();
+  const isAdmin = user?.role === "admin" || role === "admin";
   const { toastSuccess, toastError, toastInfo } = useToast();
 
   const handleCopy = (text, fieldName) => {
@@ -89,7 +118,18 @@ export const MemberPackages = () => {
     { id: "student", label: "Gói Sinh Viên", icon: GraduationCap },
   ];
 
-  // Duration options with multipliers and discounts
+  // Category options for Admin Form
+  const categoryOptions = [
+    { value: "all", label: "Tất Cả / Gói Chung", defaultBadge: "Tiêu Chuẩn" },
+    { value: "female", label: "Cho Nữ (Săn chắc & Thon gọn)", defaultBadge: "Dành Cho Nữ" },
+    { value: "male", label: "Cho Nam (Cắt nét & Phát triển cơ)", defaultBadge: "Dành Cho Nam" },
+    { value: "gain_muscle", label: "Tăng Cân / Tăng Cơ", defaultBadge: "Tăng Cơ" },
+    { value: "lose_weight", label: "Giảm Cân / Giảm Mỡ Cấp Tốc", defaultBadge: "Giảm Cân" },
+    { value: "personal_trainer", label: "Gói PT Cá Nhân 1-kèm-1", defaultBadge: "PT 1:1" },
+    { value: "student", label: "Gói Học Sinh - Sinh Viên", defaultBadge: "Sinh Viên" },
+  ];
+
+  // Duration options with multipliers and discounts for Registration
   const durationOptions = [
     { id: "1_week", label: "1 Tuần", days: 7, multiplier: 7 / 30, discountBadge: null },
     { id: "15_days", label: "15 Ngày", days: 15, multiplier: 15 / 30, discountBadge: null },
@@ -120,7 +160,7 @@ export const MemberPackages = () => {
     return Math.round((basePrice * currentDurationObj.multiplier) / 10000) * 10000;
   }, [selectedPackage, currentDurationObj]);
 
-  // Check if selected package is Weight Gain or Loss
+  // Check if selected package is Weight Goal
   const isWeightGoalPackage = useMemo(() => {
     if (!selectedPackage) return false;
     const cat = (selectedPackage.category || "").toLowerCase();
@@ -148,7 +188,6 @@ export const MemberPackages = () => {
     if (kg <= 0) return null;
 
     if (isLoseWeight) {
-      // Giảm mỡ an toàn: 0.5kg - 1kg / tuần
       const weeksEst = Math.max(2, Math.round(kg / 0.75));
       const dailyDeficitKcal = 500;
       return {
@@ -159,7 +198,6 @@ export const MemberPackages = () => {
         commitmentMsg: `Với lộ trình này, bạn hoàn toàn có thể chạm mốc giảm ${kg}kg sau khoảng ${weeksEst} tuần!`,
       };
     } else {
-      // Tăng cơ an toàn: 1 - 2kg / tháng
       const weeksEst = Math.max(3, Math.round(kg / 0.5));
       const dailySurplusKcal = 400;
       return {
@@ -172,7 +210,143 @@ export const MemberPackages = () => {
     }
   }, [targetWeightKg, isLoseWeight]);
 
-  // Open Registration Modal
+  // ---------------------------------------------------------------------------
+  // ADMIN HANDLERS (Create, Edit, Delete)
+  // ---------------------------------------------------------------------------
+  const openCreateModal = () => {
+    setEditingPackage(null);
+    setPackageFormData({
+      name: "",
+      category: "all",
+      badge: "Tiêu Chuẩn",
+      price: 600000,
+      duration_days: 30,
+      description: "Không giới hạn số lần check-in, miễn phí tủ đồ thông minh và phòng tắm nóng lạnh hiện đại.",
+      benefits: "Tập luyện không giới hạn khung giờ\nMiễn phí đo chỉ số InBody và tư vấn sức khỏe\nTủ đồ cá nhân khóa từ an toàn cao\nPhòng xông hơi đá muối Himalaya thư giãn",
+      commitments: "Cam kết đồng hành và hướng dẫn kỹ thuật tập luyện chuẩn y khoa",
+      featured: false,
+    });
+    setIsFormModalOpen(true);
+  };
+
+  const openEditModal = (pkg) => {
+    setEditingPackage(pkg);
+    // Convert semicolon benefits to newlines for friendly editing
+    const friendlyBenefits = (pkg.benefits || "")
+      .split(";")
+      .map((b) => b.trim())
+      .filter(Boolean)
+      .join("\n");
+
+    setPackageFormData({
+      name: pkg.name || "",
+      category: pkg.category || "all",
+      badge: pkg.badge || "",
+      price: pkg.price || 0,
+      duration_days: pkg.duration_days || 30,
+      description: pkg.description || "",
+      benefits: friendlyBenefits,
+      commitments: pkg.commitments || "",
+      featured: Boolean(pkg.featured),
+    });
+    setIsFormModalOpen(true);
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedCat = e.target.value;
+    const catObj = categoryOptions.find((c) => c.value === selectedCat);
+    setPackageFormData((prev) => ({
+      ...prev,
+      category: selectedCat,
+      badge: prev.badge && prev.badge !== "Tiêu Chuẩn" && prev.badge !== "Gói Mới" ? prev.badge : (catObj?.defaultBadge || "Gói Tập"),
+    }));
+  };
+
+  const handleSavePackage = async (e) => {
+    e.preventDefault();
+    if (!packageFormData.name.trim()) {
+      toastError("Vui lòng nhập tên gói tập.");
+      return;
+    }
+    if (Number(packageFormData.price) < 0) {
+      toastError("Giá niêm yết không được là số âm.");
+      return;
+    }
+    if (parseInt(packageFormData.duration_days, 10) <= 0) {
+      toastError("Thời hạn gói tập phải lớn hơn 0 ngày.");
+      return;
+    }
+
+    // Format benefits: split by newline or semicolon, filter empty, join with semicolon
+    const normalizedBenefits = packageFormData.benefits
+      .split(/[\n;]/)
+      .map((b) => b.trim())
+      .filter(Boolean)
+      .join("; ");
+
+    const payload = {
+      name: packageFormData.name.trim(),
+      category: packageFormData.category || "all",
+      badge: packageFormData.badge?.trim() || null,
+      price: Number(packageFormData.price) || 0,
+      duration_days: parseInt(packageFormData.duration_days, 10) || 30,
+      description: packageFormData.description?.trim() || null,
+      benefits: normalizedBenefits || null,
+      commitments: packageFormData.commitments?.trim() || null,
+      featured: Boolean(packageFormData.featured),
+    };
+
+    setSavingPackage(true);
+    try {
+      if (editingPackage) {
+        await packageService.updatePackage(editingPackage.id, payload);
+        toastSuccess(`🎉 Cập nhật thành công gói tập "${payload.name}"!`);
+      } else {
+        await packageService.createPackage(payload);
+        toastSuccess(`🎉 Tạo mới thành công gói tập "${payload.name}"!`);
+      }
+      setIsFormModalOpen(false);
+      setEditingPackage(null);
+      await loadPackages();
+    } catch (err) {
+      const msg =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Lưu gói tập thất bại. Vui lòng kiểm tra lại thông tin.";
+      toastError(typeof msg === "string" ? msg : JSON.stringify(msg));
+    } finally {
+      setSavingPackage(false);
+    }
+  };
+
+  const confirmDeletePackage = (pkg) => {
+    setDeletingPackage(pkg);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeletePackage = async () => {
+    if (!deletingPackage) return;
+    setDeletingLoading(true);
+    try {
+      await packageService.deletePackage(deletingPackage.id);
+      toastSuccess(`Đã xóa gói tập "${deletingPackage.name}" khỏi hệ thống!`);
+      setIsDeleteModalOpen(false);
+      setDeletingPackage(null);
+      await loadPackages();
+    } catch (err) {
+      const msg =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Không thể xóa gói tập do ràng buộc dữ liệu liên quan.";
+      toastError(typeof msg === "string" ? msg : JSON.stringify(msg));
+    } finally {
+      setDeletingLoading(false);
+    }
+  };
+
+  // ---------------------------------------------------------------------------
+  // MEMBER REGISTRATION HANDLERS
+  // ---------------------------------------------------------------------------
   const openPackageModal = (pkg) => {
     setSelectedPackage(pkg);
     setDurationOption("1_month");
@@ -180,7 +354,6 @@ export const MemberPackages = () => {
     setPaymentMethod("transfer");
   };
 
-  // Submit Package Registration
   const handleRegisterPackage = async (e) => {
     e.preventDefault();
     if (!selectedPackage) return;
@@ -197,7 +370,6 @@ export const MemberPackages = () => {
       payment_method: paymentMethod,
     };
 
-    // Luồng thanh toán quét mã QR Giả định (Mock VietQR Payment)
     if (paymentMethod === "transfer") {
       const rawUserCode =
         user?.phone ||
@@ -206,7 +378,6 @@ export const MemberPackages = () => {
         "HOIVIEN";
       const transferContent = `GYMAI ${rawUserCode}`.toUpperCase();
 
-      // Sinh URL mã QR VietQR động (chính xác số tiền và nội dung)
       const vietQrUrl = `https://img.vietqr.io/image/MB-18082006999-compact2.png?amount=${calculatedPrice}&addInfo=${encodeURIComponent(
         transferContent
       )}&accountName=TA%20QUANG%20NAM`;
@@ -230,7 +401,6 @@ export const MemberPackages = () => {
       return;
     }
 
-    // Luồng thanh toán tiền mặt hoặc thẻ tại quầy
     setSubmitting(true);
     try {
       await packageService.renewPackage(payload);
@@ -249,7 +419,6 @@ export const MemberPackages = () => {
     }
   };
 
-  // Xác nhận đã chuyển khoản thành công từ Modal QR
   const handleConfirmQrPayment = async () => {
     if (!qrPendingPayload) return;
     setIsVerifyingPayment(true);
@@ -279,14 +448,12 @@ export const MemberPackages = () => {
     }
   };
 
-  // Hủy giao dịch QR
   const handleCancelQrPayment = () => {
     setIsQrModalOpen(false);
     setQrPendingPayload(null);
     toastInfo("Đã đóng giao dịch quét mã QR.");
   };
 
-  // Helper for Category color badges
   const getCategoryTheme = (category) => {
     switch (category?.toLowerCase()) {
       case "female":
@@ -303,15 +470,15 @@ export const MemberPackages = () => {
         };
       case "gain_muscle":
         return {
-          bg: "bg-amber-50 text-amber-700 border-amber-200",
-          accent: "from-amber-500 to-orange-500",
-          cardBorder: "hover:border-amber-300",
+          bg: "bg-cyan-50 text-cyan-700 border-cyan-200",
+          accent: "from-cyan-600 to-blue-600",
+          cardBorder: "hover:border-cyan-300",
         };
       case "lose_weight":
         return {
-          bg: "bg-red-50 text-red-700 border-red-200",
-          accent: "from-red-500 to-orange-500",
-          cardBorder: "hover:border-red-300",
+          bg: "bg-sky-50 text-sky-700 border-sky-200",
+          accent: "from-blue-500 to-cyan-500",
+          cardBorder: "hover:border-sky-300",
         };
       case "personal_trainer":
         return {
@@ -327,9 +494,9 @@ export const MemberPackages = () => {
         };
       default:
         return {
-          bg: "bg-orange-50 text-orange-700 border-orange-200",
-          accent: "from-gym-accent to-amber-500",
-          cardBorder: "hover:border-orange-300",
+          bg: "bg-blue-50 text-blue-700 border-blue-200",
+          accent: "from-blue-600 to-cyan-500",
+          cardBorder: "hover:border-blue-300",
         };
     }
   };
@@ -337,26 +504,46 @@ export const MemberPackages = () => {
   return (
     <div className="space-y-8 pb-16 max-w-7xl mx-auto">
       {/* ========================================================================= */}
-      {/* 1. HERO BANNER */}
+      {/* 1. HERO BANNER & ADMIN ACTIONS                                            */}
       {/* ========================================================================= */}
-      <div className="relative bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 p-7 sm:p-9 rounded-3xl text-white shadow-xl overflow-hidden">
+      <div className="relative bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-600 p-7 sm:p-9 rounded-3xl text-white shadow-xl overflow-hidden">
         <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-[url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80')] bg-cover bg-center opacity-15 pointer-events-none mix-blend-overlay"></div>
-        <div className="relative z-10 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-amber-200" />
-            Đặc quyền Hội viên Gym AI
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
+              {isAdmin ? "Khu vực Quản trị Hệ thống Gói tập" : "Đặc quyền Hội viên Gym AI"}
+            </div>
+            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              Gói Tập Dịch Vụ & Lộ Trình Thể Hình
+            </h1>
+            <p className="text-blue-100 text-xs sm:text-sm mt-2 leading-relaxed font-medium">
+              {isAdmin
+                ? "Quản trị viên có toàn quyền Thêm mới, Chỉnh sửa quyền lợi, học phí và Xóa gói tập dịch vụ đồng bộ toàn hệ thống."
+                : "Tự do lựa chọn gói tập phù hợp với mục tiêu của bạn: Săn chắc cho Nữ, Tăng cơ cho Nam, Giảm mỡ cấp tốc, Huấn luyện viên 1:1 hoặc Trợ giá Sinh viên."}
+            </p>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-            Gói Tập Dịch Vụ & Lộ Trình Thể Hình
-          </h1>
-          <p className="text-orange-100 text-xs sm:text-sm mt-2 leading-relaxed font-medium">
-            Tự do lựa chọn gói tập phù hợp với mục tiêu của bạn: Săn chắc cho Nữ, Tăng cơ cho Nam, Giảm mỡ cấp tốc, Huấn luyện viên 1:1 hoặc Trợ giá Sinh viên.
-          </p>
+
+          {/* Admin Header Action: + Thêm Gói Tập Mới */}
+          {isAdmin && (
+            <div className="flex-shrink-0">
+              <button
+                id="btn-add-package"
+                onClick={openCreateModal}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-white text-blue-600 hover:bg-blue-50 font-extrabold text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 group"
+              >
+                <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <Plus className="w-4 h-4 stroke-[3]" />
+                </div>
+                <span>+ Thêm Gói Tập Mới</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. TABS FILTERING BAR */}
+      {/* 2. TABS FILTERING BAR                                                     */}
       {/* ========================================================================= */}
       <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         {filterTabs.map((tab) => {
@@ -368,7 +555,7 @@ export const MemberPackages = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
                 isActive
-                  ? "bg-gym-accent text-white shadow-md shadow-orange-500/25 scale-[1.02]"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]"
                   : "bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/60 hover:-translate-y-0.5"
               }`}
             >
@@ -380,7 +567,7 @@ export const MemberPackages = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. PACKAGE CARDS GRID */}
+      {/* 3. PACKAGE CARDS GRID                                                     */}
       {/* ========================================================================= */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -400,13 +587,18 @@ export const MemberPackages = () => {
         <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center text-slate-400">
           <Dumbbell className="w-12 h-12 mx-auto text-slate-300 mb-3 stroke-[1.5]" />
           <p className="font-bold text-slate-700">Chưa có gói tập nào trong danh mục này.</p>
-          <p className="text-xs text-slate-400 mt-1">Vui lòng chọn danh mục "Tất Cả Gói" để xem đầy đủ.</p>
+          <p className="text-xs text-slate-400 mt-1">
+            {isAdmin ? 'Bấm nút "+ Thêm Gói Tập Mới" ở phía trên để tạo gói tập đầu tiên.' : 'Vui lòng chọn danh mục "Tất Cả Gói" để xem đầy đủ.'}
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPackages.map((pkg) => {
             const theme = getCategoryTheme(pkg.category);
-            const benefitsList = (pkg.benefits || "").split(";").filter((b) => b.trim());
+            const benefitsList = (pkg.benefits || "")
+              .split(/[\n;]/)
+              .map((b) => b.trim())
+              .filter(Boolean);
 
             return (
               <div
@@ -414,15 +606,46 @@ export const MemberPackages = () => {
                 className={`bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 group relative ${theme.cardBorder}`}
               >
                 <div>
-                  {/* Top Header: Badge & Days */}
+                  {/* Top Header: Badge, Duration & Admin Quick Action Buttons */}
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <span className={`px-3 py-1 rounded-full text-xs font-extrabold border ${theme.bg}`}>
                       {pkg.badge || "Gói Tập"}
                     </span>
-                    <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {pkg.duration_days} ngày
-                    </span>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" />
+                        {pkg.duration_days} ngày
+                      </span>
+
+                      {/* Admin Quick Buttons on Top Card */}
+                      {isAdmin && (
+                        <div className="flex items-center gap-1 ml-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200">
+                          <button
+                            id={`btn-edit-top-${pkg.id}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openEditModal(pkg);
+                            }}
+                            title="Sửa gói tập"
+                            className="p-1 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            id={`btn-delete-top-${pkg.id}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              confirmDeletePackage(pkg);
+                            }}
+                            title="Xóa gói tập"
+                            className="p-1 rounded-lg text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {/* Package Name */}
@@ -452,29 +675,64 @@ export const MemberPackages = () => {
                     {benefitsList.slice(0, 3).map((ben, idx) => (
                       <div key={idx} className="flex items-start gap-2 text-xs text-slate-600 font-medium">
                         <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                        <span className="line-clamp-1">{ben.trim()}</span>
+                        <span className="line-clamp-1">{ben}</span>
                       </div>
                     ))}
+                    {benefitsList.length > 3 && (
+                      <span className="text-[11px] font-semibold text-slate-400 block pl-6">
+                        + {benefitsList.length - 3} quyền lợi khác
+                      </span>
+                    )}
                   </div>
 
                   {/* Quality Commitment highlight if any */}
                   {pkg.commitments && (
-                    <div className="mt-4 p-2.5 rounded-xl bg-orange-50/70 border border-orange-100 text-[11px] text-orange-800 font-semibold flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-gym-accent flex-shrink-0" />
+                    <div className="mt-4 p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 text-[11px] text-blue-800 font-semibold flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-blue-600 flex-shrink-0" />
                       <span className="line-clamp-1">{pkg.commitments}</span>
                     </div>
                   )}
                 </div>
 
-                {/* Bottom CTA Button */}
+                {/* Bottom Card Actions */}
                 <div className="mt-6 pt-4 border-t border-slate-100">
-                  <button
-                    onClick={() => openPackageModal(pkg)}
-                    className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-gym-accent text-white font-bold text-xs sm:text-sm shadow-md transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-orange-500/25"
-                  >
-                    <span>Xem chi tiết & Đăng ký</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  {isAdmin ? (
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => openPackageModal(pkg)}
+                        className="flex-1 py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-xs shadow-md transition-all duration-200 flex items-center justify-center gap-1.5"
+                      >
+                        <span>Xem chi tiết</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        id={`btn-edit-bottom-${pkg.id}`}
+                        onClick={() => openEditModal(pkg)}
+                        className="py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs border border-blue-200/80 transition-colors flex items-center justify-center gap-1"
+                        title="Chỉnh sửa gói tập"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                        <span>Sửa</span>
+                      </button>
+                      <button
+                        id={`btn-delete-bottom-${pkg.id}`}
+                        onClick={() => confirmDeletePackage(pkg)}
+                        className="py-2.5 px-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold text-xs border border-red-200/80 transition-colors flex items-center justify-center gap-1"
+                        title="Xóa gói tập"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Xóa</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => openPackageModal(pkg)}
+                      className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-xs sm:text-sm shadow-md transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-blue-500/25"
+                    >
+                      <span>Xem chi tiết & Đăng ký</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  )}
                 </div>
               </div>
             );
@@ -483,7 +741,324 @@ export const MemberPackages = () => {
       )}
 
       {/* ========================================================================= */}
-      {/* 4. MODAL: PACKAGE DETAILS & REGISTRATION CONFIGURATION                   */}
+      {/* 4. ADMIN MODAL: THÊM / CHỈNH SỬA GÓI TẬP DỊCH VỤ                         */}
+      {/* ========================================================================= */}
+      {isFormModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in overflow-y-auto">
+          <div className="bg-white w-full max-w-2xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-200 relative my-8 text-left max-h-[92vh] overflow-y-auto">
+            {/* Close Button */}
+            <button
+              onClick={() => setIsFormModalOpen(false)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 p-2 rounded-full hover:bg-slate-100 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Header */}
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200 mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                {editingPackage ? "Chỉnh Sửa Gói Tập" : "Thêm Gói Tập Mới"}
+              </div>
+              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                {editingPackage ? `Cập nhật gói "${editingPackage.name}"` : "Tạo Gói Tập Dịch Vụ Mới"}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1 font-medium">
+                Dữ liệu sẽ được lưu trực tiếp vào CSDL và cập nhật đồng bộ cho toàn bộ hội viên & lễ tân.
+              </p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSavePackage} className="space-y-4">
+              {/* Tên gói tập */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Tên gói tập dịch vụ <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={packageFormData.name}
+                  onChange={(e) => setPackageFormData({ ...packageFormData, name: e.target.value })}
+                  placeholder="VD: Gói Giảm Cân Cấp Tốc 1 Tháng"
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm"
+                />
+              </div>
+
+              {/* Category & Badge */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Thẻ phân loại (Category) <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={packageFormData.category}
+                    onChange={handleCategoryChange}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm cursor-pointer"
+                  >
+                    {categoryOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Huy hiệu hiển thị (Badge)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={packageFormData.badge}
+                      onChange={(e) => setPackageFormData({ ...packageFormData, badge: e.target.value })}
+                      placeholder="VD: Giảm Cân, Hot, Cho Nữ..."
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm"
+                    />
+                    <Tag className="w-4 h-4 text-slate-400 absolute right-3.5 top-3 pointer-events-none" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Price & Duration */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Giá niêm yết (VND) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="10000"
+                    required
+                    value={packageFormData.price}
+                    onChange={(e) => setPackageFormData({ ...packageFormData, price: e.target.value })}
+                    placeholder="VD: 1500000"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm"
+                  />
+                  <div className="mt-1 text-xs font-extrabold text-blue-600">
+                    Quy đổi: {formatVND(packageFormData.price)}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Thời hạn gốc (Số ngày) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    required
+                    value={packageFormData.duration_days}
+                    onChange={(e) => setPackageFormData({ ...packageFormData, duration_days: e.target.value })}
+                    placeholder="VD: 30"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-sm"
+                  />
+                  {/* Preset Quick Chips */}
+                  <div className="flex items-center gap-1.5 mt-1.5 overflow-x-auto pb-1 scrollbar-none">
+                    {[
+                      { label: "7N", days: 7 },
+                      { label: "15N", days: 15 },
+                      { label: "1T (30N)", days: 30 },
+                      { label: "3T (90N)", days: 90 },
+                      { label: "6T (180N)", days: 180 },
+                      { label: "12T (365N)", days: 365 },
+                    ].map((chip) => (
+                      <button
+                        type="button"
+                        key={chip.days}
+                        onClick={() => setPackageFormData({ ...packageFormData, duration_days: chip.days })}
+                        className={`text-[11px] px-2 py-0.5 rounded-lg border font-bold whitespace-nowrap transition-colors ${
+                          Number(packageFormData.duration_days) === chip.days
+                            ? "bg-blue-600 text-white border-blue-600"
+                            : "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200"
+                        }`}
+                      >
+                        {chip.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Mô tả ngắn */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Mô tả ngắn gọn
+                </label>
+                <textarea
+                  rows="2"
+                  value={packageFormData.description}
+                  onChange={(e) => setPackageFormData({ ...packageFormData, description: e.target.value })}
+                  placeholder="VD: Lộ trình chuyên sâu kết hợp đo chỉ số InBody và tư vấn dinh dưỡng cá nhân hóa..."
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-xs sm:text-sm"
+                />
+              </div>
+
+              {/* Quyền lợi đi kèm */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Các quyền lợi đi kèm (Nhập mỗi quyền lợi trên 1 dòng hoặc cách nhau bởi dấu ;)
+                  </label>
+                </div>
+                <textarea
+                  rows="3"
+                  value={packageFormData.benefits}
+                  onChange={(e) => setPackageFormData({ ...packageFormData, benefits: e.target.value })}
+                  placeholder={"Tập không giới hạn khung giờ\nMiễn phí đo chỉ số InBody định kỳ\nTủ đồ thông minh riêng biệt\n1 buổi tập kèm 1-1 với Huấn luyện viên"}
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-xs sm:text-sm font-mono leading-relaxed"
+                />
+                {/* Live Preview Tags */}
+                {packageFormData.benefits && (
+                  <div className="mt-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
+                      Xem trước danh sách quyền lợi:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {packageFormData.benefits
+                        .split(/[\n;]/)
+                        .map((b) => b.trim())
+                        .filter(Boolean)
+                        .map((item, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                            {item}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Cam kết chất lượng */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Cam kết chất lượng
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={packageFormData.commitments}
+                    onChange={(e) => setPackageFormData({ ...packageFormData, commitments: e.target.value })}
+                    placeholder="VD: Cam kết giảm 2-4kg trong 30 ngày hoặc hoàn lại 100% học phí"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-xs sm:text-sm"
+                  />
+                  <ShieldCheck className="w-4 h-4 text-blue-600 absolute left-3.5 top-3 pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Featured toggle */}
+              <div className="pt-2 flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="featured-checkbox"
+                  checked={packageFormData.featured}
+                  onChange={(e) => setPackageFormData({ ...packageFormData, featured: e.target.checked })}
+                  className="w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer"
+                />
+                <label htmlFor="featured-checkbox" className="text-xs font-bold text-slate-700 cursor-pointer">
+                  Đánh dấu là Gói Tập Nổi Bật (Featured - Ưu tiên hiển thị đề xuất hàng đầu)
+                </label>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-5 border-t border-slate-200 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsFormModalOpen(false)}
+                  disabled={savingPackage}
+                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-colors"
+                >
+                  Hủy bỏ
+                </button>
+                <button
+                  type="submit"
+                  id="btn-save-package"
+                  disabled={savingPackage}
+                  className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center gap-2 disabled:opacity-50"
+                >
+                  {savingPackage ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Đang lưu...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" />
+                      <span>{editingPackage ? "Cập Nhật Gói Tập" : "Lưu Gói Tập Mới"}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 5. ADMIN MODAL: XÁC NHẬN XÓA GÓI TẬP                                    */}
+      {/* ========================================================================= */}
+      {isDeleteModalOpen && deletingPackage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-white w-full max-w-md p-6 rounded-3xl shadow-2xl border border-slate-200 relative text-left">
+            <div className="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mb-4">
+              <AlertTriangle className="w-6 h-6 stroke-[2.5]" />
+            </div>
+
+            <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">
+              Xác nhận xóa gói tập?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Bạn có chắc chắn muốn xóa gói tập <strong className="text-slate-900">"{deletingPackage.name}"</strong>? Gói tập sẽ bị gỡ bỏ vĩnh viễn khỏi danh sách đăng ký.
+            </p>
+
+            <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-xl text-[11px] text-amber-800 font-medium">
+              💡 <strong>Lưu ý an toàn:</strong> Nếu gói tập này đã có hội viên đăng ký trong CSDL, hệ thống sẽ ngăn chặn việc xóa để bảo vệ tính toàn vẹn dữ liệu hợp đồng.
+            </div>
+
+            <div className="mt-6 flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                  setDeletingPackage(null);
+                }}
+                disabled={deletingLoading}
+                className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors"
+              >
+                Hủy bỏ
+              </button>
+              <button
+                type="button"
+                id="btn-confirm-delete"
+                onClick={handleDeletePackage}
+                disabled={deletingLoading}
+                className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md shadow-red-600/30 transition-all flex items-center gap-2 disabled:opacity-50"
+              >
+                {deletingLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Đang xóa...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4" />
+                    <span>Xác nhận xóa</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 6. MODAL: PACKAGE DETAILS & REGISTRATION CONFIGURATION                   */}
       {/* ========================================================================= */}
       {selectedPackage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in overflow-y-auto">
@@ -498,8 +1073,8 @@ export const MemberPackages = () => {
 
             {/* Header info */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold bg-orange-50 text-orange-700 border border-orange-200 mb-2">
-                <Sparkles className="w-3.5 h-3.5 text-gym-accent" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold bg-blue-50 text-blue-700 border border-blue-200 mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                 {selectedPackage.badge || "Gói Dịch Vụ"}
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -512,10 +1087,10 @@ export const MemberPackages = () => {
 
             {/* Quality Commitment Banner */}
             {selectedPackage.commitments && (
-              <div className="mt-5 p-4 rounded-2xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/5 border border-orange-200 text-xs text-orange-950 flex items-start gap-3">
-                <ShieldCheck className="w-5 h-5 text-gym-accent flex-shrink-0 mt-0.5" />
+              <div className="mt-5 p-4 rounded-2xl bg-gradient-to-r from-blue-500/10 via-sky-500/10 to-cyan-500/5 border border-blue-200 text-xs text-blue-950 flex items-start gap-3">
+                <ShieldCheck className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-extrabold text-orange-700 uppercase tracking-wider block mb-0.5">
+                  <span className="font-extrabold text-blue-700 uppercase tracking-wider block mb-0.5">
                     Cam kết chất lượng từ Gym AI:
                   </span>
                   <span className="font-semibold leading-relaxed">{selectedPackage.commitments}</span>
@@ -529,12 +1104,16 @@ export const MemberPackages = () => {
                 Quyền lợi chi tiết đi kèm gói:
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {(selectedPackage.benefits || "").split(";").map((ben, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>{ben.trim()}</span>
-                  </div>
-                ))}
+                {(selectedPackage.benefits || "")
+                  .split(/[\n;]/)
+                  .map((b) => b.trim())
+                  .filter(Boolean)
+                  .map((ben, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span>{ben}</span>
+                    </div>
+                  ))}
               </div>
             </div>
 
@@ -554,12 +1133,12 @@ export const MemberPackages = () => {
                         onClick={() => setDurationOption(opt.id)}
                         className={`p-3 rounded-xl border text-left transition-all relative ${
                           isSelected
-                            ? "bg-orange-50/80 border-gym-accent shadow-sm ring-1 ring-gym-accent"
+                            ? "bg-blue-50/80 border-blue-600 shadow-sm ring-1 ring-blue-600"
                             : "bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-700"
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className={`text-xs font-extrabold ${isSelected ? "text-gym-accent" : "text-slate-900"}`}>
+                          <span className={`text-xs font-extrabold ${isSelected ? "text-blue-600" : "text-slate-900"}`}>
                             {opt.label}
                           </span>
                           {opt.discountBadge && (
@@ -577,9 +1156,9 @@ export const MemberPackages = () => {
 
               {/* Special Input for Weight Gain / Loss Goal */}
               {isWeightGoalPackage && (
-                <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-800">
-                    <Target className="w-4 h-4 text-gym-accent" />
+                <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-800">
+                    <Target className="w-4 h-4 text-blue-600" />
                     Mục tiêu thể hình cá nhân (AI Health Optimizer)
                   </div>
 
@@ -599,24 +1178,20 @@ export const MemberPackages = () => {
                         placeholder="VD: 5"
                         className="w-32 px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-900 font-bold text-center focus:outline-none focus:border-gym-accent"
                       />
-                      <span className="text-xs font-bold text-slate-600">kg mục tiêu</span>
+                      <span className="text-xs text-slate-500 font-medium">kg trong kỳ tập luyện này</span>
                     </div>
                   </div>
 
-                  {/* AI Prediction Box */}
                   {aiAdvice && (
-                    <div className="p-3.5 rounded-xl bg-white border border-amber-200/80 text-xs space-y-1.5 shadow-2xs">
-                      <div className="flex items-center justify-between text-amber-800 font-bold">
-                        <span>🤖 Gợi ý từ AI Thể hình:</span>
-                        <span className="text-[11px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full">
-                          Lộ trình ~{aiAdvice.estimatedWeeks} tuần ({aiAdvice.estimatedMonths} tháng)
-                        </span>
+                    <div className="p-3 bg-white/80 rounded-xl border border-amber-100 text-xs space-y-1.5">
+                      <div className="flex items-center justify-between font-bold text-slate-800">
+                        <span>Lộ trình khuyến nghị:</span>
+                        <span className="text-gym-accent">~{aiAdvice.estimatedWeeks} tuần ({aiAdvice.estimatedMonths} tháng)</span>
                       </div>
-                      <p className="text-slate-600 font-medium leading-relaxed">
-                        {aiAdvice.recommendation}
-                      </p>
-                      <div className="text-emerald-700 font-semibold pt-1">
-                        🎯 {aiAdvice.commitmentMsg}
+                      <div className="text-slate-600 font-medium">{aiAdvice.recommendation}</div>
+                      <div className="text-[11px] font-bold text-amber-900 flex items-center gap-1 pt-1">
+                        <Zap className="w-3.5 h-3.5 text-amber-600" />
+                        <span>Mục tiêu calo: {aiAdvice.dailyKcal}</span>
                       </div>
                     </div>
                   )}
@@ -626,138 +1201,148 @@ export const MemberPackages = () => {
               {/* Payment Method Selector */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                  2. Phương thức thanh toán:
+                  2. Chọn hình thức thanh toán:
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                  {[
-                    { id: "transfer", label: "Chuyển khoản (QR / Banking)", icon: CreditCard },
-                    { id: "cash", label: "Tiền mặt tại quầy lễ tân", icon: UserCheck },
-                    { id: "card", label: "Quẹt thẻ POS phòng gym", icon: Zap },
-                  ].map((m) => (
-                    <button
-                      type="button"
-                      key={m.id}
-                      onClick={() => setPaymentMethod(m.id)}
-                      className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
-                        paymentMethod === m.id
-                          ? "bg-slate-900 text-white border-slate-900 font-bold shadow-md"
-                          : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 font-medium"
-                      }`}
-                    >
-                      <m.icon className="w-4 h-4 flex-shrink-0" />
-                      <span>{m.label}</span>
-                    </button>
-                  ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <label
+                    className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
+                      paymentMethod === "transfer"
+                        ? "bg-blue-50/80 border-blue-600 ring-1 ring-blue-600"
+                        : "bg-slate-50 border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      value="transfer"
+                      checked={paymentMethod === "transfer"}
+                      onChange={() => setPaymentMethod("transfer")}
+                      className="text-blue-600 focus:ring-blue-600"
+                    />
+                    <div>
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <QrCode className="w-4 h-4 text-blue-600" />
+                        Quét mã QR Chuyển khoản (VietQR)
+                      </div>
+                      <span className="text-[11px] text-slate-400">Tự động kích hoạt ngay lập tức</span>
+                    </div>
+                  </label>
+
+                  <label
+                    className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
+                      paymentMethod === "cash"
+                        ? "bg-blue-50/80 border-blue-600 ring-1 ring-blue-600"
+                        : "bg-slate-50 border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      value="cash"
+                      checked={paymentMethod === "cash"}
+                      onChange={() => setPaymentMethod("cash")}
+                      className="text-blue-600 focus:ring-blue-600"
+                    />
+                    <div>
+                      <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                        <CreditCard className="w-4 h-4 text-slate-600" />
+                        Thanh toán tại quầy lễ tân
+                      </div>
+                      <span className="text-[11px] text-slate-400">Tiền mặt hoặc quẹt thẻ POS</span>
+                    </div>
+                  </label>
                 </div>
               </div>
 
-              {/* Total Calculation & Confirm CTA */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              {/* Summary and Submit */}
+              <div className="p-4 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
                 <div>
-                  <span className="text-xs text-slate-400 font-semibold uppercase block">Tổng phí thanh toán:</span>
-                  <div className="text-2xl sm:text-3xl font-extrabold text-gym-accent">
+                  <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold block">
+                    Tổng chi phí thanh toán ({currentDurationObj.label}):
+                  </span>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-cyan-400">
                     {formatVND(calculatedPrice)}
                   </div>
-                  <span className="text-[11px] text-slate-500 font-medium">
-                    (Gói {currentDurationObj.label} - {currentDurationObj.days} ngày tập luyện)
-                  </span>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPackage(null)}
-                    className="px-4 py-3 rounded-xl bg-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-300 transition-colors"
-                  >
-                    Đóng
-                  </button>
-
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="px-6 py-3 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white font-bold text-xs sm:text-sm shadow-lg shadow-orange-500/30 transition-all flex items-center gap-2 disabled:opacity-50"
-                  >
-                    {submitting ? (
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    ) : (
-                      <>
-                        <Check className="w-4 h-4" />
-                        <span>Xác Nhận Đăng Ký / Thanh Toán</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {submitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Đang xử lý...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{paymentMethod === "transfer" ? "Tiếp tục quét mã VietQR" : "Xác nhận đăng ký gói"}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* Modal: Quét mã QR Thanh Toán Giả Định (Mock QR Code Payment) */}
+      {/* ========================================================================= */}
+      {/* 7. MODAL: QR CODE BANK TRANSFER CONFIRMATION                             */}
+      {/* ========================================================================= */}
       {isQrModalOpen && qrData && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-in fade-in duration-150">
-          <div className="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden my-auto flex flex-col animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in overflow-y-auto">
+          <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 relative my-8 text-left overflow-hidden">
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b border-slate-100 bg-gradient-to-r from-orange-50 via-white to-amber-50 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gym-accent/10 border border-gym-accent/20 flex items-center justify-center text-gym-accent">
-                  <QrCode className="w-5 h-5" />
+            <div className="bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-600 p-5 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-white/20 backdrop-blur-md">
+                  <QrCode className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-slate-900 text-base sm:text-lg">
-                    Quét Mã QR Thanh Toán
-                  </h3>
-                  <p className="text-xs text-slate-500 font-medium">
-                    Chuyển khoản VietQR / Napas247 kích hoạt tự động
-                  </p>
+                  <h3 className="font-extrabold text-base sm:text-lg">Quét mã VietQR chuyển khoản</h3>
+                  <p className="text-xs text-blue-100">Kích hoạt gói tập hoàn toàn tự động</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={handleCancelQrPayment}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 flex items-center justify-center transition-colors"
+                className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* QR Image & Instructions */}
-            <div className="p-4 sm:p-5 space-y-4">
-              {/* QR Box */}
-              <div className="flex flex-col items-center justify-center">
-                <div className="relative p-2.5 bg-white border-2 border-orange-200 rounded-2xl shadow-md">
-                  <img
-                    src={qrData.vietQrUrl}
-                    alt="VietQR Payment"
-                    className="w-48 h-48 sm:w-52 sm:h-52 object-contain rounded-xl"
-                    onError={(e) => {
-                      // Fallback sang QR server nếu ảnh VietQR không load được
-                      e.currentTarget.src = qrData.backupQrUrl;
-                    }}
-                  />
-                  {/* Subtle Badge */}
-                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-3 py-0.5 rounded-full shadow whitespace-nowrap">
-                    Quét bằng App Ngân Hàng bất kỳ
-                  </div>
-                </div>
-                <span className="text-[11px] text-slate-400 mt-4 font-medium">
-                  Hỗ trợ Vietcombank, Techcombank, MB Bank, Momo, ViettelMoney...
-                </span>
+            {/* QR Image and Transfer Details */}
+            <div className="p-6 space-y-4 text-center">
+              <div className="inline-block p-3 rounded-2xl bg-white border-2 border-slate-200 shadow-md">
+                <img
+                  src={qrData.vietQrUrl}
+                  onError={(e) => {
+                    e.currentTarget.src = qrData.backupQrUrl;
+                  }}
+                  alt="Mã QR Chuyển Khoản Ngân Hàng"
+                  className="w-52 h-52 object-contain mx-auto"
+                />
               </div>
+              <p className="text-xs text-slate-500 font-medium">
+                Mở ứng dụng Ngân hàng (App Banking) bất kỳ để quét mã QR và thanh toán
+              </p>
 
-              {/* Banking Details Card */}
-              <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 text-xs">
+              {/* Details table */}
+              <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-left space-y-2 text-xs">
                 {/* Bank Name */}
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500 font-medium">Ngân hàng:</span>
-                  <span className="font-bold text-slate-900 text-right">{qrData.bankName}</span>
+                  <span className="font-bold text-slate-800">{qrData.bankName}</span>
                 </div>
 
                 {/* Account Number */}
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500 font-medium">Số tài khoản:</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-extrabold text-gym-accent tracking-wider text-sm">
+                    <span className="font-extrabold text-slate-900 tracking-wider">
                       {qrData.accountNumber}
                     </span>
                     <button
@@ -775,28 +1360,26 @@ export const MemberPackages = () => {
                   </div>
                 </div>
 
-                {/* Account Name */}
+                {/* Account Owner */}
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500 font-medium">Chủ tài khoản:</span>
-                  <span className="font-bold text-slate-900 text-right uppercase">
-                    {qrData.accountName}
-                  </span>
+                  <span className="font-bold text-slate-900">{qrData.accountName}</span>
                 </div>
 
                 {/* Amount */}
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500 font-medium">Số tiền thanh toán:</span>
+                <div className="flex items-center justify-between pt-1 border-t border-slate-200/60">
+                  <span className="text-slate-500 font-medium">Số tiền cần chuyển:</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-extrabold text-emerald-600 text-sm">
+                    <span className="font-extrabold text-blue-600 text-sm">
                       {formatVND(qrData.amount)}
                     </span>
                     <button
                       type="button"
-                      onClick={() => handleCopy(String(qrData.amount), "amt")}
+                      onClick={() => handleCopy(qrData.amount.toString(), "amount")}
                       className="p-1 rounded-md hover:bg-slate-200 text-slate-600 transition-colors"
                       title="Sao chép số tiền"
                     >
-                      {copiedField === "amt" ? (
+                      {copiedField === "amount" ? (
                         <Check className="w-3.5 h-3.5 text-emerald-600" />
                       ) : (
                         <Copy className="w-3.5 h-3.5" />
@@ -809,7 +1392,7 @@ export const MemberPackages = () => {
                 <div className="flex items-center justify-between pt-1 border-t border-slate-200/60">
                   <span className="text-slate-500 font-medium">Nội dung chuyển khoản:</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-extrabold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded border border-amber-200 text-xs">
+                    <span className="font-extrabold text-blue-900 bg-blue-100/90 px-2 py-0.5 rounded border border-blue-200 text-xs">
                       {qrData.content}
                     </span>
                     <button
@@ -829,8 +1412,8 @@ export const MemberPackages = () => {
               </div>
 
               {/* Safety Notice */}
-              <div className="p-3 bg-amber-50/70 border border-amber-200/60 rounded-xl flex items-start gap-2 text-[11px] text-amber-800 leading-relaxed">
-                <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+              <div className="p-3 bg-blue-50/70 border border-blue-200/60 rounded-xl flex items-start gap-2 text-[11px] text-blue-800 leading-relaxed text-left">
+                <AlertCircle className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                 <span>
                   Vui lòng chuyển khoản đúng số tiền và giữ nguyên mã nội dung để hệ thống tự động
                   kích hoạt trạng thái gói tập sang <strong>Hoạt động (Active)</strong> ngay sau khi xác nhận.

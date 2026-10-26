@@ -17,14 +17,38 @@ from app.schemas.ai import (
     ReminderMessageResponse,
     ProgressSummaryRequest,
     ProgressSummaryResponse,
+    AIChatRequest,
+    AIChatResponse,
 )
 from app.schemas.ai_log import AILogResponse
 from app.services.ai_service import AIService
+from app.core.deps import get_current_user_optional
 
 router = APIRouter()
 
 
+@router.post("/chat", response_model=AIChatResponse)
+async def ai_chat(
+    payload: AIChatRequest,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user_optional),
+):
+    """
+    Trợ lý AI Chatbot thông minh:
+    - Nhận diện ý định (Intent Recognition).
+    - Tự động truy vấn và đối chiếu CSDL các gói tập thực tế.
+    - Giữ ngữ cảnh hội thoại đa lượt (Multi-turn conversation).
+    - Tư vấn dinh dưỡng, lịch tập, tiện ích và cam kết phòng tập.
+    """
+    return await AIService.chat(
+        db=db,
+        request_data=payload,
+        user_id=current_user.id if current_user else None,
+    )
+
+
 @router.post("/recommend-workout", response_model=WorkoutRecommendationResponse)
+
 async def recommend_workout(
     payload: WorkoutRecommendationRequest,
     db: Session = Depends(get_db),

@@ -106,7 +106,7 @@ export const AIAdvisorPage = () => {
     <div className="space-y-8 pb-16">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-xs font-bold uppercase tracking-wider mb-3">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-xs font-bold uppercase tracking-wider mb-3">
           <Sparkles className="w-3.5 h-3.5" />
           Gym AI Module Engine
         </div>
@@ -118,6 +118,30 @@ export const AIAdvisorPage = () => {
         </p>
       </div>
 
+      {/* Quick Launch Floating Chatbot Banner */}
+      <div className="max-w-3xl mx-auto p-4 rounded-2xl bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-600 text-white shadow-lg shadow-blue-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex items-center gap-3 text-left">
+          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center flex-shrink-0">
+            <Sparkles className="w-5 h-5 text-cyan-200" />
+          </div>
+          <div>
+            <div className="font-extrabold text-sm sm:text-base leading-tight">
+              Trợ lý AI Thể hình Trực Tuyến 24/7
+            </div>
+            <div className="text-xs text-blue-100 font-medium">
+              Bạn có thể trò chuyện tương tác tự nhiên hoặc chọn 3 nút gợi ý nhanh ngay trong cửa sổ Chatbot ở góc phải!
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new CustomEvent("open-ai-chat", { detail: { open: true } }))}
+          className="whitespace-nowrap px-4 py-2 rounded-xl bg-white text-blue-700 hover:bg-blue-50 font-extrabold text-xs shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+        >
+          Mở Chatbot AI ngay 💬
+        </button>
+      </div>
+
       {/* Tabs */}
       <div className="flex flex-wrap justify-center gap-3">
         <button
@@ -127,7 +151,7 @@ export const AIAdvisorPage = () => {
           }}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
             activeTab === "workout"
-              ? "bg-gym-accent text-white shadow-md shadow-orange-500/25"
+              ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
               : "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
           }`}
         >
@@ -141,7 +165,7 @@ export const AIAdvisorPage = () => {
           }}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
             activeTab === "reminder"
-              ? "bg-gym-accent text-white shadow-md shadow-orange-500/25"
+              ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
               : "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
           }`}
         >
@@ -155,7 +179,7 @@ export const AIAdvisorPage = () => {
           }}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
             activeTab === "progress"
-              ? "bg-gym-accent text-white shadow-md shadow-orange-500/25"
+              ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
               : "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
           }`}
         >
@@ -237,7 +261,7 @@ export const AIAdvisorPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-md shadow-orange-500/25 transition-all flex items-center justify-center gap-2 mt-4"
+                className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2 mt-4"
               >
                 {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <Sparkles className="w-4 h-4" />}
                 {loading ? "AI đang phân tích..." : "Gợi ý Lịch Tập 1 Tuần"}
@@ -256,7 +280,7 @@ export const AIAdvisorPage = () => {
                   value={reminderForm.member_name}
                   onChange={(e) => setReminderForm({ ...reminderForm, member_name: e.target.value })}
                   placeholder="Trần Thị Bích"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                 />
               </div>
 
@@ -268,7 +292,7 @@ export const AIAdvisorPage = () => {
                   value={reminderForm.package_name}
                   onChange={(e) => setReminderForm({ ...reminderForm, package_name: e.target.value })}
                   placeholder="Gói Silver 3 Tháng"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                 />
               </div>
 
@@ -280,7 +304,7 @@ export const AIAdvisorPage = () => {
                     required
                     value={reminderForm.expire_date}
                     onChange={(e) => setReminderForm({ ...reminderForm, expire_date: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                   />
                 </div>
                 <div>
@@ -290,7 +314,7 @@ export const AIAdvisorPage = () => {
                     min="0"
                     value={reminderForm.missed_sessions}
                     onChange={(e) => setReminderForm({ ...reminderForm, missed_sessions: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                   />
                 </div>
               </div>
@@ -298,7 +322,7 @@ export const AIAdvisorPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-md shadow-orange-500/25 transition-all flex items-center justify-center gap-2 mt-4"
+                className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2 mt-4"
               >
                 {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <MessageSquare className="w-4 h-4" />}
                 {loading ? "AI đang soạn tin..." : "Sinh Tin Nhắn Chăm Sóc"}
@@ -317,7 +341,7 @@ export const AIAdvisorPage = () => {
                   value={progressForm.member_name}
                   onChange={(e) => setProgressForm({ ...progressForm, member_name: e.target.value })}
                   placeholder="Nguyễn Văn An"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                 />
               </div>
 
@@ -327,7 +351,7 @@ export const AIAdvisorPage = () => {
                   <select
                     value={progressForm.total_days}
                     onChange={(e) => setProgressForm({ ...progressForm, total_days: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                   >
                     <option value="14">14 ngày qua</option>
                     <option value="30">30 ngày qua</option>
@@ -342,7 +366,7 @@ export const AIAdvisorPage = () => {
                     max={progressForm.total_days}
                     value={progressForm.attendance_count}
                     onChange={(e) => setProgressForm({ ...progressForm, attendance_count: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                   />
                 </div>
               </div>
@@ -354,14 +378,14 @@ export const AIAdvisorPage = () => {
                   value={progressForm.pt_notes}
                   onChange={(e) => setProgressForm({ ...progressForm, pt_notes: e.target.value })}
                   placeholder="Ghi chú đánh giá thể lực, mức tạ, lỗi kỹ thuật..."
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-md shadow-orange-500/25 transition-all flex items-center justify-center gap-2 mt-4"
+                className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2 mt-4"
               >
                 {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <TrendingUp className="w-4 h-4" />}
                 {loading ? "AI đang tổng hợp..." : "Tóm Tắt Báo Cáo Tiến Độ"}
@@ -434,8 +458,8 @@ export const AIAdvisorPage = () => {
                 </div>
               )}
 
-              <div className="p-3.5 rounded-xl bg-orange-50 border border-orange-200 text-slate-800 text-sm">
-                <span className="font-bold text-gym-accent block mb-1">{result.data.plan_title}</span>
+              <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-slate-800 text-sm">
+                <span className="font-bold text-blue-700 block mb-1">{result.data.plan_title}</span>
                 <p className="text-xs text-slate-600 font-medium">{result.data.weekly_overview}</p>
               </div>
 
@@ -461,7 +485,7 @@ export const AIAdvisorPage = () => {
                             {ex.notes && <span className="text-slate-500 text-[11px] font-medium">{ex.notes}</span>}
                           </div>
                           <div className="text-right flex-shrink-0 ml-3">
-                            <span className="font-bold text-orange-600">{ex.sets} sets × {ex.reps}</span>
+                            <span className="font-bold text-blue-600">{ex.sets} sets × {ex.reps}</span>
                             <span className="block text-slate-400 text-[10px] font-medium">Nghỉ {ex.rest_seconds}s</span>
                           </div>
                         </div>
@@ -548,7 +572,7 @@ export const AIAdvisorPage = () => {
 
               {/* Motivational Quote */}
               {result.data.motivational_quote && (
-                <div className="p-3 rounded-lg bg-orange-50 border border-orange-200 text-center italic text-xs text-orange-800 font-semibold">
+                <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 text-center italic text-xs text-blue-800 font-semibold">
                   "{result.data.motivational_quote}"
                 </div>
               )}

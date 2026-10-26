@@ -8,11 +8,11 @@ export const HomePage = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 md:pt-20">
         <div className="absolute inset-0 -z-10 flex items-center justify-center">
-          <div className="w-[600px] h-[600px] bg-orange-600/10 blur-[130px] rounded-full pointer-events-none"></div>
+          <div className="w-[600px] h-[600px] bg-blue-600/15 blur-[130px] rounded-full pointer-events-none"></div>
         </div>
 
         <div className="max-w-5xl mx-auto text-center px-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold uppercase tracking-wider mb-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-6">
             <Sparkles className="w-3.5 h-3.5" />
             Nền tảng Quản lý Thể hình Thế hệ mới
           </div>
@@ -28,13 +28,14 @@ export const HomePage = () => {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/ai-advisor"
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white font-bold text-base shadow-lg shadow-orange-500/25 transition-all hover:scale-105"
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("open-ai-chat", { detail: { open: true } }))}
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base shadow-lg shadow-blue-500/25 transition-all hover:scale-105"
             >
               <Sparkles className="w-5 h-5" />
-              Trải nghiệm Cố vấn AI ngay
-            </Link>
+              Trải nghiệm Chatbot AI ngay
+            </button>
             <Link
               to="/login"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 font-semibold text-base border border-slate-700 transition-all"
@@ -54,17 +55,17 @@ export const HomePage = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="glass-card p-6 rounded-2xl hover:border-orange-500/40 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center mb-5">
+          <div className="glass-card p-6 rounded-2xl hover:border-cyan-500/40 transition-all bg-slate-900/60 border border-slate-800">
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-5">
               <Sparkles className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Cố vấn Thể hình AI</h3>
+            <h3 className="text-lg font-bold text-white mb-2">Trợ lý Thể hình AI</h3>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Tự động phân tích chỉ số BMI, mục tiêu và tiền sử chấn thương để thiết kế lịch tập và tính toán calo macro chính xác.
+              Tự động phân tích nhu cầu, tư vấn gói tập thực tế từ CSDL, lập lịch tập khoa học và tư vấn dinh dưỡng chuẩn y khoa.
             </p>
           </div>
 
-          <div className="glass-card p-6 rounded-2xl hover:border-orange-500/40 transition-all">
+          <div className="glass-card p-6 rounded-2xl hover:border-blue-500/40 transition-all bg-slate-900/60 border border-slate-800">
             <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mb-5">
               <Dumbbell className="w-6 h-6" />
             </div>
@@ -74,8 +75,8 @@ export const HomePage = () => {
             </p>
           </div>
 
-          <div className="glass-card p-6 rounded-2xl hover:border-orange-500/40 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-5">
+          <div className="glass-card p-6 rounded-2xl hover:border-sky-500/40 transition-all bg-slate-900/60 border border-slate-800">
+            <div className="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center mb-5">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Quản trị & Doanh thu</h3>
@@ -92,7 +93,7 @@ export const HomePage = () => {
           Công nghệ lõi tiêu chuẩn Enterprise
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          {["FastAPI", "SQLAlchemy ORM", "PostgreSQL", "React (Vite)", "Tailwind CSS", "OpenAI & Gemini", "JWT + RBAC"].map((tech) => (
+          {["FastAPI", "SQLAlchemy ORM", "SQLite / PostgreSQL", "React (Vite)", "Tailwind CSS", "OpenAI & Gemini", "JWT + RBAC"].map((tech) => (
             <span
               key={tech}
               className="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/80 text-xs font-semibold text-slate-300"

@@ -168,7 +168,7 @@ export const LoginPage = () => {
           <>
             {/* Header Icon & Brand */}
             <div className="text-center mb-7">
-              <div className="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-gym-accent to-amber-500 items-center justify-center shadow-xl shadow-orange-500/30 mb-3.5 transform hover:rotate-6 transition-transform">
+              <div className="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 via-sky-600 to-cyan-500 items-center justify-center shadow-xl shadow-blue-500/30 mb-3.5 transform hover:rotate-6 transition-transform">
                 <Dumbbell className="w-7 h-7 text-white" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -259,7 +259,7 @@ export const LoginPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
+                className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
               >
                 {loading ? (
                   <>
@@ -279,7 +279,7 @@ export const LoginPage = () => {
               <button
                 type="button"
                 onClick={() => setMode(mode === "register" ? "login" : "register")}
-                className="text-xs font-semibold text-slate-600 hover:text-gym-accent transition-colors"
+                className="text-xs font-semibold text-slate-600 hover:text-blue-600 transition-colors"
               >
                 {mode === "register"
                   ? "Đã có tài khoản? Quay lại Đăng nhập"
@@ -293,7 +293,7 @@ export const LoginPage = () => {
           /* ========================================================================= */
           <div className="text-center animate-in fade-in duration-300">
             {/* Header Icon */}
-            <div className="inline-flex w-16 h-16 rounded-2xl bg-gradient-to-tr from-gym-accent to-amber-500 items-center justify-center shadow-xl shadow-orange-500/30 mb-3.5">
+            <div className="inline-flex w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 via-sky-600 to-cyan-500 items-center justify-center shadow-xl shadow-blue-500/30 mb-3.5">
               <ShieldCheck className="w-8 h-8 text-white" />
             </div>
 
@@ -306,7 +306,7 @@ export const LoginPage = () => {
               <span className="block font-bold text-slate-800 text-sm mt-0.5 break-all">
                 {otpEmail}
               </span>
-              <span className="block text-[11px] text-orange-600 font-semibold mt-1">
+              <span className="block text-[11px] text-blue-600 font-semibold mt-1">
                 ⏱️ Mã có hiệu lực trong 10 phút. Vui lòng kiểm tra cả thư mục Spam.
               </span>
             </p>
@@ -329,7 +329,7 @@ export const LoginPage = () => {
                     value={otpCode}
                     onChange={handleOtpChange}
                     placeholder="123456"
-                    className="w-full py-3.5 pl-12 pr-4 bg-slate-50 border-2 border-slate-300 focus:border-gym-accent focus:bg-white rounded-2xl text-center font-mono text-2xl font-extrabold tracking-[8px] text-slate-900 placeholder-slate-300 focus:outline-none transition-all shadow-inner"
+                    className="w-full py-3.5 pl-12 pr-4 bg-slate-50 border-2 border-slate-300 focus:border-blue-600 focus:bg-white rounded-2xl text-center font-mono text-2xl font-extrabold tracking-[8px] text-slate-900 placeholder-slate-300 focus:outline-none transition-all shadow-inner"
                   />
                 </div>
               </div>
@@ -337,7 +337,7 @@ export const LoginPage = () => {
               <button
                 type="submit"
                 disabled={loading || otpCode.length !== 6}
-                className="w-full py-3.5 px-4 bg-gym-accent hover:bg-gym-accentHover text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -366,7 +366,7 @@ export const LoginPage = () => {
                     type="button"
                     onClick={handleResendOtp}
                     disabled={resending}
-                    className="font-bold text-gym-accent hover:text-orange-600 transition-colors flex items-center gap-1"
+                    className="font-bold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1"
                   >
                     <RefreshCw className={`w-3.5 h-3.5 ${resending ? "animate-spin" : ""}`} />
                     {resending ? "Đang gửi lại..." : "Gửi lại mã OTP"}

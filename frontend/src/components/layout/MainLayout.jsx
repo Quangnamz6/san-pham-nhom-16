@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "../common/Header";
 import { Sidebar } from "../common/Sidebar";
+import { FloatingAIChatWidget } from "../common/FloatingAIChatWidget";
 
 export const MainLayout = () => {
   return (
@@ -13,6 +14,9 @@ export const MainLayout = () => {
           <Outlet />
         </main>
       </div>
+      {/* Global Floating AI Assistant Chat Widget */}
+      <FloatingAIChatWidget />
     </div>
   );
 };
+

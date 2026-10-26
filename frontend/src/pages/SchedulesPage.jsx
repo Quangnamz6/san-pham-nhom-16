@@ -215,7 +215,7 @@ export const SchedulesPage = () => {
               }));
               setIsBookModalOpen(true);
             }}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white text-xs font-bold shadow-md shadow-orange-500/20 transition-all self-start sm:self-auto"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all self-start sm:self-auto"
           >
             <Plus className="w-4 h-4" />
             Đặt lịch tập mới
@@ -226,7 +226,7 @@ export const SchedulesPage = () => {
       {/* Quick Check-in Bar (Especially useful for Receptionists & PTs) */}
       {(role === "admin" || role === "receptionist" || role === "pt") && (
         <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gym-accent mb-3">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 mb-3">
             <CalendarCheck2 className="w-4 h-4" /> Quầy Điểm Danh Nhanh (Fast Check-in)
           </div>
 
@@ -238,13 +238,13 @@ export const SchedulesPage = () => {
                 value={checkInInput}
                 onChange={(e) => setCheckInInput(e.target.value)}
                 placeholder="Nhập Số điện thoại hoặc Mã hội viên (ID)..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
               />
             </div>
             <button
               type="submit"
               disabled={checkInLoading || !checkInInput.trim()}
-              className="px-6 py-2.5 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white text-xs font-bold shadow-md shadow-orange-500/20 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
             >
               {checkInLoading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <Check className="w-4 h-4" />}
               Xác Nhận Check-in
@@ -348,7 +348,7 @@ export const SchedulesPage = () => {
               {schedules.map((s) => (
                 <div
                   key={s.id}
-                  className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white hover:border-orange-300 hover:shadow-sm transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white hover:border-blue-300 hover:shadow-sm transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -548,7 +548,7 @@ export const SchedulesPage = () => {
                 <button
                   type="submit"
                   disabled={booking}
-                  className="px-4 py-2 rounded-xl bg-gym-accent hover:bg-gym-accentHover text-white font-bold shadow-md shadow-orange-500/20 transition-all"
+                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md shadow-blue-500/25 transition-all"
                 >
                   {booking ? "Đang kiểm tra..." : "Xác Nhận Đặt Lịch"}
                 </button>
