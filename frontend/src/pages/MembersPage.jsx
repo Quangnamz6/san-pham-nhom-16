@@ -182,44 +182,52 @@ export const MembersPage = () => {
   return (
     <div className="space-y-6 pb-12">
       {/* Title & Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 backdrop-blur-2xl p-6 sm:p-7 rounded-3xl border border-slate-800/80 shadow-2xl">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <Users className="w-6 h-6 text-gym-accent" />
-            Quản Lý Hồ Sơ Hội Viên
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-black uppercase tracking-wider text-cyan-400">
+              Quản Trị Khách Hàng
+            </span>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+              VIP DIRECTORY
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
+            <Users className="w-7 h-7 text-cyan-400" />
+            <span>Quản Lý Hồ Sơ Hội Viên</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-1 font-medium">
-            Tra cứu hội viên, theo dõi trạng thái gói tập và gia hạn hợp đồng.
+          <p className="text-xs text-slate-400 mt-1 font-medium">
+            Tra cứu hồ sơ, theo dõi tình trạng gói tập và gia hạn hợp đồng trực tuyến.
           </p>
         </div>
 
         <button
           onClick={() => openMemberModal(null)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl gradient-btn-primary hover:opacity-95 text-white text-xs font-black shadow-lg shadow-cyan-500/25 transition-all self-start sm:self-auto cursor-pointer"
         >
-          <UserPlus className="w-4 h-4" />
-          Đăng ký Hội viên mới
+          <UserPlus className="w-4 h-4 stroke-[2.5]" />
+          <span>Đăng ký Hội viên mới</span>
         </button>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+      <div className="bg-slate-900/80 backdrop-blur-2xl p-4 rounded-3xl border border-slate-800/80 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-3">
         {/* Search */}
         <form onSubmit={handleSearchSubmit} className="relative w-full md:w-96">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Tìm theo Tên, Số điện thoại hoặc Email..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+            className="w-full pl-10 pr-4 py-2 bg-slate-950/70 border border-slate-700/80 rounded-2xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500 transition-all font-medium"
           />
         </form>
 
         {/* Status Filters */}
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-          <span className="text-xs text-slate-500 font-bold flex items-center gap-1 flex-shrink-0">
-            <Filter className="w-3.5 h-3.5" /> Lọc trạng thái:
+          <span className="text-xs text-slate-400 font-bold flex items-center gap-1 flex-shrink-0">
+            <Filter className="w-3.5 h-3.5 text-cyan-400" /> Lọc:
           </span>
           {[
             { label: "Tất cả", value: "all" },
@@ -230,10 +238,10 @@ export const MembersPage = () => {
             <button
               key={tab.value}
               onClick={() => setStatusFilter(tab.value)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex-shrink-0 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex-shrink-0 cursor-pointer ${
                 statusFilter === tab.value
-                  ? "bg-gym-accent text-white shadow-sm"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  ? "bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 text-white shadow-lg shadow-cyan-500/25"
+                  : "bg-slate-950/60 text-slate-400 hover:text-white border border-slate-800"
               }`}
             >
               {tab.label}
@@ -243,23 +251,23 @@ export const MembersPage = () => {
       </div>
 
       {/* Members Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl border border-slate-800/80 shadow-2xl overflow-hidden">
         {loading ? (
           <div className="p-8 space-y-4">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-12 bg-slate-100 rounded-xl animate-pulse"></div>
+              <div key={i} className="h-12 bg-slate-800/50 rounded-2xl animate-pulse border border-slate-800"></div>
             ))}
           </div>
         ) : members.length === 0 ? (
           <div className="p-12 text-center text-slate-400 text-xs">
-            <Users className="w-10 h-10 mx-auto text-slate-300 mb-2" />
+            <Users className="w-10 h-10 mx-auto text-slate-600 mb-2" />
             <p className="font-medium">Không tìm thấy hội viên nào phù hợp.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 border-b border-slate-200">
-                <tr className="text-slate-500 font-bold uppercase tracking-wider">
+              <thead className="bg-slate-950/70 border-b border-slate-800">
+                <tr className="text-slate-400 font-bold uppercase tracking-wider">
                   <th className="py-3.5 px-4">Hội Viên</th>
                   <th className="py-3.5 px-4">Liên Hệ</th>
                   <th className="py-3.5 px-4">Gói Tập Hiện Tại</th>
@@ -268,32 +276,32 @@ export const MembersPage = () => {
                   <th className="py-3.5 px-4 text-right">Thao Tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-800">
                 {members.map((m) => {
                   const mem = m.active_membership;
                   const isActive = mem && mem.status === "active";
 
                   return (
-                    <tr key={m.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr key={m.id} className="hover:bg-slate-800/40 transition-colors">
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center font-bold text-cyan-300 text-xs">
                             {m.full_name?.charAt(0)?.toUpperCase()}
                           </div>
                           <div>
-                            <div className="font-bold text-slate-900">{m.full_name}</div>
+                            <div className="font-bold text-white">{m.full_name}</div>
                             <div className="text-[11px] text-slate-400">ID: #{m.id}</div>
                           </div>
                         </div>
                       </td>
 
                       <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-1.5 text-slate-600">
-                          <Phone className="w-3.5 h-3.5 text-slate-400" />
+                        <div className="flex items-center gap-1.5 text-slate-300">
+                          <Phone className="w-3.5 h-3.5 text-slate-500" />
                           <span>{m.phone || "—"}</span>
                         </div>
                         <div className="flex items-center gap-1.5 text-slate-400 text-[11px] mt-0.5">
-                          <Mail className="w-3.5 h-3.5 text-slate-400" />
+                          <Mail className="w-3.5 h-3.5 text-slate-500" />
                           <span>{m.email}</span>
                         </div>
                       </td>
@@ -301,44 +309,44 @@ export const MembersPage = () => {
                       <td className="py-3.5 px-4">
                         {mem ? (
                           <div>
-                            <div className="font-bold text-slate-800">{mem.package?.name}</div>
-                            <div className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
-                              <Calendar className="w-3 h-3 text-slate-400" />
+                            <div className="font-bold text-cyan-300">{mem.package?.name}</div>
+                            <div className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                              <Calendar className="w-3 h-3 text-slate-500" />
                               <span>
-                                {mem.start_date} → <b className="text-slate-700">{mem.end_date}</b>
+                                {mem.start_date} → <b className="text-white">{mem.end_date}</b>
                               </span>
                             </div>
                           </div>
                         ) : (
-                          <span className="text-slate-400 italic">Chưa đăng ký gói</span>
+                          <span className="text-slate-500 italic">Chưa đăng ký gói</span>
                         )}
                       </td>
 
                       <td className="py-3.5 px-4">
                         {isActive ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
                             <CheckCircle2 className="w-3 h-3" /> Hiệu lực
                           </span>
                         ) : mem ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-300 border border-rose-500/30">
                             <AlertCircle className="w-3 h-3" /> Đã hết hạn
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
                             Chưa có gói
                           </span>
                         )}
                       </td>
 
                       <td className="py-3.5 px-4">
-                        <span className="font-bold text-slate-900">{m.total_checkins}</span>{" "}
-                        <span className="text-slate-500">lượt</span>
+                        <span className="font-bold text-white">{m.total_checkins}</span>{" "}
+                        <span className="text-slate-400">lượt</span>
                       </td>
 
                       <td className="py-3.5 px-4 text-right space-x-2">
                         <button
                           onClick={() => openRenewModal(m)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold border border-blue-200 transition-all text-xs"
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 font-bold border border-cyan-500/40 transition-all text-xs cursor-pointer"
                           title="Gia hạn hoặc đăng ký gói mới"
                         >
                           <CreditCard className="w-3.5 h-3.5" />
@@ -346,7 +354,7 @@ export const MembersPage = () => {
                         </button>
                         <button
                           onClick={() => openMemberModal(m)}
-                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all border border-slate-200"
+                          className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all border border-slate-700 cursor-pointer"
                           title="Chỉnh sửa thông tin"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
@@ -363,16 +371,16 @@ export const MembersPage = () => {
 
       {/* Modal: Add / Edit Member */}
       {isMemberModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white w-full max-w-md p-6 rounded-2xl border border-slate-200 shadow-2xl relative">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <UserPlus className="w-4 h-4 text-gym-accent" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in">
+          <div className="bg-slate-900/95 backdrop-blur-2xl w-full max-w-md p-6 rounded-3xl border border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.9)] relative text-white">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <UserPlus className="w-4 h-4 text-cyan-400" />
                 {editingMember ? "Cập Nhật Hồ Sơ Hội Viên" : "Đăng Ký Hội Viên Mới"}
               </h3>
               <button
                 onClick={() => setIsMemberModalOpen(false)}
-                className="text-slate-400 hover:text-slate-700 p-1 rounded-lg"
+                className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -380,7 +388,7 @@ export const MembersPage = () => {
 
             <form onSubmit={handleMemberSubmit} className="space-y-3.5 text-xs">
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Họ và tên hội viên
                 </label>
                 <input
@@ -389,12 +397,12 @@ export const MembersPage = () => {
                   value={memberForm.full_name}
                   onChange={(e) => setMemberForm({ ...memberForm, full_name: e.target.value })}
                   placeholder="Nguyễn Văn An"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Địa chỉ Email
                 </label>
                 <input
@@ -403,12 +411,12 @@ export const MembersPage = () => {
                   value={memberForm.email}
                   onChange={(e) => setMemberForm({ ...memberForm, email: e.target.value })}
                   placeholder="an.nguyen@example.com"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Số điện thoại
                 </label>
                 <input
@@ -416,12 +424,12 @@ export const MembersPage = () => {
                   value={memberForm.phone}
                   onChange={(e) => setMemberForm({ ...memberForm, phone: e.target.value })}
                   placeholder="0912 345 678"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   {editingMember ? "Mật khẩu mới (Để trống nếu không đổi)" : "Mật khẩu khởi tạo"}
                 </label>
                 <input
@@ -429,7 +437,7 @@ export const MembersPage = () => {
                   value={memberForm.password}
                   onChange={(e) => setMemberForm({ ...memberForm, password: e.target.value })}
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
 
@@ -437,14 +445,14 @@ export const MembersPage = () => {
                 <button
                   type="button"
                   onClick={() => setIsMemberModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors"
+                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold hover:bg-slate-700 transition-colors cursor-pointer"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md shadow-blue-500/25 transition-all"
+                  className="px-4 py-2 rounded-xl gradient-btn-primary text-white font-bold shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
                 >
                   {submitting ? "Đang lưu..." : editingMember ? "Cập nhật" : "Lưu Hội Viên"}
                 </button>
@@ -456,27 +464,27 @@ export const MembersPage = () => {
 
       {/* Modal: Renew Package */}
       {isRenewModalOpen && selectedMemberForRenew && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white w-full max-w-md p-6 rounded-2xl border border-slate-200 shadow-2xl relative">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <CreditCard className="w-4 h-4 text-gym-accent" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in">
+          <div className="bg-slate-900/95 backdrop-blur-2xl w-full max-w-md p-6 rounded-3xl border border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.9)] relative text-white">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <CreditCard className="w-4 h-4 text-cyan-400" />
                 Gia Hạn Gói Tập
               </h3>
               <button
                 onClick={() => setIsRenewModalOpen(false)}
-                className="text-slate-400 hover:text-slate-700 p-1 rounded-lg"
+                className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs mb-4">
-              <div className="text-slate-500 font-medium">Hội viên:</div>
-              <div className="font-bold text-slate-900 text-sm mt-0.5">{selectedMemberForRenew.full_name}</div>
-              <div className="text-[11px] text-slate-600 mt-1">
+            <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 text-xs mb-4">
+              <div className="text-slate-400 font-medium">Hội viên:</div>
+              <div className="font-bold text-white text-sm mt-0.5">{selectedMemberForRenew.full_name}</div>
+              <div className="text-[11px] text-slate-400 mt-1">
                 Gói hiện tại:{" "}
-                <b className="text-gym-accent">
+                <b className="text-cyan-400">
                   {selectedMemberForRenew.active_membership?.package?.name || "Chưa có"}
                 </b>
               </div>
@@ -484,13 +492,13 @@ export const MembersPage = () => {
 
             <form onSubmit={handleRenewSubmit} className="space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Chọn gói tập gia hạn / đăng ký
                 </label>
                 <select
                   value={renewForm.package_id}
                   onChange={(e) => setRenewForm({ ...renewForm, package_id: e.target.value })}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-cyan-500 transition-all"
                 >
                   {packages.map((pkg) => (
                     <option key={pkg.id} value={pkg.id}>
@@ -501,13 +509,13 @@ export const MembersPage = () => {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Phương thức thanh toán
                 </label>
                 <select
                   value={renewForm.payment_method}
                   onChange={(e) => setRenewForm({ ...renewForm, payment_method: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-cyan-500 transition-all"
                 >
                   <option value="cash">Tiền mặt tại quầy (Cash)</option>
                   <option value="bank_transfer">Chuyển khoản ngân hàng</option>
@@ -516,7 +524,7 @@ export const MembersPage = () => {
                 </select>
               </div>
 
-              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px]">
+              <div className="p-3 rounded-2xl bg-cyan-950/40 border border-cyan-800/50 text-cyan-200 text-[11px] leading-relaxed">
                 💡 <b>Cơ chế tự động:</b> Hệ thống tự động gia hạn cộng dồn ngày nếu gói còn hạn, kích hoạt trạng thái <b>ACTIVE</b> và sinh hóa đơn thanh toán đã hoàn thành.
               </div>
 
@@ -524,14 +532,14 @@ export const MembersPage = () => {
                 <button
                   type="button"
                   onClick={() => setIsRenewModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors"
+                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold hover:bg-slate-700 transition-colors cursor-pointer"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md shadow-blue-500/25 transition-all"
+                  className="px-4 py-2 rounded-xl gradient-btn-primary text-white font-bold shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
                 >
                   {submitting ? "Đang xử lý..." : "Xác Nhận Thanh Toán & Kích Hoạt"}
                 </button>

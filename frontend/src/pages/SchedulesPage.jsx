@@ -173,24 +173,32 @@ export const SchedulesPage = () => {
   return (
     <div className="space-y-8 pb-12">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 backdrop-blur-2xl p-6 sm:p-7 rounded-3xl border border-slate-800/80 shadow-2xl">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <CalendarDays className="w-6 h-6 text-gym-accent" />
-            Lịch Tập Luyện & Điểm Danh (Check-in)
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-black uppercase tracking-wider text-cyan-400">
+              Quản Trị Lịch Hẹn & Điểm Danh
+            </span>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+              SMART SCHEDULE
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
+            <CalendarDays className="w-7 h-7 text-cyan-400" />
+            <span>Lịch Tập Luyện & Check-in</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-1 font-medium">
+          <p className="text-xs text-slate-400 mt-1 font-medium">
             Điều phối lịch hẹn với Huấn luyện viên cá nhân và tự động lên giáo án AI thông minh.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
           {/* 2. Tích hợp nút Tạo lịch tập bằng AI ngay cạnh nút Đặt lịch tập mới khi danh sách rỗng */}
           {schedules.length === 0 && (
             <button
               onClick={handleGenerateAISchedule}
               disabled={aiGenerating}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-xs font-bold shadow-md shadow-indigo-500/25 transition-all self-start sm:self-auto disabled:opacity-60 active:scale-95"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:shadow-[0_0_20px_rgba(0,200,255,0.4)] text-white text-xs font-black shadow-lg shadow-indigo-500/25 transition-all disabled:opacity-60 cursor-pointer"
               title="Tự động phân tích gói tập và sinh lịch tập 1-4 tuần"
             >
               {aiGenerating ? (
@@ -200,7 +208,7 @@ export const SchedulesPage = () => {
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                  <Sparkles className="w-4 h-4 text-cyan-200 animate-pulse" />
                   <span>Tạo lịch tập tự động với AI</span>
                 </>
               )}
@@ -215,60 +223,61 @@ export const SchedulesPage = () => {
               }));
               setIsBookModalOpen(true);
             }}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all self-start sm:self-auto"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl gradient-btn-primary hover:opacity-95 text-white text-xs font-black shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
           >
-            <Plus className="w-4 h-4" />
-            Đặt lịch tập mới
+            <Plus className="w-4 h-4 stroke-[3]" />
+            <span>Đặt lịch tập mới</span>
           </button>
         </div>
       </div>
 
       {/* Quick Check-in Bar (Especially useful for Receptionists & PTs) */}
       {(role === "admin" || role === "receptionist" || role === "pt") && (
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 mb-3">
-            <CalendarCheck2 className="w-4 h-4" /> Quầy Điểm Danh Nhanh (Fast Check-in)
+        <div className="bg-slate-900/80 backdrop-blur-2xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl">
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cyan-400 mb-3">
+            <CalendarCheck2 className="w-4 h-4 text-cyan-400" />
+            <span>Quầy Điểm Danh Nhanh (Fast Check-in)</span>
           </div>
 
           <form onSubmit={handleQuickCheckIn} className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
               <input
                 type="text"
                 value={checkInInput}
                 onChange={(e) => setCheckInInput(e.target.value)}
                 placeholder="Nhập Số điện thoại hoặc Mã hội viên (ID)..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-700/80 rounded-2xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500 transition-all font-medium"
               />
             </div>
             <button
               type="submit"
               disabled={checkInLoading || !checkInInput.trim()}
-              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/25 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+              className="px-6 py-2.5 rounded-2xl gradient-btn-primary hover:opacity-95 text-white text-xs font-black shadow-lg shadow-cyan-500/25 disabled:opacity-50 transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
             >
               {checkInLoading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <Check className="w-4 h-4" />}
-              Xác Nhận Check-in
+              <span>Xác Nhận Check-in</span>
             </button>
           </form>
 
           {/* Last Check-in Status Banner */}
           {lastCheckInResult && (
-            <div className={`mt-3 p-3.5 rounded-xl border text-xs flex items-start gap-2.5 animate-in fade-in ${
+            <div className={`mt-3 p-3.5 rounded-2xl border text-xs flex items-start gap-2.5 animate-in fade-in ${
               lastCheckInResult.membership_warning
-                ? "bg-amber-50 border-amber-200 text-amber-800"
-                : "bg-emerald-50 border-emerald-200 text-emerald-800"
+                ? "bg-amber-950/40 border-amber-500/40 text-amber-300"
+                : "bg-emerald-950/40 border-emerald-500/40 text-emerald-300"
             }`}>
               {lastCheckInResult.membership_warning ? (
-                <ShieldAlert className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                <ShieldAlert className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
               ) : (
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
               )}
               <div>
                 <span className="font-bold">
                   Đã check-in: {lastCheckInResult.member?.full_name} (#{lastCheckInResult.member_id})
                 </span>
                 {lastCheckInResult.membership_warning && (
-                  <p className="mt-0.5 font-semibold text-amber-700">
+                  <p className="mt-0.5 font-semibold text-amber-300">
                     ⚠️ {lastCheckInResult.membership_warning}
                   </p>
                 )}
@@ -281,10 +290,10 @@ export const SchedulesPage = () => {
       {/* Main Grid: Workout Schedules on Left / Recent Check-ins on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
         {/* Workout Schedules List */}
-        <div className="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="lg:col-span-8 bg-slate-900/80 backdrop-blur-2xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-              <CalendarDays className="w-4 h-4 text-gym-accent" />
+            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <CalendarDays className="w-4 h-4 text-cyan-400" />
               Danh Sách Lịch Tập ({schedules.length})
             </h2>
             <span className="text-xs text-slate-400 font-medium">Tự động chống trùng lịch HLV</span>
@@ -293,19 +302,19 @@ export const SchedulesPage = () => {
           {loading ? (
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-20 bg-slate-100 rounded-xl animate-pulse"></div>
+                <div key={i} className="h-20 bg-slate-800/50 rounded-2xl animate-pulse border border-slate-800"></div>
               ))}
             </div>
           ) : schedules.length === 0 ? (
             /* 2. Giao diện khi danh sách lịch tập rỗng: Nổi bật nút tạo bằng AI */
-            <div className="py-10 px-6 flex flex-col items-center justify-center text-center rounded-2xl bg-gradient-to-b from-slate-50 to-indigo-50/40 border border-dashed border-indigo-200">
-              <div className="w-14 h-14 rounded-2xl bg-indigo-100/80 border border-indigo-200 flex items-center justify-center mb-3 shadow-inner text-indigo-600">
-                <Sparkles className="w-7 h-7 text-indigo-600 animate-pulse" />
+            <div className="py-10 px-6 flex flex-col items-center justify-center text-center rounded-2xl bg-slate-950/50 border border-dashed border-cyan-500/30">
+              <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mb-3 shadow-inner text-cyan-400">
+                <Sparkles className="w-7 h-7 text-cyan-400 animate-pulse" />
               </div>
-              <h3 className="text-sm font-bold text-slate-800 mb-1">
+              <h3 className="text-sm font-bold text-white mb-1">
                 Chưa có buổi tập nào được lên lịch
               </h3>
-              <p className="text-xs text-slate-500 max-w-md mb-5 leading-relaxed">
+              <p className="text-xs text-slate-400 max-w-md mb-5 leading-relaxed">
                 Bạn chưa có lịch tập nào trong hệ thống. Hãy để AI đọc thông tin Gói tập của bạn (mục tiêu tăng/giảm cân) để tự động thiết kế lộ trình 1-4 tuần ngay tức thì!
               </p>
 
@@ -313,7 +322,7 @@ export const SchedulesPage = () => {
                 <button
                   onClick={handleGenerateAISchedule}
                   disabled={aiGenerating}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-xs font-bold shadow-md shadow-indigo-500/25 transition-all disabled:opacity-60"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 hover:shadow-[0_0_20px_rgba(0,200,255,0.4)] text-white text-xs font-bold shadow-lg shadow-indigo-500/25 transition-all disabled:opacity-60 cursor-pointer"
                 >
                   {aiGenerating ? (
                     <>
@@ -322,7 +331,7 @@ export const SchedulesPage = () => {
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <Sparkles className="w-4 h-4 text-cyan-300" />
                       <span>Tạo lịch tập tự động với AI</span>
                     </>
                   )}
@@ -336,7 +345,7 @@ export const SchedulesPage = () => {
                     }));
                     setIsBookModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-sm transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold shadow-sm transition-all cursor-pointer"
                 >
                   <Plus className="w-4 h-4 text-slate-400" />
                   Đặt lịch thủ công
@@ -348,33 +357,33 @@ export const SchedulesPage = () => {
               {schedules.map((s) => (
                 <div
                   key={s.id}
-                  className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white hover:border-blue-300 hover:shadow-sm transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  className="p-4 rounded-2xl border border-slate-800/80 bg-slate-950/60 hover:bg-slate-900/90 hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(0,200,255,0.15)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-bold text-slate-900 text-sm">
+                      <span className="font-bold text-white text-sm">
                         {s.member?.full_name || `Hội viên #${s.member_id}`}
                       </span>
                       <span className="text-xs text-slate-400">cùng HLV</span>
-                      <span className="font-semibold text-gym-accent text-xs">
+                      <span className="font-semibold text-cyan-400 text-xs">
                         {s.trainer?.user?.full_name || s.pt?.user?.full_name || `PT #${s.pt_id}`}
                       </span>
 
                       {s.notes && s.notes.includes("AI") && (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs">
-                          <Sparkles className="w-2.5 h-2.5 text-indigo-500" /> Giáo án AI
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                          <Sparkles className="w-2.5 h-2.5 text-cyan-400" /> Giáo án AI
                         </span>
                       )}
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs text-slate-500 font-medium">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs text-slate-400 font-medium">
                       <div className="flex items-center gap-1 flex-shrink-0">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        <span className="font-semibold text-slate-700">{formatDateTime(s.start_time)}</span>
+                        <Clock className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="font-semibold text-slate-300">{formatDateTime(s.start_time)}</span>
                       </div>
                       {s.notes && (
-                        <div className="text-slate-600 line-clamp-2">
-                          <span className="font-semibold text-slate-700">Nội dung: </span>
+                        <div className="text-slate-400 line-clamp-2">
+                          <span className="font-semibold text-slate-300">Nội dung: </span>
                           <span className="italic">{s.notes}</span>
                         </div>
                       )}
@@ -382,7 +391,7 @@ export const SchedulesPage = () => {
                   </div>
 
                   <div className="flex-shrink-0">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
                       <CheckCircle2 className="w-3 h-3" />
                       {s.status === "scheduled" ? "Đã lên lịch" : s.status}
                     </span>
@@ -394,36 +403,36 @@ export const SchedulesPage = () => {
         </div>
 
         {/* Recent Attendance Log on Right */}
-        <div className="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2 mb-4">
-            <CalendarCheck2 className="w-4 h-4 text-emerald-600" />
+        <div className="lg:col-span-4 bg-slate-900/80 backdrop-blur-2xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl">
+          <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2 mb-4">
+            <CalendarCheck2 className="w-4 h-4 text-emerald-400" />
             Lượt Điểm Danh Gần Đây
           </h2>
 
           {loading ? (
             <div className="space-y-3">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-12 bg-slate-100 rounded-xl animate-pulse"></div>
+                <div key={i} className="h-12 bg-slate-800/50 rounded-xl animate-pulse border border-slate-800"></div>
               ))}
             </div>
           ) : recentAttendances.length === 0 ? (
             <div className="h-40 flex flex-col items-center justify-center text-slate-400 text-xs text-center">
-              <CalendarCheck2 className="w-8 h-8 text-slate-300 mb-2 stroke-[1.5]" />
+              <CalendarCheck2 className="w-8 h-8 text-slate-600 mb-2 stroke-[1.5]" />
               <p className="font-medium">Chưa có lượt điểm danh nào hôm nay.</p>
             </div>
           ) : (
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-slate-800">
               {recentAttendances.map((att) => (
                 <div key={att.id} className="py-2.5 flex items-center justify-between text-xs">
                   <div>
-                    <div className="font-bold text-slate-900">
+                    <div className="font-bold text-white">
                       {att.member?.full_name || `Hội viên #${att.member_id}`}
                     </div>
                     <div className="text-[11px] text-slate-400 font-medium">
                       {formatDateTime(att.check_in_time)}
                     </div>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
                     Vào phòng
                   </span>
                 </div>
@@ -435,16 +444,16 @@ export const SchedulesPage = () => {
 
       {/* Modal: Book Workout */}
       {isBookModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white w-full max-w-md p-6 rounded-2xl border border-slate-200 shadow-2xl relative">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <CalendarDays className="w-4 h-4 text-gym-accent" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in">
+          <div className="bg-slate-900/95 backdrop-blur-2xl w-full max-w-md p-6 rounded-3xl border border-slate-800 shadow-[0_25px_60px_rgba(0,0,0,0.9)] relative text-white">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <CalendarDays className="w-4 h-4 text-cyan-400" />
                 Đặt Lịch Huấn Luyện Viên (PT)
               </h3>
               <button
                 onClick={() => setIsBookModalOpen(false)}
-                className="text-slate-400 hover:text-slate-700 p-1 rounded-lg"
+                className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -453,7 +462,7 @@ export const SchedulesPage = () => {
             <form onSubmit={handleBookingSubmit} className="space-y-3.5 text-xs">
               {role !== "member" && (
                 <div>
-                  <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                     Mã Hội viên (Member ID)
                   </label>
                   <input
@@ -462,19 +471,19 @@ export const SchedulesPage = () => {
                     value={bookForm.member_id}
                     onChange={(e) => setBookForm({ ...bookForm, member_id: e.target.value })}
                     placeholder="VD: 5"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
                   />
                 </div>
               )}
 
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Chọn Huấn luyện viên (PT)
                 </label>
                 <select
                   value={bookForm.pt_id}
                   onChange={(e) => setBookForm({ ...bookForm, pt_id: e.target.value })}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-cyan-500 transition-all"
                 >
                   {trainers.map((t) => (
                     <option key={t.id} value={t.id}>
@@ -485,7 +494,7 @@ export const SchedulesPage = () => {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Ngày tập
                 </label>
                 <input
@@ -493,13 +502,13 @@ export const SchedulesPage = () => {
                   required
                   value={bookForm.start_date}
                   onChange={(e) => setBookForm({ ...bookForm, start_date: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                     Giờ bắt đầu
                   </label>
                   <input
@@ -507,11 +516,11 @@ export const SchedulesPage = () => {
                     required
                     value={bookForm.start_time}
                     onChange={(e) => setBookForm({ ...bookForm, start_time: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-cyan-500 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                     Giờ kết thúc
                   </label>
                   <input
@@ -519,13 +528,13 @@ export const SchedulesPage = () => {
                     required
                     value={bookForm.end_time}
                     onChange={(e) => setBookForm({ ...bookForm, end_time: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs focus:outline-none focus:border-cyan-500 transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                   Ghi chú mục tiêu bài tập
                 </label>
                 <textarea
@@ -533,7 +542,7 @@ export const SchedulesPage = () => {
                   value={bookForm.notes}
                   onChange={(e) => setBookForm({ ...bookForm, notes: e.target.value })}
                   placeholder="VD: Tập nhóm cơ ngực và bắp tay sau..."
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-gym-accent transition-all"
+                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
                 ></textarea>
               </div>
 
@@ -541,14 +550,14 @@ export const SchedulesPage = () => {
                 <button
                   type="button"
                   onClick={() => setIsBookModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors"
+                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold hover:bg-slate-700 transition-colors cursor-pointer"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
                   disabled={booking}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-md shadow-blue-500/25 transition-all"
+                  className="px-4 py-2 rounded-xl gradient-btn-primary text-white font-bold shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
                 >
                   {booking ? "Đang kiểm tra..." : "Xác Nhận Đặt Lịch"}
                 </button>

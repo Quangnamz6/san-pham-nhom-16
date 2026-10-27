@@ -253,42 +253,52 @@ export const FloatingAIChatWidget = () => {
   return (
     <>
       {/* ========================================================================= */}
-      {/* 1. CHAT WINDOW POPOVER (OCEAN BLUE THEME & 3 CORE AI CAPABILITIES)        */}
+      {/* 1. CHAT WINDOW POPOVER (APPLE / LINEAR STYLE LUXURY DARK FLOATING CARD)   */}
       {/* ========================================================================= */}
       {isOpen && (
         <div
           id="ai-chat-window"
-          className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[410px] h-[550px] max-h-[85vh] bg-white rounded-2xl shadow-2xl border border-blue-100 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200 font-['Plus_Jakarta_Sans',sans-serif]"
+          className="fixed bottom-24 right-4 sm:right-6 z-50 w-[94vw] sm:w-[440px] h-[590px] max-h-[85vh] bg-slate-900/95 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.85)] border border-slate-800/90 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 font-['Plus_Jakarta_Sans',sans-serif]"
         >
-          {/* Header - Ocean Blue / Cyan Gradient */}
-          <div className="bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-600 p-3.5 text-white flex items-center justify-between shadow-sm select-none">
-            <div className="flex items-center gap-2.5">
+          {/* Header - Luxury Royal Ocean Blue to Cyan Glow */}
+          <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-slate-950 p-4 text-white flex items-center justify-between border-b border-slate-800/80 shadow-md select-none relative overflow-hidden">
+            {/* Subtle neon reflection */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-xl pointer-events-none"></div>
+
+            <div className="flex items-center gap-3 relative z-10">
               <div className="relative">
-                <div className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-inner">
-                  <Bot className="w-5 h-5 text-cyan-100" />
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white border border-cyan-400/30 shadow-lg shadow-cyan-500/25">
+                  <Bot className="w-5 h-5 text-white" />
                 </div>
-                {/* Online Indicator Badge */}
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 border-2 border-blue-700 rounded-full animate-pulse"></span>
+                {/* AI Ready Pulsing Indicator */}
+                <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-cyan-400 border-2 border-slate-900 rounded-full shadow-[0_0_8px_#22d3ee]"></span>
               </div>
               <div>
-                <h3 className="font-extrabold text-sm sm:text-base leading-tight tracking-tight flex items-center gap-1.5">
-                  <span>Trợ lý AI Thể hình</span>
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
-                </h3>
-                <div className="flex items-center gap-1.5 text-[11px] text-blue-100 font-medium">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>Online • Tư vấn thông minh 24/7</span>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-black text-sm sm:text-base leading-tight tracking-tight text-white">
+                    Trợ Lý AI Thể Hình
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-cyan-500/15 text-cyan-300 border border-cyan-500/40">
+                    LUXURY
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 text-[11px] text-cyan-200/80 font-semibold mt-0.5">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+                  </span>
+                  <span>AI Ready • Cố vấn thể hình & Dinh dưỡng 24/7</span>
                 </div>
               </div>
             </div>
 
             {/* Header Action Buttons */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 relative z-10">
               <button
                 type="button"
                 onClick={handleResetChat}
                 title="Làm mới đoạn chat"
-                className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -296,7 +306,7 @@ export const FloatingAIChatWidget = () => {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 title="Thu nhỏ cửa sổ"
-                className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
               >
                 <Minus className="w-4 h-4" />
               </button>
@@ -304,7 +314,7 @@ export const FloatingAIChatWidget = () => {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 title="Đóng cửa sổ"
-                className="p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -312,26 +322,28 @@ export const FloatingAIChatWidget = () => {
           </div>
 
           {/* 3 CHỨC NĂNG CHÍNH ACTION CHIPS (TOP TOOLBAR) */}
-          <div className="bg-gradient-to-r from-blue-50/90 via-sky-50/70 to-cyan-50/90 border-b border-blue-100/80 px-2.5 py-2">
-            <div className="text-[10px] font-extrabold uppercase tracking-wider text-blue-800 mb-1.5 px-1 flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-blue-600" />
-              <span>Chức năng Trợ lý AI:</span>
+          <div className="bg-slate-950/80 border-b border-slate-800/80 px-3 py-2.5">
+            <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5 px-0.5 flex items-center justify-between">
+              <span className="flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-cyan-400" />
+                <span>Năng Lực Cốt Lõi:</span>
+              </span>
+              <span className="text-[9px] text-cyan-400 font-bold">1-Click Prompt</span>
             </div>
             <div className="grid grid-cols-3 gap-1.5">
               {mainFeatureChips.slice(0, 3).map((feat) => {
-                const IconComponent = feat.icon;
                 return (
                   <button
                     key={feat.id}
                     type="button"
                     onClick={() => handleSendMessage(feat.prompt)}
                     disabled={loading}
-                    className="flex flex-col items-center justify-center p-1.5 bg-white rounded-xl border border-blue-200/80 hover:border-blue-500 hover:bg-blue-600 hover:text-white text-slate-700 shadow-xs transition-all duration-150 group text-center disabled:opacity-50"
+                    className="flex flex-col items-center justify-center p-2 bg-slate-900/90 backdrop-blur-xs rounded-xl border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-800 hover:text-cyan-300 text-slate-300 shadow-2xs hover:shadow-[0_0_12px_rgba(0,200,255,0.2)] transition-all duration-200 group text-center disabled:opacity-50 cursor-pointer"
                   >
                     <span className="text-base group-hover:scale-110 transition-transform mb-0.5">
                       {feat.emoji}
                     </span>
-                    <span className="text-[10px] font-bold leading-tight group-hover:text-white">
+                    <span className="text-[10px] font-bold leading-tight group-hover:text-cyan-300 line-clamp-1">
                       {feat.label}
                     </span>
                   </button>
@@ -341,21 +353,23 @@ export const FloatingAIChatWidget = () => {
           </div>
 
           {/* Body: Messages List */}
-          <div className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-slate-50/70 text-xs">
+          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-slate-950/70 text-xs">
             {messages.map((msg, idx) => (
               <div
                 key={msg.id || idx}
                 className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
               >
                 {/* Sender Avatar & Name label */}
-                <div className="flex items-center gap-1 mb-1 px-1 text-[10px] text-slate-400 font-semibold">
+                <div className="flex items-center gap-1.5 mb-1 px-1 text-[10px] text-slate-400 font-bold">
                   {msg.sender === "ai" ? (
                     <>
-                      <Sparkles className="w-3 h-3 text-blue-600" />
-                      <span>GymAI Coach</span>
+                      <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-white shadow-xs">
+                        <Sparkles className="w-2 h-2" />
+                      </div>
+                      <span className="text-cyan-400 font-extrabold tracking-wide">GymAI Coach</span>
                     </>
                   ) : (
-                    <span>Bạn</span>
+                    <span className="text-slate-300">Bạn</span>
                   )}
                   <span>•</span>
                   <span>{msg.timestamp}</span>
@@ -363,24 +377,24 @@ export const FloatingAIChatWidget = () => {
 
                 {/* Message Bubble Content */}
                 <div
-                  className={`max-w-[92%] rounded-2xl p-3 shadow-sm ${
+                  className={`max-w-[90%] p-3.5 shadow-md transition-all ${
                     msg.sender === "user"
-                      ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-tr-sm font-medium shadow-blue-500/20"
-                      : "bg-white border border-slate-200 text-slate-800 rounded-tl-sm space-y-2.5"
+                      ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 text-white rounded-2xl rounded-tr-none font-medium shadow-cyan-500/20"
+                      : "bg-slate-900/90 backdrop-blur-md border border-slate-800 text-slate-200 rounded-2xl rounded-tl-none space-y-2.5 shadow-black/40"
                   }`}
                 >
                   {/* Formatted Text Content */}
                   {msg.text && (
-                    <div className="leading-relaxed whitespace-pre-line">
+                    <div className="leading-relaxed whitespace-pre-line text-[12px] text-slate-100">
                       {renderFormattedText(msg.text)}
                     </div>
                   )}
 
                   {/* Recommended Packages Cards Display */}
                   {msg.recommended_packages && msg.recommended_packages.length > 0 && (
-                    <div className="space-y-2 mt-2 pt-2 border-t border-slate-100">
-                      <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-blue-700">
-                        <Award className="w-3.5 h-3.5 text-blue-600" />
+                    <div className="space-y-2 mt-2 pt-2 border-t border-slate-800">
+                      <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-cyan-400">
+                        <Award className="w-3.5 h-3.5 text-cyan-400" />
                         <span>Gợi ý gói tập phù hợp từ CSDL:</span>
                       </div>
 
@@ -388,28 +402,28 @@ export const FloatingAIChatWidget = () => {
                         {msg.recommended_packages.map((pkg) => (
                           <div
                             key={pkg.id}
-                            className="p-3 bg-gradient-to-br from-blue-50/80 to-cyan-50/40 rounded-xl border border-blue-200/90 shadow-sm space-y-1.5 text-left"
+                            className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 shadow-md space-y-1.5 text-left"
                           >
                             <div className="flex items-center justify-between gap-1">
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-700 border border-blue-200">
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
                                 {pkg.badge || "Gói Đề Xuất"}
                               </span>
-                              <span className="text-[11px] font-bold text-slate-500">
+                              <span className="text-[11px] font-bold text-slate-400">
                                 {pkg.duration_days} ngày
                               </span>
                             </div>
 
-                            <div className="font-extrabold text-xs text-slate-900 leading-snug">
+                            <div className="font-extrabold text-xs text-white leading-snug">
                               {pkg.name}
                             </div>
 
-                            <div className="text-sm font-extrabold text-blue-600">
+                            <div className="text-sm font-black text-cyan-400 tracking-tight">
                               {formatVND(pkg.price)}
                             </div>
 
                             {pkg.commitments && (
-                              <div className="text-[10px] font-semibold text-blue-900 bg-white/90 p-1.5 rounded-lg border border-blue-100 flex items-center gap-1.5">
-                                <ShieldCheck className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
+                              <div className="text-[10px] font-semibold text-slate-300 bg-slate-900/90 p-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5">
+                                <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
                                 <span className="line-clamp-1">{pkg.commitments}</span>
                               </div>
                             )}
@@ -418,7 +432,7 @@ export const FloatingAIChatWidget = () => {
                             <button
                               type="button"
                               onClick={() => handleRegisterNow(pkg)}
-                              className="w-full mt-2 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow transition-all flex items-center justify-center gap-1.5 group cursor-pointer"
+                              className="w-full mt-2 py-1.5 px-3 rounded-lg gradient-btn-primary font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 group cursor-pointer text-white"
                             >
                               <span>Đăng ký ngay</span>
                               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -458,16 +472,16 @@ export const FloatingAIChatWidget = () => {
             {/* Typing / Thinking Indicator */}
             {loading && (
               <div className="flex items-start gap-2">
-                <div className="w-6 h-6 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center justify-center flex-shrink-0">
                   <Bot className="w-3.5 h-3.5 animate-spin" />
                 </div>
-                <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-sm p-3 shadow-sm flex items-center gap-2 text-xs text-slate-500">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm p-3 shadow-md flex items-center gap-2 text-xs text-slate-300">
                   <div className="flex gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce"></span>
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-600 animate-bounce [animation-delay:0.4s]"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.4s]"></span>
                   </div>
-                  <span>AI đang phân tích & lập phản hồi...</span>
+                  <span>AI đang phân tích & lập giáo án...</span>
                 </div>
               </div>
             )}
@@ -476,14 +490,14 @@ export const FloatingAIChatWidget = () => {
           </div>
 
           {/* Quick Suggestion Chips Bar */}
-          <div className="px-3 py-2 bg-white border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+          <div className="px-3 py-2 bg-slate-950/90 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
             {quickSuggestions.map((chip, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => handleSendMessage(chip.prompt)}
                 disabled={loading}
-                className="whitespace-nowrap px-2.5 py-1 rounded-full bg-blue-50/80 hover:bg-blue-100 text-blue-700 hover:text-blue-800 border border-blue-200/70 text-[10px] font-bold transition-all disabled:opacity-50 hover:scale-[1.02] active:scale-95 cursor-pointer"
+                className="whitespace-nowrap px-3 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-cyan-300 hover:text-white border border-slate-800 hover:border-cyan-500/40 text-[10px] font-extrabold transition-all disabled:opacity-50 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-xs"
               >
                 {chip.label}
               </button>
@@ -491,7 +505,7 @@ export const FloatingAIChatWidget = () => {
           </div>
 
           {/* Footer: Input Form */}
-          <div className="p-3 bg-white border-t border-slate-200">
+          <div className="p-3 bg-slate-950 border-t border-slate-800/90">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -505,14 +519,14 @@ export const FloatingAIChatWidget = () => {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Hỏi AI về giáo án, dinh dưỡng, tiến độ, gói tập..."
+                placeholder="Hỏi AI về giáo án, thực đơn dinh dưỡng, gói tập..."
                 disabled={loading}
-                className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 disabled:opacity-50"
+                className="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-2xl text-xs text-white placeholder:text-slate-500 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-400 disabled:opacity-50 transition-all shadow-inner"
               />
               <button
                 type="submit"
                 disabled={!inputMessage.trim() || loading}
-                className="p-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-md shadow-blue-500/25 transition-all flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95 cursor-pointer"
+                className="p-2.5 rounded-2xl gradient-btn-primary hover:opacity-95 text-white shadow-lg shadow-cyan-500/30 transition-all flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95 cursor-pointer shrink-0"
                 title="Gửi câu hỏi"
               >
                 {loading ? (
@@ -522,56 +536,71 @@ export const FloatingAIChatWidget = () => {
                 )}
               </button>
             </form>
-            <div className="text-[9px] text-center text-slate-400 mt-1 font-medium">
-              GymAI Assistant • Tích hợp Giáo án, Dinh dưỡng & Dữ liệu CSDL thời gian thực
+            <div className="text-[9px] text-center text-slate-500 mt-1.5 font-medium flex items-center justify-center gap-1.5">
+              <span className="w-1 h-1 rounded-full bg-cyan-400 shadow-[0_0_6px_#22d3ee]"></span>
+              <span>GymAI Neural Core • Phân tích dinh dưỡng, lịch tập & CSDL thời gian thực</span>
             </div>
           </div>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* 2. CHAT BUBBLE BUTTON (FIXED BOTTOM-RIGHT, OCEAN BLUE THEME)               */}
+      {/* 2. CHAT BUBBLE BUTTON (3D SPHERICAL ORB WITH PULSING RING EFFECT)          */}
       {/* ========================================================================= */}
       <div className="fixed bottom-6 right-6 z-50">
-        <button
-          id="btn-floating-ai-chat"
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className={`relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-200 cursor-pointer ${
-            isOpen
-              ? "bg-slate-900 text-white rotate-90 hover:scale-105"
-              : "bg-gradient-to-tr from-blue-700 via-blue-600 to-cyan-400 text-white hover:scale-110 shadow-blue-500/40 ring-4 ring-blue-500/20"
-          }`}
-          title={isOpen ? "Đóng Trợ lý AI" : "Chat cùng Trợ lý AI Thể hình"}
-        >
-          {isOpen ? (
-            <X className="w-6 h-6 stroke-[2.5]" />
-          ) : (
+        <div className="relative flex items-center justify-center">
+          {/* Pulsing Concentric Outer Rings (Khi chưa mở cửa sổ) */}
+          {!isOpen && (
             <>
-              {/* Main Icon */}
-              <div className="relative">
-                <Bot className="w-7 h-7 sm:w-8 sm:h-8 text-white drop-shadow-md" />
-                <Sparkles className="w-3.5 h-3.5 text-cyan-200 absolute -top-1 -right-1 animate-pulse" />
-              </div>
-
-              {/* Notification Badge (Số 1 màu đỏ) */}
-              {hasUnread && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-[11px] font-extrabold rounded-full flex items-center justify-center border-2 border-white shadow-md animate-bounce">
-                  1
-                </span>
-              )}
+              <span className="absolute -inset-2.5 rounded-full bg-cyan-400/25 animate-ping pointer-events-none duration-1000"></span>
+              <span className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-blue-500/30 to-cyan-400/30 animate-pulse pointer-events-none"></span>
             </>
           )}
 
-          {/* Hover Tooltip Label */}
-          {!isOpen && (
-            <span className="absolute right-full mr-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold whitespace-nowrap shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none hidden sm:flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>Trợ lý AI Thể hình (Online)</span>
-            </span>
-          )}
-        </button>
+          <button
+            id="btn-floating-ai-chat"
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className={`relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+              isOpen
+                ? "bg-slate-900 text-white rotate-90 hover:scale-105 shadow-2xl shadow-slate-900/50"
+                : "bg-gradient-to-tr from-blue-700 via-indigo-600 to-cyan-400 text-white hover:scale-110 shadow-[0_12px_30px_-4px_rgba(0,102,255,0.45),inset_0_2px_4px_rgba(255,255,255,0.45)] ring-4 ring-cyan-400/30"
+            }`}
+            title={isOpen ? "Đóng Trợ lý AI" : "Chat cùng Trợ lý AI Thể hình"}
+          >
+            {isOpen ? (
+              <X className="w-6 h-6 stroke-[2.5]" />
+            ) : (
+              <>
+                {/* 3D Orb Main Icon */}
+                <div className="relative">
+                  <Bot className="w-7 h-7 sm:w-8 sm:h-8 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" />
+                  <Sparkles className="w-4 h-4 text-cyan-200 absolute -top-1 -right-1 animate-pulse drop-shadow" />
+                </div>
+
+                {/* Notification Badge (Số 1 màu đỏ) */}
+                {hasUnread && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-rose-500 to-red-600 text-white text-[11px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-lg animate-bounce">
+                    1
+                  </span>
+                )}
+              </>
+            )}
+
+            {/* Hover Tooltip Label */}
+            {!isOpen && (
+              <span className="absolute right-full mr-3.5 px-3.5 py-2 rounded-2xl bg-slate-900/95 backdrop-blur-md text-white text-xs font-bold whitespace-nowrap shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none hidden sm:flex items-center gap-2 border border-slate-700">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+                </span>
+                <span>Hỏi Trợ lý AI Thể hình (Online)</span>
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </>
   );
 };
+

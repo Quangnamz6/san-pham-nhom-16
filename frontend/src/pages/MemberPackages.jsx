@@ -502,22 +502,22 @@ export const MemberPackages = () => {
   };
 
   return (
-    <div className="space-y-8 pb-16 max-w-7xl mx-auto">
+    <div className="space-y-8 pb-16 w-full">
       {/* ========================================================================= */}
-      {/* 1. HERO BANNER & ADMIN ACTIONS                                            */}
+      {/* 1. HERO BANNER: LUXURY DARK GYM & CYAN LIGHTING                           */}
       {/* ========================================================================= */}
-      <div className="relative bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-600 p-7 sm:p-9 rounded-3xl text-white shadow-xl overflow-hidden">
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-[url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80')] bg-cover bg-center opacity-15 pointer-events-none mix-blend-overlay"></div>
+      <div className="relative bg-slate-900/85 backdrop-blur-2xl p-7 sm:p-9 rounded-3xl text-white border border-slate-800/80 shadow-2xl overflow-hidden">
+        <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070')] bg-cover bg-center opacity-15 pointer-events-none mix-blend-screen"></div>
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-200" />
-              {isAdmin ? "Khu vực Quản trị Hệ thống Gói tập" : "Đặc quyền Hội viên Gym AI"}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 backdrop-blur-md text-cyan-300 text-xs font-black uppercase tracking-wider mb-3 border border-cyan-500/30 shadow-[0_0_12px_rgba(0,200,255,0.25)]">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>{isAdmin ? "Khu vực Quản trị Hệ thống Gói tập" : "Đặc quyền Hội viên Gym AI"}</span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-white">
               Gói Tập Dịch Vụ & Lộ Trình Thể Hình
             </h1>
-            <p className="text-blue-100 text-xs sm:text-sm mt-2 leading-relaxed font-medium">
+            <p className="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed font-medium">
               {isAdmin
                 ? "Quản trị viên có toàn quyền Thêm mới, Chỉnh sửa quyền lợi, học phí và Xóa gói tập dịch vụ đồng bộ toàn hệ thống."
                 : "Tự do lựa chọn gói tập phù hợp với mục tiêu của bạn: Săn chắc cho Nữ, Tăng cơ cho Nam, Giảm mỡ cấp tốc, Huấn luyện viên 1:1 hoặc Trợ giá Sinh viên."}
@@ -530,9 +530,9 @@ export const MemberPackages = () => {
               <button
                 id="btn-add-package"
                 onClick={openCreateModal}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-white text-blue-600 hover:bg-blue-50 font-extrabold text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 group"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl gradient-btn-primary text-white font-black text-xs sm:text-sm shadow-xl hover:shadow-[0_0_20px_rgba(0,200,255,0.4)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 group cursor-pointer"
               >
-                <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <div className="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Plus className="w-4 h-4 stroke-[3]" />
                 </div>
                 <span>+ Thêm Gói Tập Mới</span>
@@ -543,9 +543,9 @@ export const MemberPackages = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. TABS FILTERING BAR                                                     */}
+      {/* 2. TABS FILTERING BAR (LUXURY DARK GLASSMORPHISM)                         */}
       {/* ========================================================================= */}
-      <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+      <div className="bg-slate-900/75 backdrop-blur-xl p-2 rounded-2xl border border-slate-800/80 shadow-2xl flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
         {filterTabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -553,10 +553,10 @@ export const MemberPackages = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 isActive
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-[1.02]"
-                  : "bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/60 hover:-translate-y-0.5"
+                  ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 text-white shadow-lg shadow-cyan-500/25 scale-[1.02]"
+                  : "bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700/80 border border-slate-700/60 hover:-translate-y-0.5"
               }`}
             >
               <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-slate-400"}`} />
@@ -572,21 +572,21 @@ export const MemberPackages = () => {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="bg-white p-6 rounded-3xl border border-slate-200 h-80 animate-pulse">
-              <div className="h-6 bg-slate-100 rounded-lg w-1/3 mb-4"></div>
-              <div className="h-8 bg-slate-200 rounded-lg w-3/4 mb-3"></div>
-              <div className="h-12 bg-slate-100 rounded-xl mb-4"></div>
+            <div key={i} className="bg-slate-900/80 p-6 rounded-3xl border border-slate-800 h-80 animate-pulse">
+              <div className="h-6 bg-slate-800 rounded-lg w-1/3 mb-4"></div>
+              <div className="h-8 bg-slate-700 rounded-lg w-3/4 mb-3"></div>
+              <div className="h-12 bg-slate-800 rounded-xl mb-4"></div>
               <div className="space-y-2">
-                <div className="h-4 bg-slate-100 rounded w-full"></div>
-                <div className="h-4 bg-slate-100 rounded w-5/6"></div>
+                <div className="h-4 bg-slate-800 rounded w-full"></div>
+                <div className="h-4 bg-slate-800 rounded w-5/6"></div>
               </div>
             </div>
           ))}
         </div>
       ) : filteredPackages.length === 0 ? (
-        <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center text-slate-400">
-          <Dumbbell className="w-12 h-12 mx-auto text-slate-300 mb-3 stroke-[1.5]" />
-          <p className="font-bold text-slate-700">Chưa có gói tập nào trong danh mục này.</p>
+        <div className="bg-slate-900/80 p-12 rounded-3xl border border-slate-800 text-center text-slate-400">
+          <Dumbbell className="w-12 h-12 mx-auto text-slate-500 mb-3 stroke-[1.5]" />
+          <p className="font-bold text-white">Chưa có gói tập nào trong danh mục này.</p>
           <p className="text-xs text-slate-400 mt-1">
             {isAdmin ? 'Bấm nút "+ Thêm Gói Tập Mới" ở phía trên để tạo gói tập đầu tiên.' : 'Vui lòng chọn danh mục "Tất Cả Gói" để xem đầy đủ.'}
           </p>
@@ -600,115 +600,115 @@ export const MemberPackages = () => {
               .map((b) => b.trim())
               .filter(Boolean);
 
+            const isPopular = pkg.featured || pkg.badge?.toLowerCase().includes("khuyên dùng") || pkg.badge?.toLowerCase().includes("phổ biến") || pkg.badge?.toLowerCase().includes("vip");
+
             return (
               <div
                 key={pkg.id}
-                className={`bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 group relative ${theme.cardBorder}`}
+                className="bg-slate-900/75 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-6 sm:p-7 flex flex-col justify-between shadow-2xl hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(0,200,255,0.2)] hover:-translate-y-1.5 transition-all duration-300 group relative"
               >
                 <div>
-                  {/* Top Header: Badge, Duration & Admin Quick Action Buttons */}
+                  {/* Top Header: Duration & Admin Quick Action Buttons */}
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-extrabold border ${theme.bg}`}>
-                      {pkg.badge || "Gói Tập"}
+                    <span className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                      Thời hạn: {pkg.duration_days} ngày
                     </span>
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" />
-                        {pkg.duration_days} ngày
-                      </span>
-
-                      {/* Admin Quick Buttons on Top Card */}
-                      {isAdmin && (
-                        <div className="flex items-center gap-1 ml-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200">
-                          <button
-                            id={`btn-edit-top-${pkg.id}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openEditModal(pkg);
-                            }}
-                            title="Sửa gói tập"
-                            className="p-1 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-                          >
-                            <Pencil className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            id={`btn-delete-top-${pkg.id}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              confirmDeletePackage(pkg);
-                            }}
-                            title="Xóa gói tập"
-                            className="p-1 rounded-lg text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                    {/* Admin Quick Buttons on Top Card */}
+                    {isAdmin && (
+                      <div className="flex items-center gap-1 ml-1 bg-slate-800/90 p-1 rounded-xl border border-slate-700">
+                        <button
+                          id={`btn-edit-top-${pkg.id}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openEditModal(pkg);
+                          }}
+                          title="Sửa gói tập"
+                          className="p-1 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-700 transition-colors cursor-pointer"
+                        >
+                          <Pencil className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          id={`btn-delete-top-${pkg.id}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            confirmDeletePackage(pkg);
+                          }}
+                          title="Xóa gói tập"
+                          className="p-1 rounded-lg text-slate-300 hover:text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   {/* Package Name */}
-                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-gym-accent transition-colors leading-snug">
+                  <h3 className="text-lg sm:text-xl font-black text-white group-hover:text-cyan-300 transition-colors leading-snug">
                     {pkg.name}
                   </h3>
 
-                  {/* Price */}
-                  <div className="mt-3 pb-4 border-b border-slate-100">
-                    <div className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-                      {formatVND(pkg.price)}
+                  {/* Distinct Price Tag */}
+                  <div className="mt-3.5 pb-4 border-b border-slate-800">
+                    <div className="text-2xl sm:text-3xl font-black tracking-tight flex items-baseline gap-1">
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">
+                        {formatVND(pkg.price)}
+                      </span>
                     </div>
-                    <span className="text-[11px] font-semibold text-slate-400">
-                      Thời hạn gốc {pkg.duration_days} ngày (Có thể tùy chỉnh theo tuần/tháng)
+                    <span className="text-[11px] font-semibold text-slate-400 block mt-0.5 uppercase tracking-wide">
+                      Chuẩn {pkg.duration_days} ngày • Hỗ trợ linh hoạt
                     </span>
                   </div>
 
                   {/* Description */}
                   {pkg.description && (
-                    <p className="text-xs text-slate-500 mt-3 leading-relaxed line-clamp-2 font-medium">
+                    <p className="text-xs text-slate-300 mt-3 leading-relaxed line-clamp-2 font-medium">
                       {pkg.description}
                     </p>
                   )}
 
-                  {/* Benefits Preview */}
-                  <div className="mt-4 space-y-2">
+                  {/* Benefits Preview with Soft Circular Checkmark Icons */}
+                  <div className="mt-4 space-y-2.5">
                     {benefitsList.slice(0, 3).map((ben, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-600 font-medium">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                        <span className="line-clamp-1">{ben}</span>
+                      <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-200 font-medium">
+                        <div className="w-5 h-5 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+                        </div>
+                        <span className="line-clamp-1 leading-normal pt-0.5">{ben}</span>
                       </div>
                     ))}
                     {benefitsList.length > 3 && (
-                      <span className="text-[11px] font-semibold text-slate-400 block pl-6">
-                        + {benefitsList.length - 3} quyền lợi khác
+                      <span className="text-[11px] font-bold text-cyan-400 block pl-7.5 hover:underline cursor-pointer">
+                        + {benefitsList.length - 3} đặc quyền & tiện ích khác
                       </span>
                     )}
                   </div>
 
                   {/* Quality Commitment highlight if any */}
                   {pkg.commitments && (
-                    <div className="mt-4 p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 text-[11px] text-blue-800 font-semibold flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                    <div className="mt-4 p-2.5 rounded-2xl bg-slate-950/80 border border-slate-800 text-[11px] text-cyan-200 font-semibold flex items-center gap-2 shadow-xs">
+                      <ShieldCheck className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                       <span className="line-clamp-1">{pkg.commitments}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Bottom Card Actions */}
-                <div className="mt-6 pt-4 border-t border-slate-100">
+                <div className="mt-6 pt-4 border-t border-slate-800">
                   {isAdmin ? (
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => openPackageModal(pkg)}
-                        className="flex-1 py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-xs shadow-md transition-all duration-200 flex items-center justify-center gap-1.5"
+                        className="flex-1 py-2.5 px-3 rounded-2xl bg-slate-800 hover:bg-cyan-500/20 hover:text-cyan-300 text-white font-bold text-xs border border-slate-700 shadow-md transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
                       >
-                        <span>Xem chi tiết</span>
+                        <span>Chi tiết</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                       <button
                         id={`btn-edit-bottom-${pkg.id}`}
                         onClick={() => openEditModal(pkg)}
-                        className="py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs border border-blue-200/80 transition-colors flex items-center justify-center gap-1"
+                        className="py-2.5 px-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs border border-slate-700 transition-colors flex items-center justify-center gap-1 cursor-pointer"
                         title="Chỉnh sửa gói tập"
                       >
                         <Pencil className="w-3.5 h-3.5" />
@@ -717,7 +717,7 @@ export const MemberPackages = () => {
                       <button
                         id={`btn-delete-bottom-${pkg.id}`}
                         onClick={() => confirmDeletePackage(pkg)}
-                        className="py-2.5 px-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold text-xs border border-red-200/80 transition-colors flex items-center justify-center gap-1"
+                        className="py-2.5 px-3 rounded-2xl bg-red-500/10 hover:bg-red-500/20 text-red-400 font-bold text-xs border border-red-500/30 transition-colors flex items-center justify-center gap-1 cursor-pointer"
                         title="Xóa gói tập"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -727,9 +727,9 @@ export const MemberPackages = () => {
                   ) : (
                     <button
                       onClick={() => openPackageModal(pkg)}
-                      className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-xs sm:text-sm shadow-md transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-blue-500/25"
+                      className="w-full py-3 px-4 rounded-2xl gradient-btn-primary hover:opacity-95 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-cyan-500/25 transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(0,200,255,0.4)] cursor-pointer"
                     >
-                      <span>Xem chi tiết & Đăng ký</span>
+                      <span>Xem Chi Tiết & Đăng Ký</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
                   )}

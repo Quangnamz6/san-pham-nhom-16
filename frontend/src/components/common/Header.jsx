@@ -23,54 +23,65 @@ export const Header = () => {
   const getRoleBadge = (role) => {
     switch (role) {
       case "admin":
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-rose-50 text-rose-600 border border-rose-200">Admin</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.15)]">Admin</span>;
       case "receptionist":
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-50 text-amber-600 border border-amber-200">Lễ tân</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]">Lễ tân</span>;
       case "pt":
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-cyan-50 text-cyan-700 border border-cyan-200">Huấn luyện viên</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.15)]">HLV Cá Nhân</span>;
       default:
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-50 text-emerald-600 border border-emerald-200">Hội viên</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.15)]">Hội viên VIP</span>;
     }
   };
 
   return (
-    <header className="sticky top-0 z-40 h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-sm">
+    <header className="sticky top-0 z-40 h-16 bg-slate-900/80 backdrop-blur-2xl border-b border-slate-800/80 px-4 sm:px-6 lg:px-8 flex items-center justify-between shadow-xl transition-all">
       {/* Brand */}
       <div className="flex items-center gap-3">
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-sky-600 to-cyan-500 flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(0,200,255,0.4)] transition-all duration-300">
             <Dumbbell className="w-5 h-5 text-white" />
           </div>
           <div>
-            <span className="font-extrabold text-lg tracking-tight text-slate-900">
-              GYM<span className="text-blue-600">AI</span>
-            </span>
-            <span className="hidden sm:inline-block ml-2 text-[10px] tracking-wider text-slate-500 uppercase font-semibold">
-              Ocean Edition
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="font-black text-xl tracking-wider text-white">
+                GYM<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">AI</span>
+              </span>
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-[0_0_10px_rgba(0,200,255,0.25)]">
+                LUXURY
+              </span>
+            </div>
+            <p className="hidden sm:block text-[9px] tracking-widest text-slate-400 font-semibold uppercase">
+              Premium Fitness Portal
+            </p>
           </div>
         </Link>
       </div>
 
       {/* Right side: User Info & Actions */}
-      <div className="flex items-center gap-3.5">
+      <div className="flex items-center gap-3 sm:gap-4">
+        {/* Quick AI Trigger */}
         <button
           type="button"
           onClick={handleOpenAi}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold border border-blue-200/80 transition-all shadow-sm"
+          className="group relative flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-cyan-300 text-xs font-bold border border-cyan-500/30 hover:border-cyan-400 shadow-xs hover:shadow-[0_0_15px_rgba(0,200,255,0.3)] transition-all duration-300 hover:scale-[1.02] cursor-pointer"
         >
-          <Sparkles className="w-3.5 h-3.5 text-blue-500" />
-          <span>Chat AI Trợ Lý</span>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+          </span>
+          <Sparkles className="w-3.5 h-3.5 text-cyan-400 group-hover:rotate-12 transition-transform" />
+          <span className="hidden sm:inline">Trợ Lý AI Thể Hình</span>
+          <span className="sm:hidden">AI</span>
         </button>
 
         {user ? (
-          <div className="flex items-center gap-3 pl-2 sm:border-l sm:border-slate-200">
+          <div className="flex items-center gap-3 pl-2 sm:border-l sm:border-slate-800/80">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center font-extrabold text-sm shadow-inner">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white flex items-center justify-center font-black text-sm shadow-md shadow-blue-500/20">
                 {user.full_name?.charAt(0)?.toUpperCase() || "U"}
               </div>
               <div className="hidden md:flex flex-col text-left">
-                <span className="text-xs font-semibold text-slate-900 leading-tight">
+                <span className="text-xs font-bold text-slate-100 leading-tight">
                   {user.full_name}
                 </span>
                 <div className="mt-0.5">{getRoleBadge(user.role)}</div>
@@ -80,7 +91,7 @@ export const Header = () => {
             <button
               onClick={handleLogout}
               title="Đăng xuất"
-              className="p-2 rounded-xl bg-slate-50 hover:bg-rose-50 hover:text-rose-600 text-slate-600 transition-all border border-slate-200 shadow-sm"
+              className="p-2 rounded-xl bg-slate-800/70 hover:bg-rose-500/20 hover:text-rose-400 hover:border-rose-500/40 text-slate-400 transition-all border border-slate-700/60 shadow-xs cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -88,7 +99,7 @@ export const Header = () => {
         ) : (
           <Link
             to="/login"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl gradient-btn-primary text-xs font-bold shadow-md shadow-blue-500/25 transition-all"
           >
             <User className="w-3.5 h-3.5" />
             Đăng nhập

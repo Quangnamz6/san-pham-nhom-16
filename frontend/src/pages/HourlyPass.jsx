@@ -45,7 +45,6 @@ export const HourlyPass = () => {
       title: "Tự Tập 1 Giờ",
       durationHours: 1,
       price: 30000,
-      badge: "Tiết Kiệm",
       description: "Thích hợp cho buổi tập cardio nhanh hoặc bài tập đơn nhóm cơ.",
       highlights: ["Toàn quyền dùng máy tập", "Tủ Locker cá nhân", "Nước Detox miễn phí"],
     },
@@ -54,7 +53,6 @@ export const HourlyPass = () => {
       title: "Tự Tập 2 Giờ",
       durationHours: 2,
       price: 50000,
-      badge: "Phổ Biến Nhất",
       popular: true,
       description: "Thời gian lý tưởng để hoàn thành trọn vẹn buổi tập & giãn cơ xông hơi.",
       highlights: ["Toàn quyền dùng máy tập", "Tủ Locker thông minh", "Tắm nóng lạnh & Xông hơi", "Nước Detox miễn phí"],
@@ -64,7 +62,6 @@ export const HourlyPass = () => {
       title: "Tự Tập 3 Giờ",
       durationHours: 3,
       price: 70000,
-      badge: "Chuyên Sâu",
       description: "Thoải mái tập nặng, superset và hồi phục thể lực không lo hết giờ.",
       highlights: ["Full máy tạ Olympic", "Tủ Locker thông minh", "Tắm nóng lạnh & Xông hơi", "Nước Detox & Khăn tập"],
     },
@@ -73,7 +70,6 @@ export const HourlyPass = () => {
       title: "Vé Ngày (Day Pass)",
       durationHours: 24,
       price: 80000,
-      badge: "Ưu Đãi 1 Ngày",
       special: true,
       description: "Tự do ra vào phòng tập cả ngày (06:00 - 22:00) không giới hạn số lần.",
       highlights: ["Ra vào tự do cả ngày", "Tủ Locker VIP", "Xông hơi đá muối & Thảo dược", "Nước Detox & Khăn tập VIP"],
@@ -87,7 +83,6 @@ export const HourlyPass = () => {
       title: "Thuê PT 1 Giờ (1:1)",
       durationHours: 1,
       price: 180000,
-      badge: "Kèm Riêng 1:1",
       description: "PT đồng hành sửa form bài tập (Squat, Deadlift), kiểm tra tư thế và đẩy tạ an toàn.",
       highlights: ["HLV kèm riêng 1:1 suốt 60 phút", "Chỉnh sửa kỹ thuật chuẩn form", "Đo InBody phân tích cơ mỡ", "Bao gồm vé vào phòng tập"],
     },
@@ -96,7 +91,6 @@ export const HourlyPass = () => {
       title: "Thuê PT 2 Giờ (1:1)",
       durationHours: 2,
       price: 320000,
-      badge: "Tiết Kiệm 40.000đ",
       popular: true,
       description: "Buổi tập chuyên sâu toàn diện: Khởi động khớp, bài chính cường độ cao & Giãn cơ PNF.",
       highlights: ["HLV kèm riêng 1:1 suốt 120 phút", "Giáo án cá nhân hóa theo mục tiêu", "Kéo giãn cơ PNF chống đau mỏi", "Đo InBody & Tư vấn dinh dưỡng"],
@@ -323,41 +317,39 @@ export const HourlyPass = () => {
 
   return (
     <div className="space-y-8 pb-16 font-['Plus_Jakarta_Sans',sans-serif]">
-      {/* Ocean Hero Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 p-6 sm:p-8 text-white shadow-xl shadow-blue-500/20">
+      {/* Luxury Dark Hero Banner */}
+      <div className="relative overflow-hidden rounded-3xl bg-slate-900/85 backdrop-blur-2xl p-6 sm:p-8 text-white border border-slate-800/80 shadow-2xl">
+        <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80')] bg-cover bg-center opacity-15 pointer-events-none mix-blend-screen"></div>
         <div className="relative z-10 max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold text-white border border-white/30">
-            <Zap className="w-3.5 h-3.5 text-amber-300" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/15 backdrop-blur-md text-xs font-black uppercase tracking-wider text-cyan-300 border border-cyan-500/30 shadow-[0_0_12px_rgba(0,200,255,0.25)]">
+            <Zap className="w-3.5 h-3.5 text-cyan-400" />
             <span>Dịch Vụ Mới: Tập Linh Hoạt Không Ràng Buộc Hợp Đồng</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight text-white">
             Vé Tập Linh Hoạt & Thuê PT Theo Giờ
           </h1>
 
-          <p className="text-blue-100 text-xs sm:text-sm leading-relaxed max-w-2xl">
+          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl font-medium">
             Tự do dùng trọn vẹn dàn máy tập Olympic chuẩn quốc tế hoặc thuê Huấn luyện viên 1:1 theo từng giờ.
             Thanh toán VietQR tiện lợi, nhận ngay Mã vé điện tử để check-in tức thì tại phòng tập!
           </p>
 
-          <div className="flex flex-wrap items-center gap-3 pt-2 text-[11px] font-semibold text-blue-100">
-            <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-lg backdrop-blur-xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" /> Mã QR Check-in tự động
+          <div className="flex flex-wrap items-center gap-3 pt-2 text-[11px] font-bold text-slate-300">
+            <span className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/60">
+              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> Mã QR Check-in tự động
             </span>
-            <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-lg backdrop-blur-xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" /> Miễn phí Locker & Xông hơi
+            <span className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/60">
+              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> Miễn phí Locker & Xông hơi
             </span>
-            <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-lg backdrop-blur-xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" /> Đồng bộ trực tiếp Lịch tập
+            <span className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/60">
+              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> Đồng bộ trực tiếp Lịch tập
             </span>
           </div>
         </div>
 
         {/* Decorative Background Elements */}
-        <div className="absolute right-0 top-0 -mt-10 -mr-10 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
-        <div className="absolute right-12 bottom-6 opacity-20 hidden lg:block pointer-events-none">
-          <Clock className="w-44 h-44 text-white" />
-        </div>
+        <div className="absolute right-0 top-0 -mt-10 -mr-10 w-80 h-80 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
       </div>
 
       {/* Main Tab Navigation: 2 Options */}
@@ -366,17 +358,17 @@ export const HourlyPass = () => {
         <button
           type="button"
           onClick={() => setActiveTab("self_practice")}
-          className={`p-5 rounded-2xl border-2 text-left transition-all relative overflow-hidden flex items-start gap-4 ${
+          className={`p-5 rounded-3xl border-2 text-left transition-all duration-300 relative overflow-hidden flex items-start gap-4 cursor-pointer ${
             activeTab === "self_practice"
-              ? "bg-white border-blue-600 shadow-lg shadow-blue-500/10 ring-2 ring-blue-500/20"
-              : "bg-white/80 hover:bg-white border-slate-200 hover:border-blue-300 shadow-xs"
+              ? "bg-slate-900 border-cyan-400 shadow-[0_0_25px_rgba(0,200,255,0.25)] ring-2 ring-cyan-500/30 scale-[1.01]"
+              : "bg-slate-900/70 hover:bg-slate-900 border-slate-800 hover:border-cyan-500/50 shadow-xl hover:-translate-y-0.5"
           }`}
         >
           <div
             className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform ${
               activeTab === "self_practice"
-                ? "bg-gradient-to-tr from-blue-600 to-sky-500 text-white shadow-md shadow-blue-500/30 scale-105"
-                : "bg-blue-50 text-blue-600"
+                ? "bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/30 scale-105"
+                : "bg-slate-800 text-cyan-400 border border-slate-700"
             }`}
           >
             <Dumbbell className="w-6 h-6" />
@@ -384,22 +376,22 @@ export const HourlyPass = () => {
 
           <div className="space-y-1 flex-1">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-blue-600">
+              <span className="text-[11px] font-black uppercase tracking-wider text-cyan-400">
                 OPTION 1
               </span>
               {activeTab === "self_practice" && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
                   Đang chọn
                 </span>
               )}
             </div>
-            <h2 className="text-base sm:text-lg font-extrabold text-slate-900">
+            <h2 className="text-base sm:text-lg font-black text-white">
               Tự Tập Theo Giờ (Self-Practice)
             </h2>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed font-medium">
               Tự do dùng hệ thống máy móc, tạ tập, phòng xông hơi và toàn bộ tiện ích phòng gym.
             </p>
-            <div className="pt-1.5 flex items-center gap-2 text-xs font-bold text-blue-600">
+            <div className="pt-1.5 flex items-center gap-2 text-xs font-black text-cyan-400">
               <span>Từ 30.000đ / Buổi</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </div>
@@ -410,17 +402,17 @@ export const HourlyPass = () => {
         <button
           type="button"
           onClick={() => setActiveTab("pt_session")}
-          className={`p-5 rounded-2xl border-2 text-left transition-all relative overflow-hidden flex items-start gap-4 ${
+          className={`p-5 rounded-3xl border-2 text-left transition-all duration-300 relative overflow-hidden flex items-start gap-4 cursor-pointer ${
             activeTab === "pt_session"
-              ? "bg-white border-blue-600 shadow-lg shadow-blue-500/10 ring-2 ring-blue-500/20"
-              : "bg-white/80 hover:bg-white border-slate-200 hover:border-blue-300 shadow-xs"
+              ? "bg-slate-900 border-cyan-400 shadow-[0_0_25px_rgba(0,200,255,0.25)] ring-2 ring-cyan-500/30 scale-[1.01]"
+              : "bg-slate-900/70 hover:bg-slate-900 border-slate-800 hover:border-cyan-500/50 shadow-xl hover:-translate-y-0.5"
           }`}
         >
           <div
             className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform ${
               activeTab === "pt_session"
-                ? "bg-gradient-to-tr from-sky-600 to-cyan-500 text-white shadow-md shadow-cyan-500/30 scale-105"
-                : "bg-cyan-50 text-cyan-600"
+                ? "bg-gradient-to-tr from-sky-600 via-blue-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/30 scale-105"
+                : "bg-slate-800 text-cyan-400 border border-slate-700"
             }`}
           >
             <UserCheck className="w-6 h-6" />
@@ -428,22 +420,22 @@ export const HourlyPass = () => {
 
           <div className="space-y-1 flex-1">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-cyan-700">
+              <span className="text-[11px] font-black uppercase tracking-wider text-cyan-400">
                 OPTION 2
               </span>
               {activeTab === "pt_session" && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-100 text-cyan-800">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
                   Đang chọn
                 </span>
               )}
             </div>
-            <h2 className="text-base sm:text-lg font-extrabold text-slate-900">
+            <h2 className="text-base sm:text-lg font-black text-white">
               Thuê PT Theo Giờ (1:1 PT Session)
             </h2>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed font-medium">
               Huấn luyện viên cá nhân chuyên nghiệp đồng hành 1:1, chỉnh sửa kỹ thuật và tối ưu bài tập.
             </p>
-            <div className="pt-1.5 flex items-center gap-2 text-xs font-bold text-cyan-700">
+            <div className="pt-1.5 flex items-center gap-2 text-xs font-black text-cyan-400">
               <span>Từ 180.000đ / Giờ (Bao gồm vé tập)</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </div>
@@ -456,10 +448,10 @@ export const HourlyPass = () => {
         {/* Left Form: Options Configuration */}
         <div className="lg:col-span-8 space-y-6">
           {/* STEP 1: CHỌN GÓI VÉ / SỐ GIỜ */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <Clock className="w-4 h-4 text-blue-600" />
+              <h3 className="text-sm font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+                <Clock className="w-4 h-4 text-cyan-400" />
                 {activeTab === "self_practice" ? "1. Chọn Thời Lượng Tự Tập" : "1. Chọn Thời Lượng Kèm PT (1:1)"}
               </h3>
               <span className="text-xs text-slate-400">Chọn 1 trong các mức vé dưới đây</span>
@@ -467,47 +459,35 @@ export const HourlyPass = () => {
 
             {activeTab === "self_practice" ? (
               /* Self Practice Duration Cards */
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {selfPracticeOptions.map((opt) => {
                   const isSelected = selectedSelfOption.id === opt.id;
                   return (
                     <div
                       key={opt.id}
                       onClick={() => setSelectedSelfOption(opt)}
-                      className={`p-4 rounded-xl border-2 cursor-pointer transition-all relative ${
+                      className={`p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative ${
                         isSelected
-                          ? "bg-blue-50/70 border-blue-600 shadow-sm"
-                          : "bg-white border-slate-200 hover:border-blue-300 hover:bg-slate-50/50"
+                          ? "bg-slate-900 border-cyan-400 shadow-[0_0_20px_rgba(0,200,255,0.25)] ring-2 ring-cyan-500/20 scale-[1.01]"
+                          : "bg-slate-950/70 border-slate-800 hover:border-cyan-500/50 hover:shadow-xl hover:-translate-y-1"
                       }`}
                     >
-                      {opt.badge && (
-                        <span
-                          className={`absolute top-3 right-3 text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
-                            opt.popular
-                              ? "bg-blue-600 text-white"
-                              : opt.special
-                              ? "bg-emerald-600 text-white"
-                              : "bg-slate-100 text-slate-700 border border-slate-200"
-                          }`}
-                        >
-                          {opt.badge}
-                        </span>
-                      )}
-
-                      <h4 className="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
+                      <h4 className="font-black text-white text-sm flex items-center gap-1.5">
                         {opt.title}
                       </h4>
-                      <div className="text-lg font-black text-blue-600 mt-1">
+                      <div className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mt-1.5 tracking-tight">
                         {formatVND(opt.price)}
                       </div>
-                      <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                      <p className="text-[11px] text-slate-400 mt-1 leading-relaxed font-medium">
                         {opt.description}
                       </p>
 
-                      <div className="mt-3 pt-2.5 border-t border-slate-200/60 space-y-1">
+                      <div className="mt-3.5 pt-3 border-t border-slate-800 space-y-1.5">
                         {opt.highlights.map((hl, i) => (
-                          <div key={i} className="flex items-center gap-1.5 text-[11px] text-slate-600">
-                            <Check className="w-3 h-3 text-emerald-600 flex-shrink-0" />
+                          <div key={i} className="flex items-center gap-2 text-[11px] text-slate-300 font-medium">
+                            <div className="w-4 h-4 rounded-full bg-cyan-500/15 text-cyan-400 flex items-center justify-center flex-shrink-0 border border-cyan-500/30">
+                              <Check className="w-2.5 h-2.5 text-cyan-400" />
+                            </div>
                             <span>{hl}</span>
                           </div>
                         ))}
@@ -518,43 +498,33 @@ export const HourlyPass = () => {
               </div>
             ) : (
               /* PT Duration Cards */
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {ptSessionOptions.map((opt) => {
                   const isSelected = selectedPtOption.id === opt.id;
                   return (
                     <div
                       key={opt.id}
                       onClick={() => setSelectedPtOption(opt)}
-                      className={`p-4 rounded-xl border-2 cursor-pointer transition-all relative ${
+                      className={`p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative ${
                         isSelected
-                          ? "bg-cyan-50/80 border-cyan-600 shadow-sm"
-                          : "bg-white border-slate-200 hover:border-cyan-300 hover:bg-slate-50/50"
+                          ? "bg-slate-900 border-cyan-400 shadow-[0_0_20px_rgba(0,200,255,0.25)] ring-2 ring-cyan-500/20 scale-[1.01]"
+                          : "bg-slate-950/70 border-slate-800 hover:border-cyan-500/50 hover:shadow-xl hover:-translate-y-1"
                       }`}
                     >
-                      {opt.badge && (
-                        <span
-                          className={`absolute top-3 right-3 text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
-                            opt.popular
-                              ? "bg-cyan-600 text-white"
-                              : "bg-slate-100 text-slate-700 border border-slate-200"
-                          }`}
-                        >
-                          {opt.badge}
-                        </span>
-                      )}
-
-                      <h4 className="font-extrabold text-slate-900 text-sm">{opt.title}</h4>
-                      <div className="text-lg font-black text-cyan-700 mt-1">
+                      <h4 className="font-black text-white text-sm">{opt.title}</h4>
+                      <div className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mt-1.5 tracking-tight">
                         {formatVND(opt.price)}
                       </div>
-                      <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                      <p className="text-[11px] text-slate-400 mt-1 leading-relaxed font-medium">
                         {opt.description}
                       </p>
 
-                      <div className="mt-3 pt-2.5 border-t border-slate-200/60 space-y-1">
+                      <div className="mt-3.5 pt-3 border-t border-slate-800 space-y-1.5">
                         {opt.highlights.map((hl, i) => (
-                          <div key={i} className="flex items-center gap-1.5 text-[11px] text-slate-600">
-                            <Check className="w-3 h-3 text-cyan-600 flex-shrink-0" />
+                          <div key={i} className="flex items-center gap-2 text-[11px] text-slate-300 font-medium">
+                            <div className="w-4 h-4 rounded-full bg-cyan-500/15 text-cyan-400 flex items-center justify-center flex-shrink-0 border border-cyan-500/30">
+                              <Check className="w-2.5 h-2.5 text-cyan-400" />
+                            </div>
                             <span>{hl}</span>
                           </div>
                         ))}
@@ -568,10 +538,10 @@ export const HourlyPass = () => {
 
           {/* STEP 2 (ONLY FOR PT): CHỌN HUẤN LUYỆN VIÊN (PT) */}
           {activeTab === "pt_session" && (
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                  <UserCheck className="w-4 h-4 text-cyan-600" />
+                <h3 className="text-sm font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+                  <UserCheck className="w-4 h-4 text-cyan-400" />
                   2. Chọn Huấn Luyện Viên Đồng Hành (1:1)
                 </h3>
                 <span className="text-xs text-slate-400">Danh sách HLV trực tại cơ sở</span>
@@ -580,7 +550,7 @@ export const HourlyPass = () => {
               {loadingTrainers ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[1, 2].map((i) => (
-                    <div key={i} className="h-24 bg-slate-100 rounded-xl animate-pulse"></div>
+                    <div key={i} className="h-24 bg-slate-800 rounded-xl animate-pulse"></div>
                   ))}
                 </div>
               ) : (
@@ -594,10 +564,10 @@ export const HourlyPass = () => {
                       <div
                         key={tr.id}
                         onClick={() => setSelectedTrainer(tr)}
-                        className={`p-4 rounded-xl border-2 cursor-pointer transition-all relative flex items-start gap-3.5 ${
+                        className={`p-4 rounded-2xl border-2 cursor-pointer transition-all relative flex items-start gap-3.5 ${
                           isSelected
-                            ? "bg-cyan-50/70 border-cyan-600 shadow-sm ring-1 ring-cyan-500/30"
-                            : "bg-white border-slate-200 hover:border-cyan-300 hover:bg-slate-50/50"
+                            ? "bg-slate-900 border-cyan-400 shadow-md ring-1 ring-cyan-500/30"
+                            : "bg-slate-950/70 border-slate-800 hover:border-cyan-500/40 hover:bg-slate-900/50"
                         }`}
                       >
                         {/* Avatar */}
@@ -608,15 +578,15 @@ export const HourlyPass = () => {
                         {/* Details */}
                         <div className="space-y-1 flex-1 min-w-0">
                           <div className="flex items-center justify-between">
-                            <span className="font-extrabold text-slate-900 text-xs sm:text-sm truncate">
+                            <span className="font-extrabold text-white text-xs sm:text-sm truncate">
                               {trainerName}
                             </span>
-                            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                            <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/30">
                               ★ 5.0
                             </span>
                           </div>
 
-                          <div className="text-[11px] font-semibold text-cyan-800 line-clamp-1">
+                          <div className="text-[11px] font-semibold text-cyan-300 line-clamp-1">
                             🎯 {tr.specialization || tr.specialty || "Tăng cơ, Giảm mỡ, Phục hồi"}
                           </div>
 
@@ -633,10 +603,10 @@ export const HourlyPass = () => {
           )}
 
           {/* STEP 3: CHỌN NGÀY & KHUNG GIỜ CHECK-IN */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <CalendarDays className="w-4 h-4 text-blue-600" />
+              <h3 className="text-sm font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+                <CalendarDays className="w-4 h-4 text-cyan-400" />
                 {activeTab === "self_practice" ? "2. Chọn Ngày & Khung Giờ Check-in" : "3. Chọn Ngày & Giờ Hẹn Cùng PT"}
               </h3>
               <span className="text-xs text-slate-400">Chủ động sắp xếp thời gian</span>
@@ -645,7 +615,7 @@ export const HourlyPass = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Date Input */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                   Ngày Check-in / Tập Luyện
                 </label>
                 <div className="relative">
@@ -654,14 +624,14 @@ export const HourlyPass = () => {
                     min={todayStr}
                     value={bookingDate}
                     onChange={(e) => setBookingDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-semibold focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white text-xs font-semibold focus:outline-none focus:bg-slate-900 focus:border-cyan-400 transition-all"
                   />
                 </div>
               </div>
 
               {/* Time slot input */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                   Khung giờ dự kiến
                 </label>
                 <input
@@ -669,14 +639,14 @@ export const HourlyPass = () => {
                   value={customTime || timeSlot}
                   onChange={(e) => setCustomTime(e.target.value)}
                   placeholder="VD: 08:00 - 10:00"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs font-semibold focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white text-xs font-semibold focus:outline-none focus:bg-slate-900 focus:border-cyan-400 transition-all"
                 />
               </div>
             </div>
 
             {/* Quick time slot presets */}
             <div>
-              <span className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+              <span className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
                 Hoặc chọn nhanh khung giờ phổ biến:
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -692,12 +662,12 @@ export const HourlyPass = () => {
                       }}
                       className={`p-2 rounded-xl text-left border transition-all ${
                         isCurrent
-                          ? "bg-blue-600 text-white border-blue-600 shadow-sm font-bold"
-                          : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
+                          ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-transparent shadow-md font-bold"
+                          : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border-slate-800"
                       }`}
                     >
                       <div className="text-xs font-semibold">{slot.label}</div>
-                      <div className={`text-[10px] truncate ${isCurrent ? "text-blue-100" : "text-slate-400"}`}>
+                      <div className={`text-[10px] truncate ${isCurrent ? "text-cyan-100" : "text-slate-500"}`}>
                         {slot.desc}
                       </div>
                     </button>
@@ -708,7 +678,7 @@ export const HourlyPass = () => {
 
             {/* Notes */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Ghi chú mục tiêu buổi tập (Tùy chọn)
               </label>
               <textarea
@@ -720,7 +690,7 @@ export const HourlyPass = () => {
                     ? "VD: Buổi tập ngực & tay sau, test máy tạ mới..."
                     : "VD: Cần HLV chỉnh kỹ thuật Deadlift và Squat tránh đau thắt lưng..."
                 }
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-xs focus:outline-none focus:bg-white focus:border-blue-600 transition-all"
+                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:bg-slate-900 focus:border-cyan-400 transition-all"
               ></textarea>
             </div>
           </div>
@@ -728,88 +698,85 @@ export const HourlyPass = () => {
 
         {/* Right Sticky Summary & Checkout Card */}
         <div className="lg:col-span-4 sticky top-20 space-y-4">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-md p-6 space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-2">
-                <Ticket className="w-5 h-5 text-blue-600" />
+          <div className="bg-slate-900/85 backdrop-blur-2xl rounded-3xl border border-slate-800/80 shadow-2xl p-6 space-y-5 text-white">
+            <div className="pb-3 border-b border-slate-800">
+              <h3 className="font-extrabold text-base text-white flex items-center gap-2">
+                <Ticket className="w-5 h-5 text-cyan-400" />
                 Thông Tin Vé Tập
               </h3>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                Ocean Flex Pass
-              </span>
             </div>
 
             {/* Selected Summary Items */}
             <div className="space-y-3 text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">Hình thức vé:</span>
-                <span className="font-bold text-slate-900">
+                <span className="text-slate-400">Hình thức vé:</span>
+                <span className="font-bold text-white">
                   {activeTab === "self_practice" ? "Tự Tập Theo Giờ" : "Thuê PT Theo Giờ (1:1)"}
                 </span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">Gói thời lượng:</span>
-                <span className="font-bold text-blue-600">{currentPackage.title}</span>
+                <span className="text-slate-400">Gói thời lượng:</span>
+                <span className="font-bold text-cyan-400">{currentPackage.title}</span>
               </div>
 
               {activeTab === "pt_session" && (
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Huấn luyện viên:</span>
-                  <span className="font-bold text-cyan-700">
+                  <span className="text-slate-400">Huấn luyện viên:</span>
+                  <span className="font-bold text-cyan-300">
                     {selectedTrainer?.user?.full_name || "Chưa chọn"}
                   </span>
                 </div>
               )}
 
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">Ngày tập:</span>
-                <span className="font-bold text-slate-900">{bookingDate}</span>
+                <span className="text-slate-400">Ngày tập:</span>
+                <span className="font-bold text-white">{bookingDate}</span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">Khung giờ:</span>
-                <span className="font-bold text-slate-900">
+                <span className="text-slate-400">Khung giờ:</span>
+                <span className="font-bold text-white">
                   {customTime.trim() || timeSlot}
                 </span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-slate-500">Địa điểm:</span>
-                <span className="font-semibold text-slate-700 text-right flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-rose-500 inline" /> Gym AI Ocean Club
+                <span className="text-slate-400">Địa điểm:</span>
+                <span className="font-semibold text-slate-300 text-right flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-rose-400 inline" /> Gym AI Ocean Club
                 </span>
               </div>
             </div>
 
             {/* Included Perks */}
-            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 space-y-1.5 text-[11px] text-slate-600">
-              <span className="font-bold text-slate-800 block text-xs">Đặc quyền kèm theo vé:</span>
+            <div className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5 text-[11px] text-slate-300">
+              <span className="font-bold text-white block text-xs">Đặc quyền kèm theo vé:</span>
               <div className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                <Check className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
                 <span>Không giới hạn dàn máy tập Olympic</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                <Check className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
                 <span>Tủ đồ Locker thông minh an toàn</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                <Check className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
                 <span>Tắm nước nóng & Xông hơi phục hồi</span>
               </div>
             </div>
 
             {/* Total Price Section */}
-            <div className="pt-3 border-t border-slate-200">
+            <div className="pt-3 border-t border-slate-800">
               <div className="flex items-baseline justify-between">
-                <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">
+                <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">
                   Tổng tiền thanh toán:
                 </span>
-                <span className="text-2xl font-black text-blue-600">
+                <span className="text-2xl font-black text-cyan-400">
                   {formatVND(currentPackage.price)}
                 </span>
               </div>
-              <span className="text-[11px] text-slate-400 mt-0.5 block">
+              <span className="text-[11px] text-slate-500 mt-0.5 block">
                 Đã bao gồm VAT & phí dịch vụ phòng tập
               </span>
             </div>
@@ -818,27 +785,27 @@ export const HourlyPass = () => {
             <button
               type="button"
               onClick={handleProceedToPayment}
-              className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 via-sky-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-extrabold text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 active:scale-98"
+              className="w-full py-3.5 px-4 rounded-2xl gradient-btn-primary hover:opacity-95 text-white font-black text-sm shadow-xl shadow-cyan-500/25 transition-all flex items-center justify-center gap-2 active:scale-98 cursor-pointer"
             >
               <QrCode className="w-4 h-4" />
               <span>Xác Nhận & Thanh Toán VietQR</span>
             </button>
 
             <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
               <span>Chuyển khoản an toàn 100% qua VietQR MB Bank</span>
             </div>
           </div>
 
           {/* Quick link to workout schedules */}
-          <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 text-xs text-slate-600 flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 flex items-center justify-between shadow-lg">
             <div className="space-y-0.5">
-              <span className="font-bold text-slate-900 block">Đã có lịch tập trước đó?</span>
-              <p className="text-[11px] text-slate-500">Theo dõi danh sách buổi tập & điểm danh</p>
+              <span className="font-bold text-white block">Đã có lịch tập trước đó?</span>
+              <p className="text-[11px] text-slate-400">Theo dõi danh sách buổi tập & điểm danh</p>
             </div>
             <Link
               to="/schedules"
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition-all"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl gradient-btn-primary text-white font-bold text-xs shadow-md shadow-cyan-500/20 transition-all"
             >
               <span>Xem lịch</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -848,14 +815,14 @@ export const HourlyPass = () => {
       </div>
 
       {/* SECTION: LỊCH SỬ VÉ TẬP LINH HOẠT CỦA BẠN */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
-              <Ticket className="w-5 h-5 text-blue-600" />
+            <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+              <Ticket className="w-5 h-5 text-cyan-400" />
               Vé Tập Linh Hoạt Của Bạn ({myBookings.length})
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Danh sách các vé tập theo giờ và lịch thuê PT đã đặt trong hệ thống.
             </p>
           </div>
@@ -863,9 +830,9 @@ export const HourlyPass = () => {
             type="button"
             onClick={loadMyBookings}
             disabled={loadingBookings}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-all self-start sm:self-auto"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition-all self-start sm:self-auto cursor-pointer"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loadingBookings ? "animate-spin" : ""}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loadingBookings ? "animate-spin text-cyan-400" : ""}`} />
             <span>Làm mới</span>
           </button>
         </div>
@@ -873,13 +840,13 @@ export const HourlyPass = () => {
         {loadingBookings ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-28 bg-slate-100 rounded-xl animate-pulse"></div>
+              <div key={i} className="h-28 bg-slate-800 rounded-xl animate-pulse"></div>
             ))}
           </div>
         ) : myBookings.length === 0 ? (
-          <div className="py-8 px-4 text-center rounded-xl bg-slate-50 border border-dashed border-slate-200">
-            <Ticket className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-            <span className="font-bold text-slate-700 text-xs block">Bạn chưa có vé tập linh hoạt nào</span>
+          <div className="py-8 px-4 text-center rounded-2xl bg-slate-950/80 border border-dashed border-slate-800">
+            <Ticket className="w-10 h-10 text-slate-600 mx-auto mb-2" />
+            <span className="font-bold text-white text-xs block">Bạn chưa có vé tập linh hoạt nào</span>
             <p className="text-[11px] text-slate-400 mt-0.5">
               Hãy chọn gói tự tập hoặc thuê PT ở phía trên để đặt buổi tập đầu tiên!
             </p>
@@ -889,18 +856,18 @@ export const HourlyPass = () => {
             {myBookings.map((b) => (
               <div
                 key={b.id}
-                className="p-4 rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/50 hover:border-blue-300 hover:shadow-sm transition-all space-y-3"
+                className="p-4 rounded-2xl border border-slate-800 bg-slate-950/80 hover:border-cyan-500/40 hover:shadow-lg transition-all space-y-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-[10px] font-black tracking-wider uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                    <span className="text-[10px] font-black tracking-wider uppercase px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
                       {b.ticket_code || `VP-${b.id}`}
                     </span>
-                    <h4 className="font-extrabold text-slate-900 text-sm mt-1.5 line-clamp-1">
+                    <h4 className="font-extrabold text-white text-sm mt-1.5 line-clamp-1">
                       {b.package_title}
                     </h4>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3" /> {b.status === "confirmed" ? "Đã xác nhận" : b.status}
                   </span>
                 </div>
