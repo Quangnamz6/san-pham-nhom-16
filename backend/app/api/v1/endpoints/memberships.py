@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.core.deps import get_current_user, get_current_staff
+from app.core.deps import get_current_user, get_current_staff, normalize_role
 from app.models.membership import Membership, MembershipStatus
 from app.models.package import Package
 from app.models.payment import Payment, PaymentMethod, PaymentStatus
@@ -55,7 +55,8 @@ def get_memberships(
 ):
     """Retrieve memberships. Members can only view their own; Staff/Admin can view all."""
     today = date.today()
-    if current_user.role in [UserRole.ADMIN, UserRole.RECEPTIONIST]:
+    user_role = normalize_role(current_user.role)
+    if user_role in ["admin", "receptionist", "reception", "staff"]:
         items = db.query(Membership).offset(skip).limit(limit).all()
     else:
         items = (
@@ -84,7 +85,7 @@ def create_membership(
 ):
     """Register a membership for a member (Member can register for self; Staff/Admin for any)."""
     target_user_id = membership_in.user_id
-    if current_user.role == UserRole.MEMBER:
+    if normalize_role(current_user.role) == "member":
         target_user_id = current_user.id
 
     # Verify package exists
@@ -184,7 +185,7 @@ def renew_membership(
         )
 
     # Kiểm tra quyền: Hội viên chỉ được gia hạn gói của chính mình
-    if current_user.role == UserRole.MEMBER and membership.user_id != current_user.id:
+    if normalize_role(current_user.role) == "member" and membership.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Bạn không có quyền gia hạn gói tập này.",

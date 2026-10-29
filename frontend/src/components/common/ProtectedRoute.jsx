@@ -17,8 +17,16 @@ export const ProtectedRoute = ({ allowedRoles }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/dashboard" replace />;
+  if (allowedRoles) {
+    const rawRole = user?.role ? String(user.role?.value || user.role).trim().toLowerCase() : "";
+    const normalizedAllowed = allowedRoles.map((r) => String(r).trim().toLowerCase());
+    const isAllowed =
+      normalizedAllowed.includes(rawRole) ||
+      (normalizedAllowed.includes("receptionist") && ["reception", "staff"].includes(rawRole));
+
+    if (!isAllowed) {
+      return <Navigate to="/dashboard" replace />;
+    }
   }
 
   return <Outlet />;

@@ -1,6 +1,6 @@
 import enum
 from datetime import datetime, timezone
-from sqlalchemy import Column, Integer, DateTime, Text, ForeignKey, Enum, CheckConstraint
+from sqlalchemy import Column, Integer, DateTime, Text, ForeignKey, Enum, CheckConstraint, Boolean
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 
@@ -10,6 +10,7 @@ class ScheduleStatus(str, enum.Enum):
     COMPLETED = "completed"
     CANCELLED = "cancelled"
     NO_SHOW = "no_show"
+    CHECKED_IN = "checked_in"
 
 
 class WorkoutSchedule(Base):
@@ -34,6 +35,9 @@ class WorkoutSchedule(Base):
         index=True,
     )
     notes = Column(Text, nullable=True)
+    is_reminder_sent = Column(
+        Boolean, nullable=False, default=False, server_default="0", index=True
+    )
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,

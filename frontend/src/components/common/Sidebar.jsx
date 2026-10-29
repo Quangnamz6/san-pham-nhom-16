@@ -39,36 +39,39 @@ export const Sidebar = () => {
   };
 
   // Navigation Items with RBAC roles (Minimalist, Clean & Compact)
+  const rawRole = user?.role || role || "";
+  const currentRole = String(rawRole?.value || rawRole || "").trim().toLowerCase();
+
   const allNavItems = [
     {
       title: "Tổng quan",
       path: "/dashboard",
       icon: LayoutDashboard,
-      roles: ["admin", "receptionist"],
+      roles: ["admin", "receptionist", "reception", "staff"],
     },
     {
       title: "Quản lý Hội viên",
       path: "/members",
       icon: Users,
-      roles: ["admin", "receptionist"],
+      roles: ["admin", "receptionist", "reception", "staff"],
     },
     {
       title: "Doanh thu & Hóa đơn",
       path: "/payments",
       icon: CreditCard,
-      roles: ["admin", "receptionist"],
+      roles: ["admin", "receptionist", "reception", "staff"],
     },
     {
       title: "Gói tập dịch vụ",
       path: "/member/packages",
       icon: Dumbbell,
-      roles: ["admin", "receptionist", "member"],
+      roles: ["admin", "receptionist", "reception", "staff", "member"],
     },
     {
       title: "Vé Tập Linh Hoạt",
       path: "/member/hourly-pass",
       icon: Clock,
-      roles: ["admin", "receptionist", "member"],
+      roles: ["admin", "receptionist", "reception", "staff", "member"],
     },
     {
       title: "Gói đã đăng ký",
@@ -77,16 +80,16 @@ export const Sidebar = () => {
       roles: ["member"],
     },
     {
-      title: role === "pt" ? "Lịch dạy & Điểm danh" : role === "member" ? "Lịch tập của tôi" : "Lịch tập & Điểm danh",
+      title: currentRole === "pt" ? "Lịch dạy & Điểm danh" : currentRole === "member" ? "Lịch tập của tôi" : "Lịch tập & Điểm danh",
       path: "/schedules",
       icon: CalendarDays,
-      roles: ["admin", "receptionist", "pt", "member"],
+      roles: ["admin", "receptionist", "reception", "staff", "pt", "member"],
     },
     {
       title: "Trợ lý AI Thể hình",
       path: "/ai-assistant",
       icon: Sparkles,
-      roles: ["admin", "receptionist", "pt", "member"],
+      roles: ["admin", "receptionist", "reception", "staff", "pt", "member"],
       highlight: true,
       action: "open-chat",
     },
@@ -94,8 +97,12 @@ export const Sidebar = () => {
 
   // Filter based on user's role
   const allowedItems = allNavItems.filter((item) => {
-    if (!role) return false;
-    return item.roles.includes(role);
+    if (!currentRole) return false;
+    if (item.roles.includes(currentRole)) return true;
+    if (["receptionist", "staff", "reception"].includes(currentRole) && item.roles.includes("receptionist")) {
+      return true;
+    }
+    return false;
   });
 
   const handleItemClick = (e, item) => {

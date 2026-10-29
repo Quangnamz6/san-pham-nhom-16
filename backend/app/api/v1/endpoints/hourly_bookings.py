@@ -63,7 +63,7 @@ def create_hourly_booking(
 
     # Determine targeted member
     target_user_id = current_user.id
-    if user_role_str in ["admin", "receptionist"] and booking_in.user_id:
+    if user_role_str in ["admin", "receptionist", "reception", "staff"] and booking_in.user_id:
         target_user = db.query(User).filter(User.id == booking_in.user_id).first()
         if not target_user:
             raise HTTPException(

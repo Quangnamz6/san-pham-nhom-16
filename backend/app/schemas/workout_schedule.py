@@ -8,11 +8,12 @@ from app.schemas.trainer import TrainerResponse
 
 class WorkoutScheduleBase(BaseModel):
     member_id: int
-    pt_id: int
+    pt_id: Optional[int] = None
     start_time: datetime
     end_time: datetime
     status: ScheduleStatus = ScheduleStatus.SCHEDULED
     notes: Optional[str] = Field(None, examples=["Tập thân trên: Ngực & Tay sau"])
+    is_reminder_sent: bool = False
 
     @model_validator(mode="after")
     def validate_times(self):
@@ -26,10 +27,12 @@ class WorkoutScheduleCreate(WorkoutScheduleBase):
 
 
 class WorkoutScheduleUpdate(BaseModel):
+    pt_id: Optional[int] = None
     start_time: Optional[datetime] = None
     end_time: Optional[datetime] = None
     status: Optional[ScheduleStatus] = None
     notes: Optional[str] = None
+    is_reminder_sent: Optional[bool] = None
 
 
 class WorkoutScheduleResponse(WorkoutScheduleBase):

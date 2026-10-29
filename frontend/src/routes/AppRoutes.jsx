@@ -44,6 +44,9 @@ export const AppRoutes = () => {
 
           {/* Workout Schedules & Check-in (All roles) */}
           <Route path="/schedules" element={<SchedulesPage />} />
+          <Route path="/schedule-management" element={<SchedulesPage />} />
+          <Route path="/my-schedules" element={<SchedulesPage />} />
+          <Route path="/my-schedule" element={<SchedulesPage />} />
 
           {/* AI Assistant (All roles) */}
           <Route path="/ai-assistant" element={<AIAssistantPage />} />

@@ -233,14 +233,15 @@ def login_for_access_token(
             detail="Tài khoản của bạn chưa được xác thực email. Vui lòng nhập mã OTP để kích hoạt tài khoản.",
         )
 
+    role_clean = str(user.role.value if hasattr(user.role, "value") else user.role).strip().lower()
     access_token = create_access_token(
         subject=user.id,
-        role=user.role.value,
+        role=role_clean,
     )
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "role": user.role.value,
+        "role": role_clean,
         "user": user,
     }
 
@@ -264,15 +265,38 @@ def login_json(
             detail="Tài khoản của bạn chưa được xác thực email. Vui lòng nhập mã OTP để kích hoạt tài khoản.",
         )
 
+    role_clean = str(user.role.value if hasattr(user.role, "value") else user.role).strip().lower()
     access_token = create_access_token(
         subject=user.id,
-        role=user.role.value,
+        role=role_clean,
     )
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "role": user.role.value,
+        "role": role_clean,
         "user": user,
+    }
+
+
+@router.post("/refresh", response_model=Token)
+@router.post("/refresh-token", response_model=Token)
+def refresh_access_token(current_user: User = Depends(get_current_user)):
+    """
+    Làm mới Token và trả về thông tin người dùng cùng vai trò đã chuẩn hóa viết thường.
+    Giúp Admin / Lễ tân duy trì phiên đăng nhập và quyền hạn mới nhất ngay lập tức.
+    """
+    role_clean = str(
+        current_user.role.value if hasattr(current_user.role, "value") else current_user.role
+    ).strip().lower()
+    access_token = create_access_token(
+        subject=current_user.id,
+        role=role_clean,
+    )
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "role": role_clean,
+        "user": current_user,
     }
 
 

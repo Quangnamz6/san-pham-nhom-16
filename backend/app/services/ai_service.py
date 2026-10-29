@@ -50,6 +50,14 @@ SEVERE_INJURY_KEYWORDS = [
     "tim mạch",
 ]
 
+# In-memory Cache cho danh mục gói tập để tăng tốc phản hồi AI Chatbot (Performance Optimization)
+_PACKAGE_CACHE = {
+    "packages": [],
+    "catalog_text": "",
+    "timestamp": 0.0,
+    "ttl_seconds": 60.0,
+}
+
 
 class AIService:
     """
@@ -62,6 +70,14 @@ class AIService:
 
     MAX_RETRIES = 3
     INITIAL_RETRY_DELAY = 1.0  # seconds
+
+    @classmethod
+    def invalidate_package_cache(cls):
+        """Xóa cache gói tập để làm mới dữ liệu khi Admin thêm/sửa/xóa gói."""
+        global _PACKAGE_CACHE
+        _PACKAGE_CACHE["packages"] = []
+        _PACKAGE_CACHE["catalog_text"] = ""
+        _PACKAGE_CACHE["timestamp"] = 0.0
 
     # =========================================================================
     # SAFETY GUARDRAIL: Kiểm tra từ khóa chấn thương nặng
@@ -560,18 +576,29 @@ class AIService:
         """
         start_time = time.perf_counter()
 
-        # 1. Truy vấn các gói tập từ CSDL
-        packages = db.query(Package).order_by(Package.id.asc()).all()
-
-        catalog_lines = []
-        for p in packages:
-            benefits_text = (p.benefits or "").replace("\n", "; ")
-            catalog_lines.append(
-                f"- ID: {p.id} | Tên: [{p.name}] | Học phí: {float(p.price):,.0f} VND | Thời hạn: {p.duration_days} ngày | "
-                f"Phân loại: {p.category} | Huy hiệu: {p.badge or 'N/A'} | Cam kết: {p.commitments or 'N/A'} | "
-                f"Mô tả: {p.description or 'N/A'} | Quyền lợi: {benefits_text}"
-            )
-        package_catalog_text = "\n".join(catalog_lines)
+        # 1. Truy vấn các gói tập từ CSDL hoặc Cache bộ nhớ (TTL: 60s)
+        global _PACKAGE_CACHE
+        now = time.time()
+        if (
+            _PACKAGE_CACHE["packages"]
+            and (now - _PACKAGE_CACHE["timestamp"] < _PACKAGE_CACHE["ttl_seconds"])
+        ):
+            packages = _PACKAGE_CACHE["packages"]
+            package_catalog_text = _PACKAGE_CACHE["catalog_text"]
+        else:
+            packages = db.query(Package).order_by(Package.id.asc()).all()
+            catalog_lines = []
+            for p in packages:
+                benefits_text = (p.benefits or "").replace("\n", "; ")
+                catalog_lines.append(
+                    f"- ID: {p.id} | Tên: [{p.name}] | Học phí: {float(p.price):,.0f} VND | Thời hạn: {p.duration_days} ngày | "
+                    f"Phân loại: {p.category} | Huy hiệu: {p.badge or 'N/A'} | Cam kết: {p.commitments or 'N/A'} | "
+                    f"Mô tả: {p.description or 'N/A'} | Quyền lợi: {benefits_text}"
+                )
+            package_catalog_text = "\n".join(catalog_lines)
+            _PACKAGE_CACHE["packages"] = packages
+            _PACKAGE_CACHE["catalog_text"] = package_catalog_text
+            _PACKAGE_CACHE["timestamp"] = now
 
         # 2. Xây dựng System Prompt kèm Danh mục gói tập thực tế
         system_prompt = format_chatbot_system_prompt(package_catalog_text)

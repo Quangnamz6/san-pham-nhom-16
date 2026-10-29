@@ -9,7 +9,7 @@ from app.core.database import get_db
 from app.core.deps import get_current_user, get_current_staff
 from app.models.attendance import Attendance, AttendanceStatus
 from app.models.membership import Membership, MembershipStatus
-from app.models.workout_schedule import WorkoutSchedule
+from app.models.workout_schedule import WorkoutSchedule, ScheduleStatus
 from app.models.user import User, UserRole
 from app.schemas.attendance import AttendanceResponse
 
@@ -37,7 +37,11 @@ def get_attendance_records(
     """Lấy danh sách lịch sử điểm danh check-in."""
     query = db.query(Attendance)
 
-    if current_user.role == UserRole.MEMBER:
+    user_role_str = str(
+        current_user.role.value if hasattr(current_user.role, "value") else current_user.role
+    ).strip().lower()
+
+    if user_role_str == "member":
         query = query.filter(Attendance.member_id == current_user.id)
 
     if date_filter:
@@ -63,15 +67,33 @@ def quick_check_in(
 ):
     """
     Điểm danh hội viên tại quầy lễ tân:
-    - Tìm kiếm theo ID hoặc Số điện thoại.
+    - Cho phép cả vai trò admin, receptionist, reception và staff.
+    - Chuẩn hóa role sang viết thường trước khi so sánh.
+    - Tìm kiếm theo ID hoặc Số điện thoại hoặc schedule_id.
     - Kiểm tra hiệu lực gói tập: Nếu hết hạn hoặc chưa có gói, trả về cảnh báo để lễ tân tư vấn gia hạn.
-    - Ghi nhận lịch sử check-in vào CSDL.
+    - Ghi nhận lịch sử check-in vào CSDL và đồng bộ trạng thái WorkoutSchedule sang CHECKED_IN.
     """
+    allowed_roles = ["admin", "receptionist", "reception", "staff"]
+    staff_role_str = str(
+        current_staff.role.value if hasattr(current_staff.role, "value") else current_staff.role
+    ).strip().lower()
+
+    if staff_role_str not in allowed_roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Không có quyền thực hiện thao tác này",
+        )
+
     user = None
     if payload.member_id:
-        user = db.query(User).filter(User.id == payload.member_id, User.role == UserRole.MEMBER).first()
+        user = db.query(User).filter(User.id == payload.member_id).first()
     elif payload.phone:
-        user = db.query(User).filter(User.phone == payload.phone.strip(), User.role == UserRole.MEMBER).first()
+        user = db.query(User).filter(User.phone == payload.phone.strip()).first()
+    elif payload.schedule_id:
+        sched = db.query(WorkoutSchedule).filter(WorkoutSchedule.id == payload.schedule_id).first()
+        if sched:
+            user = db.query(User).filter(User.id == sched.member_id).first()
+            payload.member_id = sched.member_id
 
     if not user:
         raise HTTPException(
@@ -106,12 +128,14 @@ def quick_check_in(
         else:
             membership_warning = "Hội viên chưa có gói tập hợp lệ. Cần đăng ký gói mới."
 
-    # Validate schedule if provided
+    # Validate schedule if provided and mark checked_in
     schedule_id = payload.schedule_id
     if schedule_id:
         schedule = db.query(WorkoutSchedule).filter(WorkoutSchedule.id == schedule_id).first()
         if not schedule or schedule.member_id != user.id:
             schedule_id = None
+        else:
+            schedule.status = ScheduleStatus.CHECKED_IN
 
     record = Attendance(
         member_id=user.id,

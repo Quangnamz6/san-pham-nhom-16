@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.core.deps import get_current_user, get_current_admin
+from app.core.deps import get_current_user, get_current_admin, normalize_role
 from app.models.trainer import Trainer
 from app.models.user import User, UserRole
 from app.schemas.trainer import TrainerCreate, TrainerUpdate, TrainerResponse
@@ -70,7 +70,7 @@ def update_trainer_profile(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Huấn luyện viên không tồn tại.",
         )
-    if current_user.role != UserRole.ADMIN and current_user.id != trainer.user_id:
+    if normalize_role(current_user.role) != "admin" and current_user.id != trainer.user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Không có quyền chỉnh sửa hồ sơ này.",

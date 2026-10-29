@@ -51,6 +51,7 @@ def run_migration():
         add_column_if_not_exists("memberships", "remaining_sessions", "INTEGER")
         add_column_if_not_exists("memberships", "goal_notes", "VARCHAR(255)")
         add_column_if_not_exists("memberships", "target_weight_kg", "FLOAT")
+        add_column_if_not_exists("workout_schedules", "is_reminder_sent", "BOOLEAN DEFAULT 0")
 
     print("==================================================")
     print("🎉 MIGRATION HOÀN TẤT THÀNH CÔNG!")

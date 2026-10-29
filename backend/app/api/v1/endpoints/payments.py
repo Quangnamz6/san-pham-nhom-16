@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.core.deps import get_current_user, get_current_staff
+from app.core.deps import get_current_user, get_current_staff, normalize_role
 from app.models.payment import Payment, PaymentStatus, PaymentMethod
 from app.models.membership import Membership, MembershipStatus
 from app.models.package import Package
@@ -25,7 +25,8 @@ def get_payments(
     current_user: User = Depends(get_current_user),
 ):
     """Lấy danh sách lịch sử thanh toán hóa đơn."""
-    if current_user.role in [UserRole.ADMIN, UserRole.RECEPTIONIST]:
+    user_role = normalize_role(current_user.role)
+    if user_role in ["admin", "receptionist", "reception", "staff"]:
         return db.query(Payment).order_by(Payment.payment_date.desc()).offset(skip).limit(limit).all()
     
     return (
@@ -59,7 +60,7 @@ def create_payment(
             detail="Hợp đồng hội viên không tồn tại.",
         )
 
-    if current_user.role == UserRole.MEMBER and membership.user_id != current_user.id:
+    if normalize_role(current_user.role) == "member" and membership.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Bạn không có quyền thanh toán cho hợp đồng hội viên này.",
@@ -106,7 +107,7 @@ def renew_membership(
     - Tự động sinh hóa đơn thanh toán COMPLETED và kích hoạt hợp đồng ACTIVE.
     - Tự động sinh danh sách lịch tập mặc định (Schedules) theo gói và mục tiêu tập luyện.
     """
-    if current_user.role == UserRole.MEMBER:
+    if normalize_role(current_user.role) == "member":
         user = current_user
     else:
         target_user_id = renewal_in.user_id or current_user.id
@@ -201,7 +202,7 @@ def confirm_payment(
             detail="Hóa đơn thanh toán không tồn tại.",
         )
     membership = db.query(Membership).filter(Membership.id == payment.membership_id).first()
-    if current_user.role == UserRole.MEMBER:
+    if normalize_role(current_user.role) == "member":
         if not membership or membership.user_id != current_user.id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,

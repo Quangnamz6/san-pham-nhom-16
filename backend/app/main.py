@@ -12,6 +12,8 @@ from app.core.database import engine, Base
 import app.models  # Ensures all models are registered with Base metadata
 from app.api.v1.api import api_router
 
+from app.services.reminder_service import start_reminder_scheduler, stop_reminder_scheduler
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -22,7 +24,11 @@ async def lifespan(app: FastAPI):
     logger.info("Initializing database tables...")
     Base.metadata.create_all(bind=engine)
     logger.info("Database tables initialized successfully.")
+    # Khởi động Background Cron Job tự động gửi Email nhắc nhở trước giờ tập 2 tiếng
+    start_reminder_scheduler(interval_seconds=300)
     yield
+    # Shutdown: dừng cron job an toàn
+    stop_reminder_scheduler()
     logger.info("Shutting down application...")
 
 
